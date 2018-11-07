@@ -35,5 +35,5 @@ RUN wget https://github.com/mayswind/AriaNg/releases/download/${VERSION1}/AriaNg
 && touch /usr/local/aria2/dht.dat
 
 VOLUME /Downloads
-EXPOSE 6800  80 
+EXPOSE 6800  80  6881  6881/udp
 ENTRYPOINT ["/usr/local/aria2/aria2c.sh"]
