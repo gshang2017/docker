@@ -10,7 +10,7 @@ sed -i 's/defaultValue:"20M"/defaultValue:"4k"/g' /usr/local/aria2/AriaNg/js/ari
 aria2c --conf-path=/usr/local/aria2/aria2.conf --enable-rpc --rpc-listen-all   -D
 #启动 caddy
 caddy --conf /etc/caddy/caddy.conf &
-elif  [ $SECRETAUTO == YES ]; then
+elif  [ "$SECRETAUTO" == "YES" ]; then
 #cp原始js
 cp /usr/local/aria2/AriaNg/js/Originaljs/aria-ng* /usr/local/aria2/AriaNg/js/
 #替换js字符串(添加设置的token值为默认,修改线程等设置限制。)
