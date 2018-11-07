@@ -15,6 +15,10 @@ fi
 
 rm  /tmp/trackers_all.txt
 
+else
+
+echo 未设定自动更新trackers。
+
 fi
 
 
