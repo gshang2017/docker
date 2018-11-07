@@ -24,7 +24,7 @@ RUN wget https://github.com/mayswind/AriaNg/releases/download/${VERSION1}/AriaNg
 && mv /usr/local/aria2/AriaNg-${VERSION1} /usr/local/aria2/AriaNg \ 
 && mkdir -p /usr/local/aria2/AriaNg/js/Originaljs \ 
 && cp /usr/local/aria2/AriaNg/js/aria-ng* /usr/local/aria2/AriaNg/js/Originaljs \ 
-&& unzip -d /usr/local/aria2/   aria2-${VERSION2}-shared-musl-x86_64.zip   \ 
+&& unzip -d /usr/local/aria2/   /usr/local/aria2/aria2-${VERSION2}-shared-musl-x86_64.zip   \ 
 && cp  /usr/local/aria2/aria2-shared-musl-x86_64/aria2c    /usr/bin/aria2c \ 
 && cp  /usr/local/aria2/aria2-shared-musl-x86_64/lib*    /usr/lib  \ 
 && rm  -rf /usr/local/aria2/aria2-shared-musl-x86_64  \ 
