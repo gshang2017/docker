@@ -37,7 +37,7 @@ fi
 #设定trackers更新任务
 if [ `grep  -c updatetrackers.sh /var/spool/cron/crontabs/root` -eq 0 ];then
 echo "0       0       *       *       *       /usr/local/aria2/updatetrackers.sh" >> /var/spool/cron/crontabs/root
-Downloads
+crond -L /dev/null
 echo trackers更新任务已设定。
 else
 crond -L /dev/null
