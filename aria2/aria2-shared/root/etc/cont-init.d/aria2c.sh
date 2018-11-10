@@ -44,8 +44,6 @@ if [ "$TRACKERSAUTO" == "YES" ];then
 /usr/local/aria2/updatetrackers.sh
 fi
 
-
-
 #设置时区
 ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime 
 echo $TZ > /etc/timezone
