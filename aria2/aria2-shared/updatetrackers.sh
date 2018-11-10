@@ -12,12 +12,6 @@ else
 sed -i 's@'"$Oldtrackers"'@'"$Newtrackers"'@g'   $CONFIG/aria2.conf 
 #kill aria2
 ps -ef |grep aria2.conf |grep -v grep|awk '{print $1}'|xargs kill -9
-#重启aria2
-#if [ ! -n "$RPC_SECRET" ] ;  then 
-#aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all   -D
-#else 
-#aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" -D
-#fi
 echo 已更新trackers。
 fi
 
