@@ -20,7 +20,7 @@ RUN apk update \
 
 ADD caddy.conf /etc/caddy/
 ADD aria2c/aria2-${VERSION2}-shared-musl-x86_64.zip  /usr/local/aria2/
-COPY etc /etc/
+COPY root /
 COPY aria2c/aria2.conf  /usr/local/aria2/
 COPY updatetrackers.sh  /usr/local/aria2/
 
