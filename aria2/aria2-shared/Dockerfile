@@ -3,7 +3,7 @@ FROM alpine
 ENV VERSION1 0.5.0
 ENV VERSION2 1.34.0
 ENV RPC_SECRET=
-ENV CONFIG=NO
+ENV CONFIG=/usr/local/aria2
 ENV SECRETAUTO=YES
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
@@ -38,5 +38,6 @@ RUN wget https://github.com/mayswind/AriaNg/releases/download/${VERSION1}/AriaNg
 && touch /usr/local/aria2/dht.dat
 
 VOLUME /Downloads
+VOLUME /config
 EXPOSE 6800  80  6881  6881/udp
 ENTRYPOINT ["/usr/local/aria2/aria2c.sh"]
