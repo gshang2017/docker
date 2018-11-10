@@ -2,7 +2,7 @@
 
 #检查自定义config位置文件
 
-if  [ "$CONFIG" == "YES" ]; then 
+if  [ "$CONFIG" == "/config" ]; then 
 
 if [ ! -e "/config/aria2.conf" ] ;  then 
 cp /usr/local/aria2/aria2.conf  /config/aria2.conf
