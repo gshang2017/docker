@@ -39,6 +39,13 @@ else
 echo trackers更新任务已存在。
 fi
 
+#启动更新trackers。
+if [ "$TRACKERSAUTO" == "YES" ];then
+/usr/local/aria2/updatetrackers.sh
+fi
+
+
+
 #设置时区
 ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime 
 echo $TZ > /etc/timezone
