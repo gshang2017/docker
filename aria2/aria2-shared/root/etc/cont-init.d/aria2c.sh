@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/with-contenv bash
 
 #检查自定义config位置文件
 
