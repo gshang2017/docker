@@ -14,11 +14,9 @@ sed -i 's@'"$Oldtrackers"'@'"$Newtrackers"'@g'   /usr/local/aria2/aria2.conf
 ps -ef |grep aria2.conf |grep -v grep|awk '{print $1}'|xargs kill -9
 #重启aria2
 if [ ! -n "$RPC_SECRET" ] ;  then 
-aria2c --conf-path=/usr/local/aria2/aria2.conf --enable-rpc --rpc-listen-all   -D
-elif  [ "$SECRETAUTO" == "YES" ]; then
-aria2c --conf-path=/usr/local/aria2/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" -D
+aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all   -D
 else 
-aria2c --conf-path=/usr/local/aria2/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" -D
+aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" -D
 fi
 echo 已更新trackers。
 fi
