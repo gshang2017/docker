@@ -1,0 +1,5 @@
+#! /usr/bin/with-contenv bash
+
+#启动 caddy
+exec  --conf /etc/caddy/caddy.conf 
+
