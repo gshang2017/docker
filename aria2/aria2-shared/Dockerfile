@@ -15,7 +15,7 @@ COPY root /
 COPY aria2c/aria2.conf  /usr/local/aria2/
 COPY updatetrackers.sh  /usr/local/aria2/
 
-# install bash caddy tzdata s6 overlay
+# install bash caddy tzdata s6 overlay AriaNg aria2
 RUN apk update \
 && apk upgrade \
 && apk add --no-cache bash  bash-doc  bash-completion caddy tzdata \
