@@ -6,6 +6,8 @@ wget -qP  /tmp  https://raw.githubusercontent.com/ngosang/trackerslist/master/tr
 Newtrackers="bt-tracker=`awk NF /tmp/trackers_all.txt|sed ":a;N;s/\n/,/g;ta"`"
 Oldtrackers="`grep bt-tracker=  $CONFIG/aria2.conf`" 
 
+if [ ! -e "/tmp/trackers_all.txt" ] ;  then
+
 if [ $Newtrackers == $Oldtrackers ];then
 echo trackers文件一样,不需要更新。
 else
@@ -16,6 +18,11 @@ echo 已更新trackers。
 fi
 
 rm  /tmp/trackers_all.txt
+
+else
+echo 更新文件未正确下载，更新未成功，请检查网络。
+
+fi
 
 else
 
