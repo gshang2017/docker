@@ -8,15 +8,6 @@ ENV SECRETAUTO=YES
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
 
-# install bash caddy tzdata s6 overlay
-RUN apk update \
-&& apk upgrade \
-&& apk add --no-cache bash  bash-doc  bash-completion caddy tzdata \
-&& wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
-&& tar xvzf s6-overlay-amd64.tar.gz  \
-&& rm s6-overlay-amd64.tar.gz  \
-&& rm -rf /var/cache/apk/*  
-
 
 ADD caddy.conf /etc/caddy/
 ADD aria2c/aria2-${VERSION2}-shared-musl-x86_64.zip  /usr/local/aria2/
@@ -24,7 +15,15 @@ COPY root /
 COPY aria2c/aria2.conf  /usr/local/aria2/
 COPY updatetrackers.sh  /usr/local/aria2/
 
-RUN wget https://github.com/mayswind/AriaNg/releases/download/${VERSION1}/AriaNg-${VERSION1}.zip  \
+# install bash caddy tzdata s6 overlay
+RUN apk update \
+&& apk upgrade \
+&& apk add --no-cache bash  bash-doc  bash-completion caddy tzdata \
+&& wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
+&& tar xvzf s6-overlay-amd64.tar.gz  \
+&& rm s6-overlay-amd64.tar.gz  \
+&& rm -rf /var/cache/apk/*  \
+&& wget https://github.com/mayswind/AriaNg/releases/download/${VERSION1}/AriaNg-${VERSION1}.zip  \
 && mkdir -p /usr/local/aria2/AriaNg-${VERSION1} \
 && unzip -d /usr/local/aria2/AriaNg-${VERSION1}  AriaNg-${VERSION1}.zip  \
 && rm  AriaNg-${VERSION1}.zip \   
