@@ -42,7 +42,6 @@ RUN apk update \
 && touch /usr/local/aria2/aria2.session \
 && touch /usr/local/aria2/dht.dat
 
-VOLUME /Downloads
-VOLUME /config
+VOLUME /Downloads /config
 EXPOSE 6800  80  6881  6881/udp
 ENTRYPOINT [ "/init" ]
