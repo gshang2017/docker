@@ -35,9 +35,7 @@ ENV TZ=Asia/Shanghai
 ENV CONFIG=/usr/local/qbittorrent
 ENV WEBUIPORT=8989
 
-ADD  defaults/qBittorrent.conf  /usr/local/qbittorrent/defaults/
 COPY root /
-COPY updatetrackers.sh  /usr/local/qbittorrent/
 COPY --from=compilingqB  /qbittorrent  /
 
 # install bash caddy tzdata s6 overlay
