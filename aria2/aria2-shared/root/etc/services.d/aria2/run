@@ -1,9 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-# 启动aria2
-if [ ! -n "$RPC_SECRET" ] ;  then 
-exec aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all  
-else 
-exec aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" 
-fi
-
