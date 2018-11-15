@@ -1,0 +1,5 @@
+#! /usr/bin/with-contenv bash
+
+# 启动qiandao程序
+exec /usr/local/qiandao/run.py
+
