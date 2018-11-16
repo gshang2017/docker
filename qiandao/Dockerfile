@@ -38,6 +38,6 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
 &&  mv /usr/local/qiandao/libs/utils.py  /usr/local/qiandao/defaults/   \
 &&  chmod a+x /usr/local/qiandao/run.py
 
-VOLUME  /config
+VOLUME  /dbpath
 EXPOSE 8923  
 ENTRYPOINT [ "/init" ]
