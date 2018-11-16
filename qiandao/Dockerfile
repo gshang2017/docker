@@ -25,7 +25,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz  \
 &&  rm -rf /var/cache/apk/*  \
-&&  wget  http://ftp5.gwdg.de/pub/linux/archlinux/community/os/x86_64//python2-pbkdf2-1.3-4-any.pkg.tar.xz  \ 
+&&  wget  http://ftp5.gwdg.de/pub/linux/archlinux/community/os/x86_64/python2-pbkdf2-1.3-4-any.pkg.tar.xz  \ 
 &&  tar xvJf  python2-pbkdf2-1.3-4-any.pkg.tar.xz  -C  /  \
 &&  rm  python2-pbkdf2-1.3-4-any.pkg.tar.xz \
 &&  wget  https://github.com/binux/qiandao/archive/master.zip \
