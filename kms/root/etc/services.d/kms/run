@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+# 启动kms
+exec  kms vlmcsd -D
