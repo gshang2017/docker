@@ -9,7 +9,7 @@ RUN apk update \
 && wget http://qiniu.zoranjojo.top/BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64.zip \
 && unzip BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64.zip \
 && mv BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64/BaiduPCS-Go BaiduPCS-Go \
-&& rm -rf BaiduPCS-Go-${VERSION}-linux-amd64*\
+&& rm -rf BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64*\
 && chmod a+x BaiduPCS-Go
 
 VOLUME /root/Downloads
