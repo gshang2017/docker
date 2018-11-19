@@ -25,7 +25,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc zlib-dev openssl-dev expat-
 
 FROM alpine
 
-ARG  AriaNg_VER=0.5.0
+ARG  AriaNg_VER=0.6.0
 
 ENV RPC_SECRET=
 ENV CONFIG=/usr/local/aria2
