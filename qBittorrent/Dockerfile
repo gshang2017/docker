@@ -7,7 +7,7 @@ ARG  LIBTORRENT_VER=1.1.10
 ARG  QBITTORRENT_VER=4.1.4
 
 
-RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev  python3 \
+RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev  \
 &&   mkdir /qbtorrent  \
 &&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/libtorrent-`echo "$LIBTORRENT_VER"|sed 's#\.#_#g'`/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
 &&   tar  -zxvf  /qbtorrent/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   -C    /qbtorrent  \
@@ -42,7 +42,7 @@ COPY --from=compilingqB  /qbittorrent  /
 RUN  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
 &&   tar -xvzf s6-overlay-amd64.tar.gz  \
 &&   rm s6-overlay-amd64.tar.gz   \
-&&   apk add --no-cache bash  bash-doc  bash-completion ca-certificates  tzdata   ssl_client    \
+&&   apk add --no-cache bash  bash-doc  bash-completion ca-certificates  tzdata   ssl_client   python3  \
 &&   rm -rf /var/cache/apk/*   \
 &&   chmod a+x  /usr/local/qbittorrent/updatetrackers.sh  \
 &&   chmod a+x  /usr/local/bin/qbittorrent-nox  
