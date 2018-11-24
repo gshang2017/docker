@@ -1,4 +1,4 @@
-FROM alpine/alpine:3.8
+FROM alpine:3.8
 
 ARG BaiduPCSGo_VER=3.5.9
 
