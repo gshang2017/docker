@@ -39,7 +39,7 @@ COPY  root /
 COPY --from=compilingaria2c  /aria2  /
 
 # install bash caddy tzdata s6 overlay AriaNg aria2
-RUN apk add --no-cache bash  bash-doc  bash-completion ca-certificates caddy tzdata \
+RUN apk add --no-cache bash   ca-certificates caddy tzdata \
 && wget  https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
 && tar xvzf s6-overlay-amd64.tar.gz  \
 && rm s6-overlay-amd64.tar.gz  \
