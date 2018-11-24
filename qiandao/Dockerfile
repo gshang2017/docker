@@ -1,5 +1,5 @@
 
-FROM alpine
+FROM alpine/alpine:3.8
 
 ENV  TZ=Asia/Shanghai
 ENV  DBPATH=/usr/local/qiandao
@@ -20,7 +20,7 @@ COPY root /
 
 RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
 &&  apk update \
-&&  apk add --no-cache bash  bash-doc  bash-completion ca-certificates  tzdata python2  py2-tornado  py2-u-msgpack   py2-chardet  py2-requests   py2-crypto  py2-jinja2   \    
+&&  apk add --no-cache bash  ca-certificates  tzdata python2  py2-tornado  py2-u-msgpack   py2-chardet  py2-requests   py2-crypto  py2-jinja2   \    
 &&  wget  https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz  \
