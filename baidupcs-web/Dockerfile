@@ -1,10 +1,8 @@
-FROM alpine
+FROM alpine:3.8
 
 ARG BaiduPCSGo_VER=3.5.9
 
-RUN apk update \
-&& apk upgrade \
-&& apk add --no-cache bash  bash-doc  bash-completion \
+RUN apk add --no-cache bash  \
 && rm -rf /var/cache/apk/*  \
 && wget http://qiniu.zoranjojo.top/BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64.zip \
 && unzip BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64.zip \
