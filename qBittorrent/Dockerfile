@@ -32,7 +32,6 @@ FROM alpine
 
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
-ENV CONFIG=/usr/local/qbittorrent
 ENV WEBUIPORT=8989
 
 COPY root /
