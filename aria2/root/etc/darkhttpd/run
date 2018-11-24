@@ -1,4 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-# 启动darkhttpd
-exec darkhttpd /usr/local/aria2/AriaNg
