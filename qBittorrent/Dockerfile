@@ -41,7 +41,7 @@ COPY --from=compilingqB  /qbittorrent  /
 RUN  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
 &&   tar -xvzf s6-overlay-amd64.tar.gz  \
 &&   rm s6-overlay-amd64.tar.gz   \
-&&   apk add --no-cache bash  ca-certificates  tzdata   python  \
+&&   apk add --no-cache bash  ca-certificates  tzdata   \
 &&   rm -rf /var/cache/apk/*   \
 &&   chmod a+x  /usr/local/qbittorrent/updatetrackers.sh  \
 &&   chmod a+x  /usr/local/bin/qbittorrent-nox  
