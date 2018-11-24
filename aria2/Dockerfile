@@ -1,4 +1,4 @@
-FROM alpine/alpine:3.8 as compilingaria2c
+FROM alpine:3.8 as compilingaria2c
 
 #compiling aria2c
 
@@ -23,7 +23,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc zlib-dev openssl-dev expat-
 # docker aria2 
  
 
-FROM alpine/alpine:3.8
+FROM alpine:3.8
 
 ARG  AriaNg_VER=1.0.0
 
