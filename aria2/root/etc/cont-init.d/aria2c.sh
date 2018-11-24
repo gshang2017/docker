@@ -2,11 +2,8 @@
 
 #检查自定义config位置文件
 
-if  [ "$CONFIG" == "/config" ]; then 
-
 if [ ! -e "/config/aria2.conf" ] ;  then 
-cp /usr/local/aria2/aria2.conf  /config/aria2.conf
-sed -i 's/usr\/local\/aria2/config/g' /config/aria2.conf 
+cp /usr/local/aria2/defaults/aria2.conf  /config/aria2.conf
 fi
 
 if [ ! -e "/config/aria2.session" ] ;  then 
@@ -17,7 +14,7 @@ if [ ! -e "/config/dht.dat" ] ;  then
 touch /config/dht.dat
 fi
 
-fi
+
 
 #修改AriaNg
 #cp原始js
