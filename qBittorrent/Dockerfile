@@ -1,5 +1,5 @@
 
-FROM alpine/alpine:3.8 as compilingqB
+FROM alpine:3.8 as compilingqB
 
 #compiling qB
 
@@ -28,7 +28,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
  # docker qB
 
 
-FROM alpine/alpine:3.8
+FROM alpine:3.8
 
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
