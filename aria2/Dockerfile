@@ -38,8 +38,8 @@ ENV TZ=Asia/Shanghai
 COPY  root /
 COPY --from=compilingaria2c  /aria2  /
 
-# install bash caddy tzdata s6 overlay AriaNg aria2
-RUN apk add --no-cache bash   ca-certificates caddy tzdata \
+# install bash  darkhttpd tzdata s6 overlay AriaNg aria2
+RUN apk add --no-cache bash   ca-certificates  darkhttpd  tzdata \
 && wget  https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
 && tar xvzf s6-overlay-amd64.tar.gz  \
 && rm s6-overlay-amd64.tar.gz  \
@@ -52,9 +52,8 @@ RUN apk add --no-cache bash   ca-certificates caddy tzdata \
 && chmod a+x /usr/local/bin/aria2c   \  
 && chmod a+x /etc/cont-init.d/aria2c.sh \
 && chmod a+x /etc/services.d/aria2  \
-&& chmod a+x /usr/local/aria2/updatetrackers.sh \
-&& touch /usr/local/aria2/aria2.session \
-&& touch /usr/local/aria2/dht.dat
+&& chmod a+x /usr/local/aria2/updatetrackers.sh 
+
 
 VOLUME /Downloads /config
 EXPOSE 6800  80  6881  6881/udp
