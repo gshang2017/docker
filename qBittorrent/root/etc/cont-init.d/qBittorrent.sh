@@ -1,9 +1,9 @@
 #! /usr/bin/with-contenv bash
 
 #检查config配置文件，并创建.
-if [ ! -e "$CONFIG/qBittorrent/config/qBittorrent.conf" ] ;  then 
-mkdir -p $CONFIG/qBittorrent/config/
-cp /usr/local/qbittorrent/defaults/qBittorrent.conf  $CONFIG/qBittorrent/config/qBittorrent.conf
+if [ ! -e "/config/qBittorrent/config/qBittorrent.conf" ] ;  then 
+mkdir -p /config/qBittorrent/config/
+cp /usr/local/qbittorrent/defaults/qBittorrent.conf  /config/qBittorrent/config/qBittorrent.conf
 fi
 
 
