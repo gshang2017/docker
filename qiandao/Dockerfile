@@ -1,4 +1,3 @@
-
 FROM alpine/alpine:3.8
 
 ENV  TZ=Asia/Shanghai
@@ -13,8 +12,6 @@ ENV  MAIL_PASSWORD=
 ENV  MAIL_DOMAIN=
 ENV  MAILGUN_KEY=
 ENV  ADMINEMAIL=
-
-
 
 COPY root /
 
