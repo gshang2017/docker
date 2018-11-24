@@ -1,4 +1,4 @@
-FROM alpine/alpine:3.8
+FROM alpine:3.8
 
 ENV  TZ=Asia/Shanghai
 ENV  DBPATH=/usr/local/qiandao
