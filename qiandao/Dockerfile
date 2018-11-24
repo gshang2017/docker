@@ -1,7 +1,6 @@
 FROM alpine:3.8
 
 ENV  TZ=Asia/Shanghai
-ENV  DBPATH=/usr/local/qiandao
 ENV  DOMAIN=
 ENV  MAIL_STMP=
 ENV  MAIL_PORT=
