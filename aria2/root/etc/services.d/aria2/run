@@ -2,8 +2,8 @@
 
 # 启动aria2
 if [ ! -n "$RPC_SECRET" ] ;  then 
-exec aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all  
+exec aria2c --conf-path=/config/aria2.conf --enable-rpc --rpc-listen-all  
 else 
-exec aria2c --conf-path=$CONFIG/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" 
+exec aria2c --conf-path=/config/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" 
 fi
 
