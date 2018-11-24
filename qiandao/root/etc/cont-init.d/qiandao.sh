@@ -4,7 +4,7 @@
 if [ "$MAIL_SSL" == "True" ];then
 cp /usr/local/qiandao/mailssl/config.py  /usr/local/qiandao/
 cp /usr/local/qiandao/mailssl/utils.py  /usr/local/qiandao/libs/utils.py
-sed -i 's#./database.db#'$DBPATH'/database.db#'  /usr/local/qiandao/config.py
+sed -i 's#./database.db#/dbpath/database.db#'  /usr/local/qiandao/config.py
 sed -i 's/'qiandao.today'/'$DOMAIN'/'  /usr/local/qiandao/config.py
 sed -i 's/mail_smtp = ""/mail_smtp = "'"$MAIL_STMP"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_port = /mail_port = '"$MAIL_PORT"'/'  /usr/local/qiandao/config.py
@@ -18,7 +18,7 @@ sed -i 's/mailgun_key = ""/mailgun_key = "'"$MAILGUN_KEY"'"/'  /usr/local/qianda
 else
 cp /usr/local/qiandao/defaults/config.py  /usr/local/qiandao/
 cp /usr/local/qiandao/defaults/utils.py  /usr/local/qiandao/libs/utils.py
-sed -i 's#./database.db#'$DBPATH'/database.db#'  /usr/local/qiandao/config.py
+sed -i 's#./database.db#/dbpath/database.db#'  /usr/local/qiandao/config.py
 sed -i 's/'qiandao.today'/'$DOMAIN'/'  /usr/local/qiandao/config.py
 sed -i 's/mail_smtp = ""/mail_smtp = "'"$MAIL_STMP"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_user = ""/mail_user = "'"$MAIL_USER"'"/'  /usr/local/qiandao/config.py
