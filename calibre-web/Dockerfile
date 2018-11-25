@@ -10,6 +10,9 @@ RUN apk add --no-cache bash py2-pip  ca-certificates \
 &&  unzip -d /tmp      /tmp/master.zip   \
 &&  cp -rf  /tmp/calibre-web-master/*  /usr/local/calibre-web/  \ 
 &&  pip  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
+&&  wget -P /tmp  http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz   \ 
+&&  tar -zxvf   /tmp/kindlegen_linux_2.6_i386_v2_9.tar.gz  -C /tmp  \ 
+&&  cp   /tmp/kindlegen   /usr/local/bin/  \ 
 &&  rm -rf /var/cache/apk/*  \ 
 &&  rm -rf /tmp/*
 
