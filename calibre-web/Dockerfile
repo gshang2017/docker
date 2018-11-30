@@ -10,6 +10,9 @@ RUN apk add --no-cache bash  ca-certificates  py2-pip py2-lxml  imagemagick6 \
 &&  unzip -d /tmp      /tmp/master.zip   \
 &&  cp -rf  /tmp/calibre-web-master/*  /usr/local/calibre-web/  \ 
 &&  pip  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
+&&  python -m compileall /usr/lib/python2.7/    \
+&&  find /usr/lib/python2.7/ -name "*.py"|xargs -i rm -rf {}    \
+&&  find /usr/lib/python2.7/ -name "*.pyo"|xargs -i rm -rf {}    \
 &&  wget -P /tmp  http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz   \ 
 &&  tar -zxvf   /tmp/kindlegen_linux_2.6_i386_v2_9.tar.gz  -C /tmp  \ 
 &&  cp   /tmp/kindlegen   /usr/local/bin/  \ 
