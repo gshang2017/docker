@@ -24,7 +24,6 @@ RUN apk add --no-cache bash ca-certificates  python2 expect libstdc++ mesa-gl li
 &&  chmod a+x /usr/local/calibre-server/useradd.sh   \ 
 &&  chmod a+x /usr/local/calibre-server/languagechange.sh
 
-
 VOLUME /library  /config
 EXPOSE 8080
 ENTRYPOINT [ "/init" ]
