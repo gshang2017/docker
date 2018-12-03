@@ -41,6 +41,17 @@ if [ ! -L /srv/calibre ] ;  then
 ln -s /config/srv/calibre  /srv/calibre
 fi
 
+#fonts
+if [ ! -d /usr/share/fonts ] ;  then 
+mkdir -p /usr/share/fonts
+fi
+if [ ! -d /config/calibrefonts ] ;  then 
+mkdir -p /config/calibrefonts
+fi
+if [ ! -L /usr/share/fonts/calibrefonts ] ;  then
+ln -s /config/calibrefonts  /usr/share/fonts/calibrefonts
+fi
+fc-cache -f 
 
 
 #添加user.
