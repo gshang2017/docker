@@ -12,4 +12,5 @@ expect {
 -re "Enter the new password for" { exp_send "$PASSWORD\r"; exp_continue} 
 -re "to verify:" { exp_send "$PASSWORD\r"; exp_continue}
 -re "successfully!" { exit }
-} 
+}
+expect eof
