@@ -2,6 +2,8 @@ FROM alpine:3.8
 
 ARG BaiduPCSGo_VER=3.6.1
 
+COPY  root /
+
 RUN apk add --no-cache bash  \
 &&  rm -rf /var/cache/apk/*  \
 &&  wget --no-check-certificate https://github.com/liuzhuoling2011/baidupcs-web/releases/download/${BaiduPCSGo_VER}/BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64.zip \
