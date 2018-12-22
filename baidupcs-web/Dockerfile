@@ -13,7 +13,7 @@ RUN apk add --no-cache bash  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz 
 
-VOLUME /root/Downloads
+VOLUME /root/Downloads /config
 EXPOSE 5299
 ENTRYPOINT [ "/init" ]
 
