@@ -15,6 +15,6 @@ RUN apk add --no-cache bash  \
 
 VOLUME /root/Downloads
 EXPOSE 5299
-ENTRYPOINT ["BaiduPCS-Go"]
+ENTRYPOINT [ "/init" ]
 
 
