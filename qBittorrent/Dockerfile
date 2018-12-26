@@ -3,7 +3,7 @@ FROM alpine:3.8 as compilingqB
 
 #compiling qB
 
-ARG  LIBTORRENT_VER=1.1.11
+ARG  LIBTORRENT_VER=1.1.10
 ARG  QBITTORRENT_VER=4.1.5
 
 
