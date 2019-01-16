@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-ARG BaiduPCSGo_VER=3.6.1
+ARG BaiduPCSGo_VER=3.6.2
 
 COPY  root /
 
