@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:latest
 
 ARG BaiduPCSGo_VER=3.6.2
 
@@ -11,7 +11,7 @@ RUN apk add --no-cache bash  \
 &&  mv BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64/BaiduPCS-Go /usr/local/bin/BaiduPCS-Go \
 &&  rm -rf BaiduPCS-Go-${BaiduPCSGo_VER}-linux-amd64*  \
 &&  chmod a+x /usr/local/bin/BaiduPCS-Go  \
-&&  wget   https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
+&&  wget   https://github.com/just-containers/s6-overlay/releases/download/v1.21.7.0/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz 
 
