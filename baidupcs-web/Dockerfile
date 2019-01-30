@@ -2,7 +2,7 @@ FROM alpine:latest
 
 COPY  root /
 
-RUN apk add --no-cache bash  \
+RUN apk add --no-cache bash curl wget  \
 &&  rm -rf /var/cache/apk/*  \
 &&  wget   https://github.com/just-containers/s6-overlay/releases/download/v1.21.7.0/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
