@@ -7,5 +7,6 @@ curl -s https://api.github.com/repos/liuzhuoling2011/baidupcs-web/releases/lates
   | wget -qi - && \
   unzip BaiduPCS-Go-*.zip && \
   mv BaiduPCS-Go-*/BaiduPCS-Go /usr/local/bin/BaiduPCS-Go && \
-  rm -rf BaiduPCS-Go-* && chmod a+x /usr/local/bin/BaiduPCS-Go && \
+  rm -rf BaiduPCS-Go-* && \
+  chmod a+x /usr/local/bin/BaiduPCS-Go && \
   /init
