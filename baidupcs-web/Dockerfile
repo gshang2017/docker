@@ -1,10 +1,16 @@
+FROM ubuntu:latest as builder
+RUN \
+  apt-get update && \
+  apt-get install -y wget
 FROM alpine:latest
 
 COPY  root /
+COPY --from=builder  /usr/bin/wget  /usr/bin/wget
 
-RUN apk add --no-cache bash curl wget  \
+RUN apk add --no-cache bash curl \
 &&  rm -rf /var/cache/apk/*  \
-&&  wget   https://github.com/just-containers/s6-overlay/releases/download/v1.21.7.0/s6-overlay-amd64.tar.gz  \
+&&  chmod +x /usr/bin/wget  \
+&&  wget https://github.com/just-containers/s6-overlay/releases/download/v1.21.7.0/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz 
 
@@ -13,5 +19,3 @@ EXPOSE 5299
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 CMD /entrypoint.sh
-
-
