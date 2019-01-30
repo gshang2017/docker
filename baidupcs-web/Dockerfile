@@ -12,4 +12,4 @@ RUN apk add --no-cache bash curl \
 
 VOLUME /root/Downloads /config
 EXPOSE 5299
-ENTRYPOINT [ "/entrypoint.sh" ]
+CMD /entrypoint.sh
