@@ -7,13 +7,10 @@ cp /usr/local/qbittorrent/defaults/qBittorrent.conf  /config/qBittorrent/config/
 fi
 
 #检查Search文件，并创建.
-if [ ! -d "/config/qBittorrent/Search" ] ;  then 
-cp -rf /usr/local/qbittorrent/defaults/Search  /config/qBittorrent
-fi
 if [ ! -d "/config/qBittorrent/data/nova3/engines" ] ;  then 
 mkdir -p /config/qBittorrent/data/nova3/engines
 fi
-cp -ru /config/qBittorrent/Search/*  /config/qBittorrent/data/nova3/engines
+cp -ru /usr/local/qbittorrent/defaults/Search/*  /config/qBittorrent/data/nova3/engines
 
 
 #设定trackers更新任务
