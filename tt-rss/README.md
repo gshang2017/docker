@@ -20,6 +20,14 @@ tt-rss：19.2 (amd64)
 
 访问教程: IP:本地端口1 ( 默认用户名:admin 默认密码:password )
 
+群晖域名反代会出现：
+
+Please set SELF_URL_PATH to the correct value detected for your server:XXXXXXXXX
+
+解决方法：
+
+config.php 配置文件末尾添加 define('_SKIP_SELF_URL_PATH_CHECKS', true); 即可。
+
 数据库：
 
 需自己搭建,tt-rss官方建议使用PostgreSQL
