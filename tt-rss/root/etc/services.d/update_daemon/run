@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bash
+
+s6-setuidgid ttrss php7 /usr/local/tt-rss/update_daemon2.php > /dev/null 2>&1
