@@ -30,6 +30,8 @@ calibre-web web访问: IP:本地端口1
 
 默认用户名: admin 默认密码: admin123
 
+说明：calibre-web自带上传功能并不好，可开启calibre-server，并用其上传。
+
 calibre-server 设置 （以下可不用设置）
 
 端口：
