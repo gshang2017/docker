@@ -30,6 +30,8 @@ calibre-web web访问: IP:本地端口1
 
 默认用户名: admin 默认密码: admin123
 
+ebook-convert转换配置：管理-配置-基本设置-外部二进制-1.选择使用calibre的电子书转换器，2.转换工具路径：/opt/calibre/ebook-convert-提交
+
 说明：calibre-web自带上传功能并不好，可开启calibre-server，并用其上传。
 
 calibre-server 设置 （以下可不用设置）
