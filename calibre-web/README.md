@@ -36,9 +36,9 @@ calibre-server 设置 （以下可不用设置）
 
 端口：
 
-本地端口1 映射 8080（ calibre-server web访问端口 ）
+本地端口2 映射 8080（ calibre-server web访问端口 ）
 
-calibre-server web访问: IP:本地端口1
+calibre-server web访问: IP:本地端口2
 
 环境变量：
 
