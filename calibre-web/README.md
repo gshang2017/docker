@@ -14,9 +14,9 @@ calibre-server版本：3.39.1 (amd64)
 
 卷：
 
-本地文件夹1 映射 /library (calibre-web书库默认位置)(calibre-server书库默认位置)
+本地文件夹1 映射 /library (calibre-web与calibre-server书库默认位置)
 
-本地文件夹2 映射 /config (calibre-web配置位置文件)(calibre-server配置位置文件)
+本地文件夹2 映射 /config (calibre-web与calibre-server配置位置文件)
 
 calibre-web 设置
 
