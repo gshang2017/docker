@@ -8,7 +8,7 @@ https://github.com/janeczku/calibre-web
 
 https://github.com/kovidgoyal/calibre
 
-calibre-server版本：3.37.0 (amd64)
+calibre-server版本：3.39.1 (amd64)
 
 设置：
 
