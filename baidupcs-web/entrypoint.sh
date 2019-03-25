@@ -1,5 +1,4 @@
-cd /
-date -R
+cd /root/Downloads
 rm -rf BaiduPCS-Go-* && \
 curl --silent "https://api.github.com/repos/liuzhuoling2011/baidupcs-web/releases/latest" |
   grep '"tag_name":' |
