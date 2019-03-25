@@ -14,11 +14,6 @@ RUN apk add --no-cache bash curl \
 RUN set -xe \
   && addgroup -g 1000 -S alpine \
   && adduser -u 1000 -G alpine -h /home/alpine -D alpine \
-  && chown -R alpine:alpine /usr/local/bin\
-  && mkdir -p /root/Downloads \
-  && chown -R alpine:alpine /root/Downloads \
-  && mkdir -p /root/.config \
-  && chown -R alpine:alpine /root/.config
   && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64" \
   && chmod +x /usr/local/bin/gosu \
   && gosu nobody true
