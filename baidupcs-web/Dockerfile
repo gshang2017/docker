@@ -24,4 +24,4 @@ RUN set -xe \
   && gosu nobody true
 
 EXPOSE 5299
-CMD gosu alpine /entrypoint.sh
+CMD exec gosu alpine /entrypoint.sh
