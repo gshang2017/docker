@@ -1,3 +1,4 @@
+
 FROM alpine:latest
 
 COPY root /
@@ -18,8 +19,9 @@ RUN set -xe \
   && chown -R alpine:alpine /root/Downloads \
   && mkdir -p /root/.config \
   && chown -R alpine:alpine /root/.config
-
-USER alpine
+  && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64" \
+  && chmod +x /usr/local/bin/gosu \
+  && gosu nobody true
 
 EXPOSE 5299
-CMD /entrypoint.sh
+CMD gosu alpine /entrypoint.sh
