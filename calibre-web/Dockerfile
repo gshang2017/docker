@@ -29,6 +29,8 @@ RUN apk add --no-cache bash ca-certificates  python2 python2-dev expect libstdc+
 &&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
+#install py2-pillow
+&&  apk add py2-pillow=5.4.1-r0 --repository http://dl-4.alpinelinux.org/alpine/v3.9/main  \ 
 &&  pip  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 #&&  pip  install --no-cache-dir sqlalchemy==1.1.0   \ 
 #clean
