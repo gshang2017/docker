@@ -1,4 +1,4 @@
-群晖nas自用：
+1群晖nas自用：
 
 calibre-web电子书管理集成calibre-server的ebook-convert转换功能
 
@@ -10,7 +10,7 @@ https://github.com/kovidgoyal/calibre
 
 calibre-web版本：0.6.2 (amd64)
 
-calibre-server版本：3.40.3 (amd64)
+calibre-server版本：3.41.3 (amd64)
 
 设置：
 
