@@ -2,6 +2,7 @@ FROM alpine:3.9
 
 ARG  GLIBC_VER=2.29
 ARG  S6_VER=1.22.0.0
+ARG  CALIBRE_WEB_VER=0.6.2
 
 ENV USER=
 ENV PASSWORD=
@@ -22,11 +23,15 @@ RUN apk add --no-cache bash ca-certificates  python2 expect libstdc++ mesa-gl li
 #install  calibre-ebook 
 &&  wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | bash /dev/stdin   \
 #install  calibre-web
-&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/master.zip  \
-&&  unzip -d /tmp      /tmp/master.zip   \
-&&  cp -rf  /tmp/calibre-web-master/*  /usr/local/calibre-web/  \ 
+#&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/master.zip  \
+#&&  unzip -d /tmp      /tmp/master.zip   \
+#&&  cp -rf  /tmp/calibre-web-master/*  /usr/local/calibre-web/  \ 
+&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
+&&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
+&&  mkdir -p /usr/local/calibre-web/  \ 
+&&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
 &&  pip  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
-&&  pip  install --no-cache-dir sqlalchemy==1.1.0   \ 
+#&&  pip  install --no-cache-dir sqlalchemy==1.1.0   \ 
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
 &&  apk del glibc-i18n    \ 
