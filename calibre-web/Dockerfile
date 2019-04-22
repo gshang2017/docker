@@ -28,7 +28,6 @@ RUN apk add --no-cache bash ca-certificates  python2 expect libstdc++ mesa-gl li
 #&&  cp -rf  /tmp/calibre-web-master/*  /usr/local/calibre-web/  \ 
 &&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
-&&  mkdir -p /usr/local/calibre-web/  \ 
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
 &&  pip  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 #&&  pip  install --no-cache-dir sqlalchemy==1.1.0   \ 
