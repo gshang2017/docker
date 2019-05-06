@@ -30,6 +30,8 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
 
 FROM alpine:3.9
 
+ARG  S6_VER=1.22.1.0
+
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
 ENV WEBUIPORT=8989
@@ -38,7 +40,7 @@ COPY root /
 COPY --from=compilingqB  /qbittorrent  /
 
 # install bash caddy tzdata s6 overlay python3
-RUN  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v1.22.0.0/s6-overlay-amd64.tar.gz  \
+RUN  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 &&   tar -xvzf s6-overlay-amd64.tar.gz  \
 &&   rm s6-overlay-amd64.tar.gz   \
 &&   apk add --no-cache bash  ca-certificates  tzdata  python3 \
