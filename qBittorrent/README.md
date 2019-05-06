@@ -8,7 +8,7 @@ https://github.com/ngosang/trackerslist
 
 版本：
 
-qBittorrent：4.1.5 (X86_64) 集成Trackers自动更新。
+qBittorrent：4.1.6 (X86_64) 集成Trackers自动更新。
 
 设置：
 
