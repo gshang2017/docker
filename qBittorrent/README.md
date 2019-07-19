@@ -4,11 +4,15 @@
 
 https://github.com/qbittorrent/qBittorrent
 
+https://github.com/c0re100/qBittorrent-Enhanced-Edition
+
 https://github.com/ngosang/trackerslist
 
 版本：
 
 qBittorrent：4.1.6 (X86_64) 集成Trackers自动更新。
+
+qBittorrent：qee_4.1.6.1 增强版 (X86_64) 集成Trackers自动更新。
 
 设置：
 
