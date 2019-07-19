@@ -1,4 +1,4 @@
-FROM alpine:3.8 as compilingaria2c
+FROM alpine:3.10 as compilingaria2c
 
 #compiling aria2c
 
@@ -40,7 +40,6 @@ COPY --from=compilingaria2c  /aria2  /
 
 # install bash  darkhttpd tzdata s6 overlay AriaNg aria2
 RUN apk add --no-cache bash   ca-certificates  darkhttpd  tzdata \
-&& update-ca-certificates \
 && wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 && tar xvzf s6-overlay-amd64.tar.gz  \
 && rm s6-overlay-amd64.tar.gz  \
