@@ -22,7 +22,7 @@ RUN apk add --no-cache bash  python3  expect git     \
 &&  wget   https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz    \
-&&  apk del git py3-pip   \
+&&  apk del git    \
 &&  rm -rf /var/cache/apk/*  \ 
 &&  rm -rf /tmp/*   \ 
 &&  mkdir -p /usr/local/anki-sync-server/defaults  \ 
