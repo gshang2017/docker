@@ -6,7 +6,7 @@ https://github.com/dae/anki
 
 https://github.com/tsudoko/anki-sync-server
 
-目前支持的版本范围是2.1.1〜2.1.7，其它版本自测。
+目前支持的版本范围是2.1.1〜2.1.11 (2.1.9除外)，其它版本自测。
 
 设置：
 
