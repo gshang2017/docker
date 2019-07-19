@@ -29,7 +29,7 @@ RUN apk add --no-cache bash  python3  expect git     \
 &&  mv /usr/local/anki-sync-server/ankisyncd.conf /usr/local/anki-sync-server/defaults/ankisyncd.conf  \ 
 &&  sed -i 's/\.\//\/config\//g' /usr/local/anki-sync-server/defaults/ankisyncd.conf  \ 
 # ankisyncd路径
-&&  echo "/usr/local/anki-sync-server/" > /usr/lib/python3.6/site-packages/ankisyncd.pth  \ 
+&&  echo "/usr/local/anki-sync-server/" > /usr/lib/python3.7/site-packages/ankisyncd.pth  \ 
 &&  chmod a+x /usr/local/anki-sync-server/useradd.sh
 
 VOLUME  /config
