@@ -8,7 +8,7 @@ ENV PASSWORD=
 
 COPY  root  /
 
-RUN apk add --no-cache bash  python3  expect git py3-pip    \
+RUN apk add --no-cache bash  python3  expect git     \
 &&  git clone https://github.com/tsudoko/anki-sync-server.git  /tmp/anki-sync-server   \
 &&  cp -rf /tmp/anki-sync-server/*  /usr/local/anki-sync-server   \
 &&  wget -P /tmp  https://github.com/dae/anki/archive/${ANKI_VER}.tar.gz   \
