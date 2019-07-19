@@ -12,15 +12,21 @@ https://github.com/ngosang/trackerslist
 
 qBittorrent：4.1.6 (X86_64) 集成Trackers自动更新。
 
-qBittorrent：qee_4.1.6.1 增强版 (X86_64) 集成Trackers自动更新。
+qBittorrent：qee_4.1.6.1 增强版 (X86_64) 集成Trackers自动更新。 
+
+
+
 
 设置：
+
 
 卷：
 
 本地文件夹1 映射 /Downloads (qBittorrent下载位置)
 
 本地文件夹2 映射 /config (qBittorrent配置文件位置)
+
+qBittorrent-Enhanced-Edition 增强版 需下载对应版本ipfilter.dat放入qBittorrent配置文件夹才能屏蔽离线下载 https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases
 
 端口：
 
