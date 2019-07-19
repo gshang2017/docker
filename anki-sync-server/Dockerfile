@@ -1,6 +1,7 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
-ARG  ANKI_VER=2.1.7
+ARG  ANKI_VER=2.1.11
+ARG  S6_VER=1.22.1.0
 
 ENV USER=
 ENV PASSWORD=
@@ -18,7 +19,7 @@ RUN apk add --no-cache bash  python3  expect git py3-pip    \
 &&  sed -i '/^pyaudio/d' /usr/local/anki-sync-server/anki-bundled/requirements.txt    \
 &&  pip3 install  --no-cache-dir -r /usr/local/anki-sync-server/anki-bundled/requirements.txt    \
 &&  pip3 install  --no-cache-dir webob    \ 
-&&  wget   https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
+&&  wget   https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz    \
 &&  apk del git py3-pip   \
