@@ -23,9 +23,10 @@ RUN  apk add --no-cache ca-certificates make g++ gcc zlib-dev openssl-dev expat-
 # docker aria2 
  
 
-FROM alpine:3.8
+FROM alpine:3.10
 
-ARG  AriaNg_VER=1.0.0
+ARG  AriaNg_VER=1.1.1
+ARG  S6_VER=1.22.1.0
 
 ENV RPC_SECRET=
 ENV SECRETAUTO=YES
@@ -39,7 +40,7 @@ COPY --from=compilingaria2c  /aria2  /
 
 # install bash  darkhttpd tzdata s6 overlay AriaNg aria2
 RUN apk add --no-cache bash   ca-certificates  darkhttpd  tzdata \
-&& wget  https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
+&& wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 && tar xvzf s6-overlay-amd64.tar.gz  \
 && rm s6-overlay-amd64.tar.gz  \
 && rm -rf /var/cache/apk/*  \
