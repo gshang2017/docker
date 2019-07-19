@@ -10,6 +10,8 @@ https://github.com/tsudoko/anki-sync-server
 
 设置：
 
+升级安装需移除配置文件夹内auth.db和session.db文件,并暂时重命名collections文件夹内的用户名文件夹。等程序重建auth.db后，即可将collections内重命名后的文件夹改为用户名。
+
 卷：
 
 本地文件夹1 映射 /config （anki-sync-server配置位置文件)
