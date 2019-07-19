@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
 ARG  ANKI_VER=2.1.11
 ARG  S6_VER=1.22.1.0
