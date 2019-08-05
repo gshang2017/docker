@@ -25,7 +25,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc zlib-dev openssl-dev expat-
 
 FROM alpine:3.10
 
-ARG  AriaNg_VER=1.1.1
+ARG  AriaNg_VER=1.1.2
 ARG  S6_VER=1.22.1.0
 
 ENV RPC_SECRET=
