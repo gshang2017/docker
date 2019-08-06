@@ -12,7 +12,7 @@ https://github.com/ngosang/trackerslist
 
 qBittorrent：4.1.7 (X86_64) 集成Trackers自动更新。
 
-qBittorrent：qee_4.1.6.1 增强版 (X86_64) 集成Trackers自动更新。 
+qBittorrent：qee_4.1.7.1 增强版 (X86_64) 集成Trackers自动更新。 
 
 
 
