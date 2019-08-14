@@ -6,7 +6,7 @@ https://gitlab.com/gothfox/tt-rss
 
 版本：
 
-tt-rss：19.2 (amd64)
+tt-rss：19.8 (amd64)
 
 设置：
 
