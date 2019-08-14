@@ -1,6 +1,7 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
-ARG  TTRSS_VER=19.2 
+ARG  TTRSS_VER=19.8
+ARG  S6_VER=1.22.1.0
 
 COPY  root  /
 
@@ -12,7 +13,7 @@ RUN apk add --no-cache bash shadow  ca-certificates caddy  php7-pcntl php7-cli p
 &&  rm -rf /tmp/tt-rss-${TTRSS_VER}.zip    \
 &&  rm -rf /var/cache/apk/*   \
 # install s6-overlay
-&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v1.22.0.0/s6-overlay-amd64.tar.gz  \
+&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 &&  tar -xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz  \
 &&  mkdir -p  /usr/local/tt-rss/defaults \
