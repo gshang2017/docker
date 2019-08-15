@@ -8,7 +8,7 @@ https://github.com/liuzhuoling2011/baidupcs-web
 
 版本：
 
-baidupcs-web：3.6.7 (amd64)
+baidupcs-web：3.6.8 (amd64)
 
 设置：
 
