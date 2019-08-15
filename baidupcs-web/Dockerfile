@@ -1,7 +1,7 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
-ARG BaiduPCSGo_VER=3.6.7
-ARG  S6_VER=1.22.0.0
+ARG BaiduPCSGo_VER=3.6.8
+ARG  S6_VER=1.22.1.0
 
 COPY  root /
 
