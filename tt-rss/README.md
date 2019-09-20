@@ -18,7 +18,7 @@ tt-rss：19.8 (amd64)
 
 本地端口1 映射 80 （ tt-rss服务器web端口 ）
 
-访问教程: IP:本地端口1 ( 默认用户名:admin 默认密码:password )
+ttrss web访问: IP:本地端口1 ( 默认用户名:admin 默认密码:password )
 
 群晖域名反代会出现：
 
