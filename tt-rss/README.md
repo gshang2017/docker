@@ -82,7 +82,7 @@ POSTGRES_PASSWORD （ PostgreSQL密码 例如:ttrss ）
 
 本地端口1 映射 5432 （ PostgreSQL服务器端口 ）
 
-2.集成数据库及插件版设置：
+2.集成数据库(PostgreSQL-12)及插件版设置：
 
 卷：
 
