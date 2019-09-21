@@ -22,7 +22,7 @@ https://github.com/levito/tt-rss-feedly-theme
 
 tt-rss：19.8 (amd64)
 
-Postgres数据库导入导出：
+Postgres数据库导入导出：db.sql为导出导入的数据库文件
 
 导出  pg_dump  -U  PostgreSQL用户名 -f /var/lib/postgresql/data/db.sql PostgreSQL数据库名称 
 
