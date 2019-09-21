@@ -26,7 +26,13 @@ Postgres数据库导入导出：
 
 导出  pg_dump  -U  PostgreSQL用户名 -f /var/lib/postgresql/data/db.sql PostgreSQL数据库名称 
 
+例如： pg_dump  -U  ttrss -f /var/lib/postgresql/data/db.sql ttrss 
+
 导入  psql -d PostgreSQL用户名 -f /var/lib/postgresql/data/db.sql PostgreSQL数据库名称 
+
+例如： psql -d ttrss -f /var/lib/postgresql/data/db.sql ttrss
+
+注意：导入数据库后全新安装,tt-rss配置界面需选择 Skip initialization。
 
 1.无插件版设置：
 
