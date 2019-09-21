@@ -122,6 +122,16 @@ mercury_fulltext：1.偏好设置启用插件 2.信息源栏 Mercury Fulltext se
 
 api_feedreader：1.启用插件需修改config.php文件添加 api_feedreader；define('PLUGINS', 'auth_internal, note, api_feedreader');
 
+客服端软件：
+
+android：feedme (免费)
+
+windowns 10 应用商店：Ting Ting RSS   (免费)
+
+linux：FeedReader  (免费)
+
+mac os x ：Reeder 4 
+
 其它：
 
 详见：https://tt-rss.org/
