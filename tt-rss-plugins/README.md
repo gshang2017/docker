@@ -127,7 +127,7 @@ api_feedreader：1.启用插件需修改config.php文件添加 api_feedreader；
 
 android：feedme (免费)
 
-windowns 10 应用商店：Ting Ting RSS   (免费)
+windowns 10 应用商店：Tiny Tiny RSS   (免费)
 
 linux：FeedReader  (免费)
 
