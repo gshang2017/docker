@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+#启动 postgres
+exec s6-setuidgid postgres /usr/local/bin/docker-entrypoint.sh postgres
