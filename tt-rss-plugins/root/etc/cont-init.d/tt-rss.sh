@@ -53,6 +53,22 @@ fi
 if [  ! -L "/usr/local/tt-rss/plugins.local" ] ;  then 
 ln -s /config/plugins.local  /usr/local/tt-rss/
 fi
+#检查api_feedreader plugins
+if [  ! -d "/config/plugins.local/api_feedreader" ] ;  then 
+cp -rf /usr/local/tt-rss/defaults/plugins.local/api_feedreader  /config/plugins.local/
+fi
+#检查feediron plugins
+if [  ! -d "/config/plugins.local/feediron" ] ;  then 
+cp -rf /usr/local/tt-rss/defaults/plugins.local/feediron  /config/plugins.local/
+fi
+#检查fever plugins
+if [  ! -d "/config/plugins.local/fever" ] ;  then 
+cp -rf /usr/local/tt-rss/defaults/plugins.local/fever  /config/plugins.local/
+fi
+#检查mercury_fulltext plugins
+if [  ! -d "/config/plugins.local/mercury_fulltext" ] ;  then 
+cp -rf /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext  /config/plugins.local/
+fi
 
 #检查themes.local文件夹位置
 if [  ! -d "/config/themes.local" ] ;  then 
@@ -62,6 +78,11 @@ fi
 if [  ! -L "/usr/local/tt-rss/themes.local" ] ;  then 
 ln -s /config/themes.local  /usr/local/tt-rss/
 fi
+#检查feedly themes
+if [  ! -d "/config/themes.local/feedly" ] ;  then 
+cp -rf /usr/local/tt-rss/defaults/themes.local/feedly*  /config/themes.local/
+fi
+
 
 #检查php log文件位置
 if [  ! -e "/config/php/log/error.log" ] ;  then 
