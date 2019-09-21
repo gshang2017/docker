@@ -32,7 +32,7 @@ Postgres数据库导入导出：db.sql为导出导入的数据库文件
 
 例如： psql -d ttrss -f /var/lib/postgresql/data/db.sql ttrss
 
-注意：导入数据库后全新安装,tt-rss配置界面需选择 Skip initialization。
+注意：Postgres数据库不同版本不兼容。导入数据库后全新安装,tt-rss配置界面需选择 Skip initialization。
 
 1.无插件版设置：
 
