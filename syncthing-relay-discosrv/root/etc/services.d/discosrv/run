@@ -1,0 +1,9 @@
+#! /usr/bin/with-contenv bash
+
+#启动 discosrv
+while [ ! -f "/certs/cert.pem" ] || [ ! -f "/certs/key.pem" ]
+do
+   sleep 5
+done
+
+exec  /usr/local/bin/discosrv  -db-dir="/discosrvdb" -cert="/certs/cert.pem" -key="/certs/key.pem"  ${DISCO_OTHER_OPTION} 
