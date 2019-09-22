@@ -43,9 +43,9 @@ PROVIDED_BY="strelaysrv" （中继提供者）
 
 POOLS="" （中继服务器地址列表,如果不填则为私有中继） 
 
-DISCO_OTHER_OPTION= （同步中继服务器其它自添加选项，-debug|-http|-listen|-metrics-listen|-replicate|-replication-listen，选项说明详见：https://docs.syncthing.net/users/stdiscosrv.html）
+DISCO_OTHER_OPTION= （同步发现服务器其它自添加选项，-debug|-http|-listen|-metrics-listen|-replicate|-replication-listen，选项说明详见：https://docs.syncthing.net/users/stdiscosrv.html）
 
-RELAY_OTHER_OPTION= （同步发现服务器其它自添加选项，-debug|-ext-address|-listen=|-nat|-nat-lease|-nat-renewal|-nat-timeout|-protocol|-status-srv，选项说明详见：https://docs.syncthing.net/users/strelaysrv.html）
+RELAY_OTHER_OPTION= （同步中继服务器其它自添加选项，-debug|-ext-address|-listen|-nat|-nat-lease|-nat-renewal|-nat-timeout|-protocol|-status-srv，选项说明详见：https://docs.syncthing.net/users/strelaysrv.html）
            
 客户端配置：
 
