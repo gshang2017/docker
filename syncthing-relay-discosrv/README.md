@@ -59,6 +59,10 @@ device ID 看docker日志
 
 3.全球发现服务器 （https://[ip或域名:本地端口3]/?id=[device ID]）
 
+远程设备
+
+具体连接设备-选项-高级-地址列表 （relay://[ip或域名:本地端口1]/?id=[device ID]）
+
 其它：
 
 详见：https://docs.syncthing.net/users/
