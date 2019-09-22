@@ -1,0 +1,5 @@
+#! /usr/bin/with-contenv bash
+
+#启动 relaysrv
+
+exec /usr/local/bin/relaysrv  -global-rate="${GLOBAL_RATE}"  -keys="/certs" -message-timeout="${MESSAGE_TIMEOUT}" -network-timeout="${NET_TIMEOUT}"  -per-session-rate="${PER_SESSION_RATE}" -ping-interval="${PING_INTERVAL}"  -pools="${POOLS}" -provided-by="${PROVIDED_BY}"  ${RELAY_OTHER_OPTION} 
