@@ -20,15 +20,15 @@ qiandao程序web访问: IP:本地端口1
 
 TZ=Asia/Shanghai （系统时区设置,默认为Asia/Shanghai ）
 
-DOMAIN=（站点域名，可不设置，设置后可发送验证mail，需同时设置MAIL_值，本地可设置为IP:端口）
+DOMAIN=（站点域名，可不设置，设置后可发送验证mail，需同时设置MAIL_值，本地可设置为IP:端口[192.168.1.xxx:端口]）
 
 MAIL_STMP=（邮件smtp地址-可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值）
 
-MAIL_PORT=（邮件端口值）
+MAIL_PORT=（邮件端口值,ssl:465|starttls:587|非ssl:25）
 
-MAIL_SSL=（邮件ssl开关）
+MAIL_SSL=（邮件ssl开关,空值或者MAIL_SSL=True）
 
-MAIL_STARTTLS=（邮件starttls开关）
+MAIL_STARTTLS=（邮件starttls开关,空值或者MAIL_STARTTLS=True）
 
 MAIL_USER=（邮件账户）
 
@@ -57,5 +57,20 @@ MAIL_STARTTLS=True
 MAIL_USER=**@hotmail.com
 
 MAIL_PASSWORD=**
+
+以qq邮箱配置为例：
+
+MAIL_STMP=smtp.qq.com
+
+MAIL_PORT=465
+
+MAIL_SSL=True
+
+MAIL_STARTTLS=
+
+MAIL_USER=**@qq.com
+
+MAIL_PASSWORD=** （此值需入qq邮箱设置,开启POP3/SMTP服务并生成授权码）
+
 
 其它设置详见：https://github.com/binux/qiandao
