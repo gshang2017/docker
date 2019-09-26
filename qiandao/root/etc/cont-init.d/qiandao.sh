@@ -5,7 +5,6 @@ if [ "$MAIL_STARTTLS" == "True" ];then
 cp /usr/local/qiandao/mailstarttls/config.py  /usr/local/qiandao/
 cp /usr/local/qiandao/mailstarttls/utils.py  /usr/local/qiandao/libs/utils.py
 sed -i 's#./database.db#/dbpath/database.db#'  /usr/local/qiandao/config.py
-sed -i 's/'qiandao.today'/'$DOMAIN'/'  /usr/local/qiandao/config.py
 sed -i 's/mail_smtp = ""/mail_smtp = "'"$MAIL_STMP"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_port = /mail_port = '"$MAIL_PORT"'/'  /usr/local/qiandao/config.py
 sed -i 's/mail_ssl = /mail_ssl = '"$MAIL_SSL"'/'  /usr/local/qiandao/config.py
@@ -14,19 +13,20 @@ sed -i 's/mail_user = ""/mail_user = "'"$MAIL_USER"'"/'  /usr/local/qiandao/conf
 sed -i 's/mail_password = ""/mail_password = "'"$MAIL_PASSWORD"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_domain = ""/mail_domain = "'"$MAIL_DOMAIN"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mailgun_key = ""/mailgun_key = "'"$MAILGUN_KEY"'"/'  /usr/local/qiandao/config.py
+sed -i 's/'qiandao.today'/'$DOMAIN'/'  /usr/local/qiandao/config.py
 
 else
 cp /usr/local/qiandao/defaults/config.py  /usr/local/qiandao/
 cp /usr/local/qiandao/defaults/utils.py  /usr/local/qiandao/libs/utils.py
 sed -i 's#./database.db#/dbpath/database.db#'  /usr/local/qiandao/config.py
-sed -i 's/'qiandao.today'/'$DOMAIN'/'  /usr/local/qiandao/config.py
 sed -i 's/mail_smtp = ""/mail_smtp = "'"$MAIL_STMP"'"/'  /usr/local/qiandao/config.py
-sed -i 's/mail_ssl = True/mail_ssl = '"$MAIL_SSL"'/'  /usr/local/qiandao/config.py
-sed -i 's/mail_port = 465/mail_port = '"$MAIL_PORT"'/'  /usr/local/qiandao/config.py
+sed -i 's/mail_ssl = True/mail_ssl = "'"$MAIL_SSL"'"/'  /usr/local/qiandao/config.py
+sed -i 's/mail_port = 465/mail_port = "'"$MAIL_PORT"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_user = ""/mail_user = "'"$MAIL_USER"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_password = ""/mail_password = "'"$MAIL_PASSWORD"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mail_domain = "mail.qiandao.today"/mail_domain = "'"$MAIL_DOMAIN"'"/'  /usr/local/qiandao/config.py
 sed -i 's/mailgun_key = ""/mailgun_key = "'"$MAILGUN_KEY"'"/'  /usr/local/qiandao/config.py
+sed -i 's/'qiandao.today'/'$DOMAIN'/'  /usr/local/qiandao/config.py
 
 fi
 
