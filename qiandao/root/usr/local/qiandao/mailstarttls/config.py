@@ -53,9 +53,9 @@ domain = 'qiandao.today'
 #以下有修改
 
 mail_smtp = ""
-mail_port = 
-mail_ssl = 
-mail_starttls = 
+mail_port = "" 
+mail_ssl = "" 
+mail_starttls = "" 
 mail_user = ""
 mail_password = ""
 mail_domain = ""
