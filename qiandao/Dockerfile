@@ -1,4 +1,6 @@
-FROM alpine:3.8
+FROM alpine:3.10
+
+ARG  S6_VER=1.22.1.0
 
 ENV  TZ=Asia/Shanghai
 ENV  DOMAIN=
@@ -14,25 +16,35 @@ ENV  ADMINEMAIL=
 
 COPY root /
 
-RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-&&  apk update \
-&&  apk add --no-cache bash  ca-certificates  tzdata python2  py2-tornado  py2-u-msgpack   py2-chardet  py2-requests   py2-crypto  py2-jinja2   \    
-&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
-&&  tar xvzf s6-overlay-amd64.tar.gz  \
+#RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+#&&  apk update \
+#&&  apk add --no-cache bash  ca-certificates  tzdata python2  py2-tornado  py2-u-msgpack   py2-chardet  py2-requests   py2-crypto  py2-jinja2   \    
+#&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz  \
+#&&  tar xvzf s6-overlay-amd64.tar.gz  \
+#&&  rm s6-overlay-amd64.tar.gz  \
+#&&  rm -rf /var/cache/apk/*  \
+#&&  wget  http://ftp5.gwdg.de/pub/linux/archlinux/community/os/x86_64/python2-pbkdf2-1.3-4-any.pkg.tar.xz  \ 
+#&&  tar xvJf  python2-pbkdf2-1.3-4-any.pkg.tar.xz  -C  /  \
+#&&  rm  python2-pbkdf2-1.3-4-any.pkg.tar.xz \
+RUN  apk add --no-cache bash  ca-certificates  tzdata python  py-pip git  gcc  libc-dev python-dev    \
+#&&  wget  https://github.com/binux/qiandao/archive/master.zip \
+#&&  unzip   master.zip -d  /usr/local/  \
+#&&  cp  -rf /usr/local/qiandao-master/*  /usr/local/qiandao/  \
+#&&  rm  -rf  /usr/local/qiandao-master   \
+#&&  rm  master.zip \
+# install s6-overlay
+&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
+&&  tar -xvzf s6-overlay-amd64.tar.gz  \
 &&  rm s6-overlay-amd64.tar.gz  \
-&&  rm -rf /var/cache/apk/*  \
-&&  wget  http://ftp5.gwdg.de/pub/linux/archlinux/community/os/x86_64/python2-pbkdf2-1.3-4-any.pkg.tar.xz  \ 
-&&  tar xvJf  python2-pbkdf2-1.3-4-any.pkg.tar.xz  -C  /  \
-&&  rm  python2-pbkdf2-1.3-4-any.pkg.tar.xz \
-&&  wget  https://github.com/binux/qiandao/archive/master.zip \
-&&  unzip   master.zip -d  /usr/local/  \
-&&  cp  -rf /usr/local/qiandao-master/*  /usr/local/qiandao/  \
-&&  rm  -rf  /usr/local/qiandao-master   \
-&&  rm  master.zip \
+# install  qiandao
+&&  git clone https://github.com/binux/qiandao.git /usr/local/qiandao  \
+&&  pip install --no-cache-dir  -r /usr/local/qiandao/requirements.txt  \ 
 &&  mkdir -p /usr/local/qiandao/defaults/  \
 &&  mv /usr/local/qiandao/config.py  /usr/local/qiandao/defaults/   \
 &&  mv /usr/local/qiandao/libs/utils.py  /usr/local/qiandao/defaults/   \
-&&  chmod a+x /usr/local/qiandao/run.py
+&&  chmod a+x /usr/local/qiandao/run.py   \
+&&  apk del py-pip git  gcc  libc-dev python-dev   \
+&&  rm -rf /var/cache/apk/*  
 
 VOLUME  /dbpath
 EXPOSE 8923  
