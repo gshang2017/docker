@@ -6,6 +6,8 @@ https://github.com/binux/qiandao
 
 设置：
 
+公开模板：https://qiandao.today/
+
 卷：
 
 本地文件夹1 映射 /dbpath (qiandao程序数据库database.db存储位置，设置后重装只要备份database.db即可，数据不会丢失)
@@ -38,7 +40,7 @@ MAIL_DOMAIN=（邮件域名）
 
 MAILGUN_KEY=（mailgun key）
 
-ADMINEMAIL=（设置管理员账户，第一次不会生效，只有注册用户才生效）
+ADMINEMAIL=（设置管理员账户，第一次不会生效，只有注册用户才生效,用管理员账户邮箱注册后重启容器后生效）
 
 MAIL配置说明：
 
