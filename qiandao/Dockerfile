@@ -13,9 +13,6 @@ ENV  MAIL_PASSWORD=
 ENV  MAIL_DOMAIN=
 ENV  MAILGUN_KEY=
 ENV  ADMINEMAIL=
-
-COPY root /
-
 #RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
 #&&  apk update \
 #&&  apk add --no-cache bash  ca-certificates  tzdata python2  py2-tornado  py2-u-msgpack   py2-chardet  py2-requests   py2-crypto  py2-jinja2   \    
@@ -45,6 +42,9 @@ RUN  apk add --no-cache bash  ca-certificates  tzdata python  py-pip git  gcc  l
 &&  chmod a+x /usr/local/qiandao/run.py   \
 &&  apk del py-pip git  gcc  libc-dev python-dev   \
 &&  rm -rf /var/cache/apk/*  
+
+COPY root /
+
 
 VOLUME  /dbpath
 EXPOSE 8923  
