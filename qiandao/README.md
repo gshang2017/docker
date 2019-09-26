@@ -38,11 +38,11 @@ MAIL_DOMAIN=（邮件域名）
 
 MAILGUN_KEY=（mailgun key）
 
-ENV ADMINEMAIL=（设置管理员账户，第一次不会生效，只有注册用户才生效）
+ADMINEMAIL=（设置管理员账户，第一次不会生效，只有注册用户才生效）
 
 MAIL配置说明：
 
-原程序并没有MAIL_PORT，MAIL_SSL，MAIL_STARTTLS这三项值，只有MAIL_SSL有值时才会开启此mail功能，否则调用原程序mail功能。
+原程序并没有MAIL_STARTTLS这项值，只有MAIL_STARTTLS有值时才会开启此mail功能，否则调用原程序mail功能。
 
 以hotmail邮箱配置为例：
 
