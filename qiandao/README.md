@@ -15,7 +15,7 @@
 * 不配置MAIL
 
         docker create  \
-           --name=aria2  \
+           --name=qiandao  \
            -p 8293:8293 \
            -v /数据库位置:/dbpath  \
            -e  ADMINEMAIL= **@qq.com  \
@@ -25,7 +25,7 @@
 * 配置MAIL
 
         docker create  \
-           --name=aria2  \
+           --name=qiandao  \
            -p 8293:8293 \
            -v /数据库位置:/dbpath  \
            -e  DOMAIN= 域名或ip:端口 \
@@ -41,25 +41,25 @@
 
 3. 运行
 
-       docker start aria2
+       docker start qiandao
 
 4. 停止
 
-       docker stop aria2
+       docker stop qiandao
 
 5. 删除容器
 
-       docker rm  aria2
+       docker rm  qiandao
 
 6. 删除镜像
 
-       docker image rm  johngong/aria2:latest
+       docker image rm  johngong/qiandao:latest
 
 ### 变量:
 
 |参数|说明|
 |-|:-|
-| `--name=aria2` |容器名|
+| `--name=qiandao` |容器名|
 | ` -p 8293:8293` |qiandao程序web访问端口  [IP:8293](IP:8293)|
 | `-v /数据库位置:/dbpath ` |qiandao程序数据库database.db存储位置，设置后重装只要备份database.db即可，数据不会丢失|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
