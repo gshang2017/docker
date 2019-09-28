@@ -18,7 +18,7 @@
 
 1. 下载镜像
 
-       docker pull   johngong/calibre-web:latest
+       docker pull johngong/calibre-web:latest
 
 2. 创建calibre-web容器
 
@@ -95,5 +95,6 @@
 1. ebook-convert转换配置：管理-配置-基本设置-外部二进制-选择使用calibre的电子书转换器-转换工具路径：/opt/calibre/ebook-convert-提交
 2. calibre-web自带上传功能并不好，可开启calibre-server，并用其上传。
 3. ebook-convert转换其它格式到PDF时需要语言字体，不然转换后只有英文。
+
         PDF字体设置：
         复制字体到 config\calibre-server\calibrefonts （本地文件夹2\calibre-server\calibrefonts），重启docker。 例如：将simsun.ttc 复制字体到 config\calibre-server\calibrefonts ，中文转换正常。
