@@ -1,21 +1,21 @@
-# 群晖nas自用：
+## 群晖nas自用：
 
-## 感谢以下项目:
+### 感谢以下项目:
     
 [https://github.com/qbittorrent/qBittorrent](https://github.com/qbittorrent/qBittorrent)   
 [https://github.com/c0re100/qBittorrent-Enhanced-Edition](https://github.com/c0re100/qBittorrent-Enhanced-Edition)    
 [https://github.com/ngosang/trackerslist]( https://github.com/ngosang/trackerslist)
 
-## 版本：
+### 版本：
 
     qBittorrent：4.1.8 (X86_64) 集成Trackers自动更新。
     qBittorrent：qee_4.1.8.1 增强版 (X86_64) 集成Trackers自动更新。
 
-## 注意：
+### 注意：
 
 1. qBittorrent-Enhanced-Edition 增强版 需下载对应版本ipfilter.dat放入qBittorrent配置文件夹才能屏蔽离线下载 [https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases](https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases)
 
-## docker命令行设置：
+### docker命令行设置：
 
 1. 下载镜像
 
@@ -54,7 +54,7 @@
 
        docker image rm  johngong/qbittorrent:latest
 
-## 变量:
+### 变量:
 
 |参数|说明|
 |-|:-|
@@ -68,7 +68,7 @@
 | `-e TRACKERSAUTO=YES` |自动更新qBittorrent的trackers,默认开启此功能|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 
-## 群晖docker设置：
+### 群晖docker设置：
 
 1. 卷
 
@@ -93,16 +93,16 @@
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `WEBUIPORT=8989` |web访问端口环境变量|
 
-## 搜索：
+### 搜索：
 
-### 开启：视图-搜索引擎:
-#### 说明：
+#### 开启：视图-搜索引擎:
+##### 说明：
 
 1. 自带 [http://plugins.qbittorrent.org/](http://plugins.qbittorrent.org/) 部分搜索插件
 2. 全新安装默认只开启官方自带部分和一个中文搜索插件。其它可到 视图-搜索引擎-界面右侧搜索-搜索插件-启动栏(双击)开启
 3. 一些搜索插件网站需过墙才能用
 4. jackett搜索插件需配置jackett.json(位置config/qBittorrent/data/nova3/engines)，插件需配合jackett服务的api_key。可自行搭建docker版jackett(例如linuxserver/jackett)。
 
-## 其它:
+### 其它:
 
 1. Trackers只有一个工作,新增的Trackers显示还未联系，需在qBittorrent.conf里[Preferences]下增加Advanced\AnnounceToAllTrackers=true。
