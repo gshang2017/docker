@@ -112,23 +112,21 @@
 
 1. 以hotmail邮箱配置为例：
 
-
-    MAIL_STMP=smtp-mail.outlook.com
-    MAIL_PORT=587
-    MAIL_SSL=True
-    MAIL_STARTTLS=True
-    MAIL_USER=**@hotmail.com
-    MAIL_PASSWORD=**
+       MAIL_STMP=smtp-mail.outlook.com
+       MAIL_PORT=587
+       MAIL_SSL=True
+       MAIL_STARTTLS=True
+       MAIL_USER=**@hotmail.com
+       MAIL_PASSWORD=**
 
 2. 以qq邮箱配置为例：
 
-
-    MAIL_STMP=smtp.qq.com
-    MAIL_PORT=465
-    MAIL_SSL=True
-    MAIL_STARTTLS=
-    MAIL_USER=**@qq.com
-    MAIL_PASSWORD=** （此值需入qq邮箱设置,开启POP3/SMTP服务并生成授权码）
+       MAIL_STMP=smtp.qq.com
+       MAIL_PORT=465
+       MAIL_SSL=True
+       MAIL_STARTTLS=
+       MAIL_USER=**@qq.com
+       MAIL_PASSWORD=** （此值需入qq邮箱设置,开启POP3/SMTP服务并生成授权码）
 
 ### 其它设置
 
