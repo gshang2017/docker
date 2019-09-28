@@ -1,65 +1,108 @@
-群晖nas自用：
+# 群晖nas自用：
 
-感谢以下项目:
+## 感谢以下项目:
+    
+[https://github.com/qbittorrent/qBittorrent](https://github.com/qbittorrent/qBittorrent)   
+[https://github.com/c0re100/qBittorrent-Enhanced-Edition](https://github.com/c0re100/qBittorrent-Enhanced-Edition)    
+[https://github.com/ngosang/trackerslist]( https://github.com/ngosang/trackerslist)
 
-https://github.com/qbittorrent/qBittorrent
+## 版本：
 
-https://github.com/c0re100/qBittorrent-Enhanced-Edition
+    qBittorrent：4.1.8 (X86_64) 集成Trackers自动更新。
+    qBittorrent：qee_4.1.8.1 增强版 (X86_64) 集成Trackers自动更新。
 
-https://github.com/ngosang/trackerslist
+## 注意：
 
-版本：
+1. qBittorrent-Enhanced-Edition 增强版 需下载对应版本ipfilter.dat放入qBittorrent配置文件夹才能屏蔽离线下载 [https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases](https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases)
 
-qBittorrent：4.1.8 (X86_64) 集成Trackers自动更新。
+## docker命令行设置：
 
-qBittorrent：qee_4.1.7.1 增强版 (X86_64) 集成Trackers自动更新。 
+1. 下载镜像
+
+|版本|命令|
+|-|:-|
+|普通版|docker pull johngong/qbittorrent:latest|
+|qee版|docker pull johngong/qbittorrent:qee_4.1.8.1|
+
+2. 创建qbittorrent容器
+
+        docker create  \
+           --name=qbittorrent  \
+           -e WEBUIPORT=8989  \
+           -p 6881:6881  \
+           -p 6881:6881/udp  \
+           -p 8989:8989  \
+           -v /配置文件位置:/config  \
+           -v /下载位置:/Downloads  \
+           --restart unless-stopped  \
+           johngong/qbittorrent:latest
 
 
+3. 运行
 
+       docker start qbittorrent
 
-设置：
+4. 停止
 
+       docker stop qbittorrent
 
-卷：
+5. 删除容器
 
-本地文件夹1 映射 /Downloads (qBittorrent下载位置)
+       docker rm  qbittorrent
 
-本地文件夹2 映射 /config (qBittorrent配置文件位置)
+6. 删除镜像
 
-qBittorrent-Enhanced-Edition 增强版 需下载对应版本ipfilter.dat放入qBittorrent配置文件夹才能屏蔽离线下载 https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases
+       docker image rm  johngong/qbittorrent:latest
 
-端口：
+## 变量:
 
-本地端口1 映射 6881 （ BT下载监听端口 ）
+|参数|说明|
+|-|:-|
+| `--name=qbittorrent` |容器名|
+| `-p 8989:8989` |web访问端口 [IP:8989](IP:8989);(默认用户名:admin;默认密码:adminadmin);此端口需与容器端口和环境变量保持一致，否则无法访问|
+| `-p 6881:6881` |BT下载监听端口|
+| `-p 6881:6881/udp` |BT下载DTH监听端口
+| `-v /配置文件位置:/config` |qBittorrent配置文件位置|
+| `-v /下载位置:/Downloads` |qBittorrent下载位置|
+| `-e WEBUIPORT=8989` |web访问端口环境变量|
+| `-e TRACKERSAUTO=YES` |自动更新qBittorrent的trackers,默认开启此功能|
+| `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 
-本地端口2 映射 6881/udp （ BT下载DTH监听端口 ）
+## 群晖docker设置：
 
-本地端口3 映射 8989 （ qBittorrent web访问端口 ）-此端口需与容器端口保持一致，否则无法访问。如更改需同时要改掉环境变量中的端口值。
+1. 卷
 
-qBittorrent web访问: IP:8989
+|参数|说明|
+|-|:-|
+| `本地文件夹1:/Downloads` |qBittorrent下载位置|
+| `本地文件夹2:/config` |qBittorrent配置文件位置|
 
-环境变量：
+2. 端口
 
-TRACKERSAUTO=YES （自动更新qBittorrent的trackers,默认开启此功能）
+|参数|说明|
+|-|:-|
+| `本地端口1:6881` |BT下载监听端口|
+| `本地端口2:6881/udp` |BT下载DTH监听端口|
+| `本地端口3:8989` |web访问端口 [IP:8989](IP:8989);(默认用户名:admin;默认密码:adminadmin);此端口需与容器端口和环境变量保持一致，否则无法访问|
 
-TZ=Asia/Shanghai （系统时区设置,默认为Asia/Shanghai ）
+3. 环境变量：
 
-WEBUIPORT=8989 （qBittorrent的web访问端口,默认为8989）
+|参数|说明|
+|-|:-|
+| `TRACKERSAUTO=YES` |自动更新qBittorrent的trackers,默认开启此功能|
+| `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
+| `WEBUIPORT=8989` |web访问端口环境变量|
 
-搜索：
+## 搜索：
 
-开启：视图-搜索引擎
+### 开启：视图-搜索引擎:
+#### 说明：
 
-说明：
+1. 自带 [http://plugins.qbittorrent.org/](http://plugins.qbittorrent.org/) 部分搜索插件
+2. 全新安装默认只开启官方自带部分和一个中文搜索插件。其它可到 视图-搜索引擎-界面右侧搜索-搜索插件-启动栏(双击)开启
+3. 一些搜索插件网站需过墙才能用
+4. jackett搜索插件需配置jackett.json(位置config/qBittorrent/data/nova3/engines)，插件需配合jackett服务的api_key。可自行搭建docker版jackett(例如linuxserver/jackett)。
 
-1.自带 http://plugins.qbittorrent.org/ 部分搜索插件
+## 其它:
 
-2.全新安装默认只开启官方自带部分和一个中文搜索插件。其它可到 视图-搜索引擎-界面右侧搜索-搜索插件-启动栏(双击)开启
-
-3.一些搜索插件网站需过墙才能用
-
-4.jackett搜索插件需配置jackett.json(位置config/qBittorrent/data/nova3/engines)，插件需配合jackett服务的api_key。可自行搭建docker版jackett(例如linuxserver/jackett)。
-
-其它:
-
-Trackers只有一个工作,新增的Trackers显示还未联系，需在qBittorrent.conf里[Preferences]下增加Advanced\AnnounceToAllTrackers=true。
+1. Trackers只有一个工作,新增的Trackers显示还未联系，需在qBittorrent.conf里[Preferences]下增加Advanced\AnnounceToAllTrackers=true。
