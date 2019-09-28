@@ -88,7 +88,7 @@
 | `-p 80:80` |tt-rss服务器web端口 [IP:80](IP:80); 默认用户名:admin,默认密码:password|
 | `-p 5432:5432` |PostgreSQL服务器端口|
 | `-p 3000:3000` |mercury-parser-api 服务端口|
-| ` -v /配置文件位置:/config` |tt-rsst配置文件位置，初次配置时config.php会生成在容器内部，重启一次会自动移到本地映射的文件夹|
+| ` -v /配置文件位置:/config` |tt-rss配置文件位置，初次配置时config.php会生成在容器内部，重启一次会自动移到本地映射的文件夹|
 | `-v /PostgreSQL存储数据的位置:/var/lib/postgresql/data` |PostgreSQL存储数据的位置|
 
 ### 群晖docker设置：
@@ -97,7 +97,7 @@
 
 |参数|说明|
 |:-|:-|
-| `本地文件夹1:/config` |tt-rsst配置文件位置，初次配置时config.php会生成在容器内部，重启一次会自动移到本地映射的文件夹|
+| `本地文件夹1:/config` |tt-rss配置文件位置，初次配置时config.php会生成在容器内部，重启一次会自动移到本地映射的文件夹|
 | `本地文件夹2:/var/lib/postgresql/data` |PostgreSQL存储数据的位置|
 
 2. 端口
