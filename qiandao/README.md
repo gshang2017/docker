@@ -10,7 +10,7 @@
 
        docker pull johngong/qiandao:latest
 
-2. 创建aria2容器
+2. 创建qiandao容器
 
 * 不配置MAIL
 
