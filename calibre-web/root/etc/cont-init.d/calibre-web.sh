@@ -91,7 +91,12 @@ rm /root/.config/calibre/global.pyc
 fi
 
 
-#calibre语言.
+#calibre-server语言.
 if [  -n "$WEBLANGUAGE" ] ;  then
 /usr/local/calibre-server/languagechange.sh 
+fi
+
+#修复calibre-server web语言设置.
+if [  -f  /root/.config/calibre/global.py.json  ] ;  then                   
+rm -f  /root/.config/calibre/global.py.json
 fi
