@@ -10,7 +10,7 @@
 ### 版本：
 
 |名称|版本|说明|
-|-|-|:-|
+|:-|:-|:-|
 |calibre-web|0.6.4|X86_64|
 |calibre-server|3.48.0|X86_64|
 
@@ -52,7 +52,7 @@
 ### 变量:
 
 |参数|说明|
-|-|:-|
+|:-|:-|
 | `--name=calibre-web` |容器名|
 | ` -p 8083:8083` |calibre-web web访问端口 [ip:8083](ip:8083),默认用户名: admin 默认密码: admin123|
 | `-p 8080:8080` |calibre-server web访问端口 [ip:8080](ip:8080)|
@@ -76,21 +76,21 @@
 1. 卷
 
 |参数|说明|
-|-|:-|
+|:-|:-|
 | `本地文件夹1:/library` |calibre-web与calibre-server书库默认位置|
 | `本地文件夹2:/config` |calibre-web与calibre-server配置位置文件|
 
 2. 端口
 
 |参数|说明|
-|-|:-|
+|:-|:-|
 | `本地端口1:8083` |calibre-web web访问端口 [ip:8083](ip:8083),默认用户名: admin 默认密码: admin123|
 | `本地端口2:8080` |calibre-server web访问端口 [ip:8080](ip:8080)|
 
 3. 环境变量：
 
 |参数|说明|
-|-|:-|
+|:-|:-|
 | `USER=` |calibre-server 用户名|
 | `PASSWORD=` |calibre-server 用户密码|
 | `WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
