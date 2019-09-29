@@ -47,7 +47,7 @@
            -p 80:80 \
            -v /配置文件位置:/config  \
            --restart unless-stopped  \
-           johngong/ttrss:19.8
+           johngong/tt-rss:19.8
 
 * 插件版
 
@@ -60,9 +60,9 @@
            -v /PostgreSQL存储数据的位置:/var/lib/postgresql/data  \
            -e POSTGRES_DB=ttrss   \
            -e POSTGRES_USER=ttrss   \
-           -e POSTGRES_PASSWORD =ttrss   \
+           -e POSTGRES_PASSWORD=ttrss   \
            --restart unless-stopped  \
-           johngong/ttrss:latest
+           johngong/tt-rss:latest
 
 3. 运行
 
@@ -78,7 +78,7 @@
 
 6. 删除镜像
 
-       docker image rm  johngong/ttrss:latest
+       docker image rm  johngong/tt-rss:latest
 
 ### 变量:
 
