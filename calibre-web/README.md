@@ -60,7 +60,7 @@
 | `-v /书库:/library` |calibre-web与calibre-server书库默认位置|
 | `-e USER=用户名` |calibre-server 用户名|
 | ` -e PASSWORD=用户密码` |calibre-server 用户密码|
-| `-e TWEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
+| `-e WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
 
 * 其它语言:
 
