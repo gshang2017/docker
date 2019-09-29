@@ -90,6 +90,9 @@
 | `-p 3000:3000` |mercury-parser-api 服务端口|
 | ` -v /配置文件位置:/config` |tt-rss配置文件位置，初次配置时config.php会生成在容器内部，重启一次会自动移到本地映射的文件夹|
 | `-v /PostgreSQL存储数据的位置:/var/lib/postgresql/data` |PostgreSQL存储数据的位置|
+| `-e POSTGRES_DB=ttrss` |PostgreSQL数据库名称 例如:ttrss|
+| `-e POSTGRES_USER=ttrss` |PostgreSQL用户名 例如:ttrss|
+| `-e POSTGRES_PASSWORD=ttrss` |PostgreSQL密码 例如:ttrss|
 
 ### 群晖docker设置：
 
