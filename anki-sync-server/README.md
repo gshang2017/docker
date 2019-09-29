@@ -74,13 +74,13 @@
 | `USER=` |anki-sync-server同步服务器用户名，建议用邮箱格式，例如：XXXXXXX@XX.com，不然android无法使用|
 | `PASSWORD=` |anki-sync-server同步服务器密码|
 
-### 客户端设置
+### 客户端设置:
 
 * Android
 
 1. 设置-偏好设置-高级设置-自定义同步服务器-启用 使用自定义同步服务器选项
-2. 同步地址:[ip:本地端口1](ip:本地端口1 "ip:本地端口1");例:[http:/192.168.1.xxx:27701/](http:/192.168.1.xxx:27701/ "http:/192.168.1.xxx:27701/"))
-3. 媒体文件同步地址:[ip:本地端口1/msync](ip:本地端口1/msync "ip:本地端口1/msync");例[http:/192.168.1.xxx:27701/msync](http:/192.168.1.xxx:27701/msync "http:/192.168.1.xxx:27701/msync")
+2. 同步地址:[ip:本地端口1](ip:本地端口1 "ip:本地端口1");例:[http:/192.168.1.xxx:27701/](http:/192.168.1.xxx:27701/ "http:/192.168.1.xxx:27701/")
+3. 媒体文件同步地址:[ip:本地端口1/msync](ip:本地端口1/msync "ip:本地端口1/msync");例:[http:/192.168.1.xxx:27701/msync](http:/192.168.1.xxx:27701/msync "http:/192.168.1.xxx:27701/msync")
 4. 点击同步按钮,输入邮箱格式用户名以及密码,请忽略AnkiWeb这几个字。
 
 * windows
@@ -93,6 +93,6 @@
 2. 重启Anki
 3. 点击同步按钮,输入邮箱格式用户名以及密码,请忽略AnkiWeb这几个字。
 
-### 设置详见
+### 设置详见:
 
 [https://github.com/tsudoko/anki-sync-server/blob/master/README.md](https://github.com/tsudoko/anki-sync-server/blob/master/README.md "https://github.com/tsudoko/anki-sync-server/blob/master/README.md")
