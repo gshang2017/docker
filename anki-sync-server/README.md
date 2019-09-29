@@ -2,7 +2,7 @@
 
 ### 感谢以下项目:
 
-[https://github.com/dae/anki](https://github.com/dae/anki "https://github.com/dae/anki")
+[https://github.com/dae/anki](https://github.com/dae/anki "https://github.com/dae/anki")                                  
 [https://github.com/tsudoko/anki-sync-server](https://github.com/tsudoko/anki-sync-server "https://github.com/tsudoko/anki-sync-server")
 
 ### 注意:
