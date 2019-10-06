@@ -2,7 +2,7 @@ FROM alpine:3.10 as compilingaria2c
 
 #compiling aria2c
 
-ARG  ARIA2_VER=1.34.0
+ARG  ARIA2_VER=1.35.0
 
 
 RUN  apk add --no-cache ca-certificates make g++ gcc zlib-dev openssl-dev expat-dev sqlite-dev c-ares-dev libssh2-dev  \
