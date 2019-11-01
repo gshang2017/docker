@@ -15,13 +15,13 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
 &&   ./configure  --host=x86_64-alpine-linux-musl \
 &&   make install-strip \
 #qBittorrent
-&&   wget  -P /qbtorrent  https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip  \
-&&   unzip   /qbtorrent/release-${QBITTORRENT_VER}.zip  -d    /qbtorrent \
-&&   cd  /qbtorrent/qBittorrent-release-${QBITTORRENT_VER} \
-#qBittorrent-Enhanced-Edition
-#&&   wget  -P /qbtorrent https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_VER}.zip   \
+#&&   wget  -P /qbtorrent  https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip  \
 #&&   unzip   /qbtorrent/release-${QBITTORRENT_VER}.zip  -d    /qbtorrent \
-#&&   cd  /qbtorrent/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_VER} \
+#&&   cd  /qbtorrent/qBittorrent-release-${QBITTORRENT_VER} \
+#qBittorrent-Enhanced-Edition
+&&   wget  -P /qbtorrent https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_VER}.zip   \
+&&   unzip   /qbtorrent/release-${QBITTORRENT_VER}.zip  -d    /qbtorrent \
+&&   cd  /qbtorrent/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_VER} \
 #
 &&   ./configure   --disable-gui --host=x86_64-alpine-linux-musl \
 &&   make install \
