@@ -39,7 +39,7 @@ COPY  root /
 COPY --from=compilingaria2c  /aria2  /
 
 # install bash  darkhttpd tzdata s6 overlay AriaNg aria2
-RUN apk add --no-cache bash   ca-certificates  darkhttpd  tzdata \
+RUN apk add --no-cache bash  curl ca-certificates  darkhttpd  tzdata \
 && wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 && tar xvzf s6-overlay-amd64.tar.gz  \
 && rm s6-overlay-amd64.tar.gz  \
