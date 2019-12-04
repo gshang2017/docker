@@ -25,8 +25,8 @@
 |版本|命令|
 |-|:-|
 |普通版|docker pull johngong/qbittorrent:latest|
-|qee版|docker pull johngong/qbittorrent:qee_4.1.9.3|
-|qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.1.9.3_arm64v8|
+|qee版|docker pull johngong/qbittorrent:qee_4.1.9.4|
+|qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.1.9.4_arm64v8|
 
 2. 创建qbittorrent容器
 
