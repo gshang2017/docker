@@ -2,7 +2,8 @@
 
 if [ "$TRACKERSAUTO" == "YES" ];then
 
-wget -qP  /tmp  https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt --no-check-certificate 
+curl -so  /tmp/trackers_all.txt https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
+#wget -qP  /tmp  https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt --no-check-certificate 
 Newtrackers="bt-tracker=`awk NF /tmp/trackers_all.txt|sed ":a;N;s/\n/,/g;ta"`"
 Oldtrackers="`grep bt-tracker=  /config/aria2.conf`" 
 
