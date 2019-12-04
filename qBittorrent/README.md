@@ -11,8 +11,8 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |qBittorrent|4.1.9.1|原版 (amd64) 集成Trackers自动更新|
-|qBittorrent|qee_4.1.9.3|增强版 (amd64) 集成Trackers自动更新|
-|qBittorrent|qee_4.1.9.3_arm64v8|增强版 (arm64v8) 集成Trackers自动更新|
+|qBittorrent|qee_4.1.9.4|增强版 (amd64) 集成Trackers自动更新|
+|qBittorrent|qee_4.1.9.4_arm64v8|增强版 (arm64v8) 集成Trackers自动更新|
 
 ### 注意：
 
