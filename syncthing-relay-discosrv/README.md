@@ -8,8 +8,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|relaysrv|1.2.2|amd64|
-|discosrv|1.2.2|amd64|
+|relaysrv|1.3.1|amd64|
+|discosrv|1.3.1|amd64|
 
 ### docker命令行设置：
 
