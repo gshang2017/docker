@@ -8,7 +8,7 @@
 
 ### 版本：
 
-    baidupcs-web：3.6.8 (amd64)
+    baidupcs-web：3.7.0 (amd64)
 
 ### docker命令行设置：
 
