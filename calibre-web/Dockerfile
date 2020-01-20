@@ -11,7 +11,8 @@ ENV WEBLANGUAGE=zh_CN
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates  python2  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender py2-pip py2-lxml  imagemagick6  \
+RUN apk add --no-cache bash ca-certificates  python2  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender py2-pip   imagemagick6  \
+&&  apk add --no-cache py2-lxml --repository http://dl-4.alpinelinux.org/alpine/v3.10/main     \
 &&  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub    \
 &&  wget -P /tmp  https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}-r0/glibc-${GLIBC_VER}-r0.apk    \
 &&  wget -P /tmp  https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}-r0/glibc-bin-${GLIBC_VER}-r0.apk    \
