@@ -1,8 +1,9 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
-ARG  GLIBC_VER=2.29
+ARG  GLIBC_VER=2.30
 ARG  S6_VER=1.22.1.0
-ARG  CALIBRE_WEB_VER=0.6.4
+ARG  CALIBRE_WEB_VER=0.6.5
+ARG  CALIBRE_VER=3.48.0
 
 ENV USER=
 ENV PASSWORD=
@@ -21,7 +22,7 @@ RUN apk add --no-cache bash ca-certificates  python2  expect libstdc++ mesa-gl l
 &&  wget   https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
 &&  tar xvzf s6-overlay-amd64.tar.gz  \
 #install  calibre-ebook 
-&&  wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | bash /dev/stdin   \
+&&  wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | bash /dev/stdin version=${CALIBRE_VER} \
 #install  calibre-web
 #&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/master.zip  \
 #&&  unzip -d /tmp      /tmp/master.zip   \
