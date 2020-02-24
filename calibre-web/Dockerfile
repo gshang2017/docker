@@ -2,7 +2,7 @@ FROM alpine:3.11
 
 ARG  GLIBC_VER=2.30
 ARG  S6_VER=1.22.1.0
-ARG  CALIBRE_WEB_VER=0.6.5
+ARG  CALIBRE_WEB_VER=0.6.6
 ARG  CALIBRE_VER=3.48.0
 
 ENV USER=
@@ -25,13 +25,8 @@ RUN apk add --no-cache bash ca-certificates  python2  expect libstdc++ mesa-gl l
 #install  calibre-ebook 
 &&  wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | bash /dev/stdin version=${CALIBRE_VER} \
 #install  calibre-web
-#&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/master.zip  \
-#&&  unzip -d /tmp      /tmp/master.zip   \
-#&&  cp -rf  /tmp/calibre-web-master/*  /usr/local/calibre-web/  \ 
 &&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
-#&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/V${CALIBRE_WEB_VER}.zip  \
-#&&  unzip -d /tmp      /tmp/V${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
 #install py2-pillow
 &&  apk add --no-cache py2-pillow=5.4.1-r0 --repository http://dl-4.alpinelinux.org/alpine/v3.9/main  \ 
