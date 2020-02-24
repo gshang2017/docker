@@ -18,8 +18,8 @@
 
 1. 下载镜像
 
-       docker pull johngong/calibre-web:latest
-
+       docker pull johngong/calibre-web:latest  [带Limit标签为最少依赖版本]
+ 
 2. 创建calibre-web容器
 
         docker create  \
