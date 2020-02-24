@@ -11,8 +11,11 @@ ENV WEBLANGUAGE=zh_CN
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates  python2  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender py2-pip   imagemagick6  \
-&&  apk add --no-cache py2-lxml --repository http://dl-4.alpinelinux.org/alpine/v3.10/main     \
+RUN apk add --no-cache bash ca-certificates  python3 py3-pip  py3-lxml py3-pillow  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
+&&  apk add --no-cache py3-rarfile --repository http://dl-4.alpinelinux.org/alpine/edge/testing  \ 
+#&&  apk add --no-cache py2-lxml --repository http://dl-4.alpinelinux.org/alpine/v3.10/main     \
+#&&  apk add --no-cache py2-pillow=5.4.1-r0 --repository http://dl-4.alpinelinux.org/alpine/v3.9/main  \ 
+#install glibc
 &&  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub    \
 &&  wget -P /tmp  https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}-r0/glibc-${GLIBC_VER}-r0.apk    \
 &&  wget -P /tmp  https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}-r0/glibc-bin-${GLIBC_VER}-r0.apk    \
@@ -28,10 +31,8 @@ RUN apk add --no-cache bash ca-certificates  python2  expect libstdc++ mesa-gl l
 &&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
-#install py2-pillow
-&&  apk add --no-cache py2-pillow=5.4.1-r0 --repository http://dl-4.alpinelinux.org/alpine/v3.9/main  \ 
-&&  pip  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
-#&&  pip  install --no-cache-dir sqlalchemy==1.1.0   \ 
+#install calibre-web dep
+&&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
 &&  apk del glibc-i18n    \ 
