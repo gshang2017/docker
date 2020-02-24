@@ -11,8 +11,8 @@ ENV WEBLANGUAGE=zh_CN
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates  python3  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
-&&  apk add --no-cache --virtual  dep  py3-pip py3-setuptools  git gcc g++ python3-dev openldap-dev  libxml2-dev libxslt-dev  libjpeg-turbo-dev  \
+RUN apk add --no-cache bash ca-certificates  python3 py3-pip  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
+&&  apk add --no-cache --virtual  calibrewebdep   py3-setuptools  git gcc g++ python3-dev openldap-dev  libxml2-dev libxslt-dev  libjpeg-turbo-dev  \
 #install glibc
 &&  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub    \
 &&  wget -P /tmp  https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}-r0/glibc-${GLIBC_VER}-r0.apk    \
@@ -33,9 +33,10 @@ RUN apk add --no-cache bash ca-certificates  python3  expect libstdc++ mesa-gl l
 &&  export C_INCLUDE_PATH=/usr/include/libxml2/   \ 
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \ 
+&&  apk add --no-cache py3-pyldap py3-lxml  \ 
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
-&&  apk del glibc-i18n dep   \ 
+&&  apk del glibc-i18n calibrewebdep  \ 
 &&  rm s6-overlay-amd64.tar.gz  \
 &&  rm -rf /var/cache/apk/*  \ 
 &&  rm -rf /tmp/*  \   
