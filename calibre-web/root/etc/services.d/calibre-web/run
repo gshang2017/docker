@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 # 启动calibre-web
-exec  /usr/local/calibre-web/cps.py
+exec python3 /usr/local/calibre-web/cps.py
