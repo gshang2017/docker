@@ -11,7 +11,7 @@ ENV WEBLANGUAGE=zh_CN
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates  python3 py3-pip  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
+RUN apk add --no-cache bash ca-certificates zstd  python3 py3-pip  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
 &&  apk add --no-cache --virtual  calibrewebdep   py3-setuptools  git gcc g++ python3-dev openldap-dev  libxml2-dev libxslt-dev  libjpeg-turbo-dev  \
 #install glibc
 &&  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub    \
