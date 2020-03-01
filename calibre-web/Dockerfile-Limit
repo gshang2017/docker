@@ -11,7 +11,7 @@ ENV WEBLANGUAGE=zh_CN
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates  python3 py3-pip  py3-lxml py3-pillow  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
+RUN apk add --no-cache bash ca-certificates zstd  python3 py3-pip  py3-lxml py3-pillow  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
 &&  apk add --no-cache py3-rarfile --repository http://dl-4.alpinelinux.org/alpine/edge/testing  \ 
 #&&  apk add --no-cache py2-lxml --repository http://dl-4.alpinelinux.org/alpine/v3.10/main     \
 #&&  apk add --no-cache py2-pillow=5.4.1-r0 --repository http://dl-4.alpinelinux.org/alpine/v3.9/main  \ 
@@ -33,6 +33,12 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip  py3-lxml py3-pillo
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
 #install calibre-web dep
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
+#fix PDF
+&&  wget https://www.archlinux.org/packages/core/x86_64/libutil-linux/download/ -O /tmp/libutil-linux.pkg.tar.zst  \ 
+&&  mkdir -p /tmp/libutil-linux  \ 
+&&  zstd -cdf /tmp/libutil-linux.pkg.tar.zst | tar -xf -  -C /tmp/libutil-linux  \ 
+&&  cp /tmp/libutil-linux/usr/lib/* /usr/glibc-compat/lib  \ 
+&&  /usr/glibc-compat/sbin/ldconfig  \  
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
 &&  apk del glibc-i18n    \ 
