@@ -34,6 +34,12 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip  expect libstdc++ m
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \ 
 &&  apk add --no-cache py3-pyldap py3-lxml  \ 
+#fix PDF
+&&  wget https://www.archlinux.org/packages/core/x86_64/libutil-linux/download/ -O /tmp/libutil-linux.pkg.tar.zst  \ 
+&&  mkdir -p /tmp/libutil-linux  \ 
+&&  zstd -cdf /tmp/libutil-linux.pkg.tar.zst | tar -xf -  -C /tmp/libutil-linux  \ 
+&&  cp /tmp/libutil-linux/usr/lib/* /usr/glibc-compat/lib  \ 
+&&  /usr/glibc-compat/sbin/ldconfig  \  
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
 &&  apk del glibc-i18n calibrewebdep  \ 
