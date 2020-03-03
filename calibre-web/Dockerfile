@@ -8,11 +8,12 @@ ARG  CALIBRE_VER=3.48.0
 ENV USER=
 ENV PASSWORD=
 ENV WEBLANGUAGE=zh_CN
+ENV LANG=C.UTF-8
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates zstd  python3 py3-pip  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
-&&  apk add --no-cache --virtual  calibrewebdep   py3-setuptools  git gcc g++ python3-dev openldap-dev  libxml2-dev libxslt-dev  libjpeg-turbo-dev  \
+RUN apk add --no-cache bash ca-certificates   python3 py3-pip  expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  \
+&&  apk add --no-cache --virtual  calibrewebdep zstd   py3-setuptools  git gcc g++ python3-dev openldap-dev  libxml2-dev libxslt-dev  libjpeg-turbo-dev  \
 #install glibc
 &&  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub    \
 &&  wget -P /tmp  https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}-r0/glibc-${GLIBC_VER}-r0.apk    \
@@ -34,11 +35,14 @@ RUN apk add --no-cache bash ca-certificates zstd  python3 py3-pip  expect libstd
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \ 
 &&  apk add --no-cache py3-pyldap py3-lxml  \ 
-#fix PDF
+#fix PDF libuuid.so libstdc++.so.6
 &&  wget https://www.archlinux.org/packages/core/x86_64/libutil-linux/download/ -O /tmp/libutil-linux.pkg.tar.zst  \ 
-&&  mkdir -p /tmp/libutil-linux  \ 
-&&  zstd -cdf /tmp/libutil-linux.pkg.tar.zst | tar -xf -  -C /tmp/libutil-linux  \ 
-&&  cp /tmp/libutil-linux/usr/lib/* /usr/glibc-compat/lib  \ 
+&&  wget https://www.archlinux.org/packages/community/x86_64/gcc8-libs/download/ -O /tmp/gcc8.pkg.tar.xz  \ 
+&&  mkdir -p /tmp/lib-linux  \ 
+&&  zstd -cdf /tmp/libutil-linux.pkg.tar.zst | tar -xf -  -C /tmp/lib-linux  \ 
+&&  cp /tmp/lib-linux/usr/lib/libuuid.so.1.3.0 /usr/glibc-compat/lib  \ 
+&&  tar -xf /tmp/gcc8.pkg.tar.xz  -C /tmp/lib-linux  \ 
+&&  cp  /tmp/lib-linux/usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/libstdc++.so.6.0.25  /usr/glibc-compat/lib  \ 
 &&  /usr/glibc-compat/sbin/ldconfig  \  
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
