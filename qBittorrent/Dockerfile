@@ -1,10 +1,10 @@
 
-FROM alpine:3.10 as compilingqB
+FROM alpine:3.11 as compilingqB
 
 #compiling qB
 
-ARG  LIBTORRENT_VER=1.2.2
-ARG  QBITTORRENT_VER=4.2.1
+ARG  LIBTORRENT_VER=1.2.5
+ARG  QBITTORRENT_VER=4.2.2
 
 
 RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file \
@@ -18,10 +18,6 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
 &&   wget  -P /qbtorrent  https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip  \
 &&   unzip   /qbtorrent/release-${QBITTORRENT_VER}.zip  -d    /qbtorrent \
 &&   cd  /qbtorrent/qBittorrent-release-${QBITTORRENT_VER} \
-#qBittorrent-Enhanced-Edition
-#&&   wget  -P /qbtorrent https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_VER}.zip   \
-#&&   unzip   /qbtorrent/release-${QBITTORRENT_VER}.zip  -d    /qbtorrent \
-#&&   cd  /qbtorrent/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_VER} \
 #
 &&   ./configure   --disable-gui --host=x86_64-alpine-linux-musl \
 &&   make install \
@@ -34,7 +30,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
  # docker qB
 
 
-FROM alpine:3.10
+FROM alpine:3.11
 
 ARG  S6_VER=1.22.1.0
 
