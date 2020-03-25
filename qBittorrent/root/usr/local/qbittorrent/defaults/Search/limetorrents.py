@@ -1,4 +1,4 @@
-#VERSION: 4.01
+#VERSION: 4.04
 # AUTHORS: Lima66
 # CONTRIBUTORS: Diego de las Heras (ngosang@hotmail.es)
 
@@ -6,9 +6,11 @@ import re
 try:
     # python3
     from html.parser import HTMLParser
+    from urllib.parse import quote
 except ImportError:
     # python2
     from HTMLParser import HTMLParser
+    from urllib import quote
 
 # qBt
 from novaprinter import prettyPrinter
@@ -20,7 +22,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 
 class limetorrents(object):
-    url = "https://www.limetorrents.info"
+    url = "https://limetor.com"
     name = "LimeTorrents"
     supported_categories = {'all': 'all',
                             'anime': 'anime',
@@ -74,8 +76,12 @@ class limetorrents(object):
                     self.current_item["engine_url"] = self.url
                     self.item_name = "name"
                 elif link.endswith(".html"):
-                    self.current_item["link"] = self.url + link
-                    self.current_item["desc_link"] = self.url + link
+                    try:
+                        safe_link = quote(self.url + link, safe='/:')
+                    except KeyError:
+                        safe_link = self.url + link
+                    self.current_item["link"] = safe_link
+                    self.current_item["desc_link"] = safe_link
 
         def handle_data(self, data):
             if self.inside_tr and self.item_name:
@@ -117,7 +123,7 @@ class limetorrents(object):
         parser = self.MyHtmlParser(self.url)
         page = 1
         while True:
-            page_url = "{0}/search/{1}/{2}/seeds/{3}".format(self.url, category, query, page)
+            page_url = "{0}/search/{1}/{2}/seeds/{3}/".format(self.url, category, query, page)
             html = retrieve_url(page_url)
             lunghezza_html = len(html)
             if page > 6 or lunghezza_html <= parser.page_empty:

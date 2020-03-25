@@ -1,4 +1,4 @@
-#VERSION: 1.1
+#VERSION: 1.2
 #AUTHORS: mauricci
 
 from helpers import retrieve_url
@@ -23,7 +23,7 @@ class ettv(object):
         def __init__(self):
             HTMLParser.__init__(self)
             self.url = 'https://www.ettv.tv'
-            self.TABLE_INDEX = 1
+            self.TABLE_INDEX = 0
             self.insideDataTd = False
             self.tdCount = -1
             self.tableCount = -1

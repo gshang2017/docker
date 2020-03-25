@@ -1,13 +1,15 @@
-# VERSION: 1.0
-# AUTHORS: mauricci
+#VERSION: 1.1
+#AUTHORS: mauricci
 
 from helpers import retrieve_url
 from helpers import download_file, retrieve_url
 from novaprinter import prettyPrinter
+import re
 
 try:
     # python3
     from html.parser import HTMLParser
+    from urllib.parse import unquote
 except ImportError:
     # python2
     from HTMLParser import HTMLParser
@@ -109,9 +111,14 @@ class torrentproject(object):
 
     def download_torrent(self, info):
         """ Downloader """
-        print(download_file(info))
+        html = retrieve_url(info)
+        m = re.search('href=[\'\"].*?(magnet.+?)[\'\"]', html)
+        if m and len(m.groups()) > 0:
+            magnet = unquote(m.group(1))
+            print(magnet + ' ' + info)
 
 
 if __name__ == "__main__":
     t = torrentproject()
     t.search('tomb%20raider')
+    #t.download_torrent("https://torrentproject2.com/t3-196464/Che-Bella-Giornata-2011-iTALiAN-BDRip-XviD-TRL-gogt-torrent.html")

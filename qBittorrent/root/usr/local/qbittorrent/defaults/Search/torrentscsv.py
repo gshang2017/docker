@@ -1,6 +1,5 @@
-#VERSION: 2.11
-# AUTHORS: b0nk
-# CONTRIBUTORS: Diego de las Heras (ngosang@hotmail.es)
+#VERSION: 1.0
+# AUTHORS: Dessalines
 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -27,62 +26,57 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import json
-import time
 try:
     # python3
-    from urllib.parse import urlencode, unquote
+    from urllib.parse import urlencode
 except ImportError:
     # python2
-    from urllib import urlencode, unquote
+    from urllib import urlencode
 
 # qBt
 from novaprinter import prettyPrinter
 from helpers import retrieve_url
 
 
-class rarbg(object):
-    url = 'https://rarbg.to'
-    name = 'RARBG'
-    supported_categories = {'all': '1;4;14;15;16;17;21;22;42;18;19;41;27;28;29;30;31;32;40;23;24;25;26;33;34;43;44;45;46;47;48;49;50;51;52',  # noqa
-                            'movies': 'movies',
-                            'tv': 'tv',
-                            'music': '1;23;24;25;26',
-                            'games': '1;27;28;29;30;31;32;40',
-                            'software': '1;33;34;43'}
+class torrentscsv(object):
+    url = 'https://torrents-csv.ml'
+    name = 'torrents-csv'
+    supported_categories = {'all': ''}
+
+    # initialize trackers for magnet links
+    trackers_list = [
+        'udp://tracker.coppersurfer.tk:6969/announce',
+        'udp://tracker.leechers-paradise.org:6969/announce',
+        'udp://tracker.opentrackr.org:1337/announce',
+        'udp://tracker.openbittorrent.com:80/announce',
+        'udp://exodus.desync.com:6969/announce',
+        'udp://9.rarbg.me:2710/announce',
+        'udp://9.rarbg.to:2710/announce',
+        'udp://tracker.tiny-vps.com:6969/announce',
+        'udp://retracker.lanta-net.ru:2710/announce',
+        'udp://open.demonii.si:1337/announce'
+    ]
+    trackers = '&'.join(urlencode({'tr': tracker}) for tracker in trackers_list)
 
     def search(self, what, cat='all'):
-        base_url = "https://torrentapi.org/pubapi_v2.php?%s"
-        app_id = "qbittorrent"
-
-        # get token
-        params = urlencode({'get_token': 'get_token', 'app_id': app_id})
-        response = retrieve_url(base_url % params)
-        j = json.loads(response)
-        token = j['token']
-        time.sleep(2.1)
+        search_url = "{}/service/search?size=300&q={}".format(self.url, what)
+        desc_url = "{}/#/search/torrent/{}/1".format(self.url, what)
 
         # get response json
-        what = unquote(what)
-        category = self.supported_categories[cat]
-        params = urlencode({'mode': 'search',
-                            'search_string': what,
-                            'ranked': 0,
-                            'category': category,
-                            'limit': 100,
-                            'sort': 'seeders',
-                            'format': 'json_extended',
-                            'token': token,
-                            'app_id': 'qbittorrent'})
-        response = retrieve_url(base_url % params)
-        j = json.loads(response)
+        response = retrieve_url(search_url)
+        response_json = json.loads(response)
 
         # parse results
-        for result in j['torrent_results']:
-            res = {'link': result['download'],
-                   'name': result['title'],
-                   'size': str(result['size']) + " B",
+        for result in response_json:
+            res = {'link': self.download_link(result),
+                   'name': result['name'],
+                   'size': str(result['size_bytes']) + " B",
                    'seeds': result['seeders'],
                    'leech': result['leechers'],
                    'engine_url': self.url,
-                   'desc_link': result['info_page'] + "&app_id=" + app_id}
+                   'desc_link': desc_url}
             prettyPrinter(res)
+
+    def download_link(self, result):
+        return "magnet:?xt=urn:btih:{}&{}&{}".format(
+            result['infohash'], urlencode({'dn': result['name']}), self.trackers)

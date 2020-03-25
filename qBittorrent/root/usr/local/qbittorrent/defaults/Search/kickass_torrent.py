@@ -1,4 +1,4 @@
-#VERSION: 1.9
+#VERSION: 2.0
 #AUTHORS: mauricci
 
 from helpers import retrieve_url
@@ -9,6 +9,7 @@ import re
 try:
     #python3
     from html.parser import HTMLParser
+    from urllib.parse import unquote
 except ImportError:
     #python2
     from HTMLParser import HTMLParser
@@ -49,7 +50,11 @@ class kickass_torrent(object):
                     and Dict.get('class','').find('cellMainLink') != -1:
                      self.insideTitle = True
                      self.singleResData['desc_link'] = self.url + Dict['href']
-                     self.singleResData['link'] = self.singleResData['desc_link']
+                 elif self.infoMap['name'] == self.tdCount and 'href' in Dict \
+                    and Dict.get('href', '').find('magnet') != -1:
+                        magnet = Dict.get('href', '')
+                        magnet = magnet.partition('?url=')[2]
+                        self.singleResData['link'] = magnet
 
         def handle_endtag(self, tag):
             if tag == 'td':
@@ -112,6 +117,12 @@ class kickass_torrent(object):
         print(len(data))
         parser.close()
 
+    def download_torrent(self, info):
+        """ Downloader """
+        magnet = url = unquote(info)
+        print(magnet + ' ' + info)
+
 if __name__ == "__main__":
     k = kickass_torrent()
     k.search('tomb%20raider')
+    #k.download_torrent('magnet%3A%3Fxt%3Durn%3Abtih%3Aa3888d1acc2e25a41c76d7a5befb4234b1f62640%26dn%3DLegendary.Tomb.of.the.Dragon.2013.1080p.BluRay.H264.AAC%26tr%3Dudp%253A%252F%252Ftracker.leechers-paradise.org%253A6969%26tr%3Dudp%253A%252F%252Ftracker.openbittorrent.com%253A80%26tr%3Dudp%253A%252F%252Fopen.demonii.com%253A1337%26tr%3Dudp%253A%252F%252Ftracker.coppersurfer.tk%253A6969%26tr%3Dudp%253A%252F%252Fexodus.desync.com%253A6969')

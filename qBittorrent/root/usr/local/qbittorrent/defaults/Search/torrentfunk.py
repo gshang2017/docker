@@ -1,4 +1,4 @@
-# VERSION: 1.0
+# VERSION: 1.1
 # AUTHORS: mauricci
 
 from helpers import retrieve_url
@@ -25,7 +25,7 @@ class torrentfunk(object):
         def __init__(self):
             HTMLParser.__init__(self)
             self.url = 'https://www.torrentfunk2.com'
-            self.TABLE_INDEX = 6
+            self.TABLE_INDEX = 5
             self.insideDataTd = False
             self.tdCount = -1
             self.tableCount = -1
