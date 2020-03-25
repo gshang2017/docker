@@ -10,8 +10,8 @@
   
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent|4.2.1|原版 (amd64) 集成Trackers自动更新|
-|qBittorrent|4.2.1_arm64v8|原版 (arm64v8) 集成Trackers自动更新|
+|qBittorrent|4.2.2|原版 (amd64) 集成Trackers自动更新|
+|qBittorrent|4.2.2_arm64v8|原版 (arm64v8) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.1.10|增强版 (amd64) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.1.10_arm64v8|增强版 (arm64v8) 集成Trackers自动更新|
 
@@ -26,7 +26,7 @@
 |版本|命令|
 |-|:-|
 |原版|docker pull johngong/qbittorrent:latest|
-|原版arm64v8版|docker pull johngong/qbittorrent:4.2.1_arm64v8|
+|原版arm64v8版|docker pull johngong/qbittorrent:4.2.2_arm64v8|
 |qee版|docker pull johngong/qbittorrent:qee_4.2.1.10|
 |qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.2.1.10_arm64v8|
 
@@ -105,7 +105,7 @@
 ##### 说明：
 
 1. 自带 [http://plugins.qbittorrent.org/](http://plugins.qbittorrent.org/) 部分搜索插件
-2. 全新安装默认只开启官方自带部分和一个中文搜索插件。其它可到 视图-搜索引擎-界面右侧搜索-搜索插件-启动栏(双击)开启
+2. 全新安装默认只开启官方自带搜索插件。其它可到 视图-搜索引擎-界面右侧搜索-搜索插件-启动栏(双击)开启
 3. 一些搜索插件网站需过墙才能用
 4. jackett搜索插件需配置jackett.json(位置config/qBittorrent/data/nova3/engines)，插件需配合jackett服务的api_key。可自行搭建docker版jackett(例如linuxserver/jackett)。
 
