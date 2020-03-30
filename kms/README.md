@@ -6,7 +6,7 @@
 
 ### 版本：
 
-    vlmcsd:1112 (amd64)
+    vlmcsd:1113 (amd64)
 
 ### docker命令行设置：
 
