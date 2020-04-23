@@ -10,8 +10,8 @@
   
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent|4.2.3|原版 (amd64) 集成Trackers自动更新|
-|qBittorrent|4.2.3_arm64v8|原版 (arm64v8) 集成Trackers自动更新|
+|qBittorrent|4.2.4|原版 (amd64) 集成Trackers自动更新|
+|qBittorrent|4.2.4_arm64v8|原版 (arm64v8) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.3.10|增强版 (amd64) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.3.10_arm64v8|增强版 (arm64v8) 集成Trackers自动更新|
 
@@ -26,7 +26,7 @@
 |版本|命令|
 |-|:-|
 |原版|docker pull johngong/qbittorrent:latest|
-|原版arm64v8版|docker pull johngong/qbittorrent:4.2.3_arm64v8|
+|原版arm64v8版|docker pull johngong/qbittorrent:4.2.4_arm64v8|
 |qee版|docker pull johngong/qbittorrent:qee_4.2.3.10|
 |qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.2.3.10_arm64v8|
 
