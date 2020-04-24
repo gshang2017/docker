@@ -1,6 +1,6 @@
-FROM postgres:12-alpine
+FROM cthulhoo/ttrss-fpm-pgsql-static:20.04-84bea5086  as ttrss-src
+FROM postgres:12.0-alpine
 
-ARG  TTRSS_VER=19.8
 ARG  S6_VER=1.22.1.0
 
 ENV  POSTGRES_DB=
@@ -8,13 +8,10 @@ ENV  POSTGRES_USER=
 ENV  POSTGRES_PASSWORD=
 
 COPY  root  /
+COPY --from=ttrss-src  /src/tt-rss  /usr/local/tt-rss
 
-# install php tt-rss caddy [git npm  nodejs]-mercury-parser-api
+# install php tt-rss caddy git [npm nodejs]-mercury-parser-api
 RUN apk add --no-cache bash shadow git npm  nodejs  ca-certificates caddy  php7-pcntl php7-cli php7-curl php7-ldap php7-mcrypt php7-mysqli php7-mysqlnd php7-pdo_mysql php7-mbstring php7-json php7-gd php7-pgsql php7-xml php7-opcache php7-posix php7-apcu php7-fpm  php7-pdo  php7-fileinfo  php7-iconv php7-dom php7-intl  php7-pdo_pgsql php7-session  \
-&&  wget -P /tmp  https://gitlab.com/gothfox/tt-rss/-/archive/${TTRSS_VER}/tt-rss-${TTRSS_VER}.zip   \
-&&  unzip -d /usr/local/    /tmp/tt-rss-${TTRSS_VER}.zip   \
-&&  mv /usr/local/tt-rss-${TTRSS_VER} /usr/local/tt-rss  \
-&&  rm -rf /tmp/tt-rss-${TTRSS_VER}.zip    \
 &&  rm -rf /var/cache/apk/*   \
 # install s6-overlay
 &&  wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
@@ -31,33 +28,22 @@ RUN apk add --no-cache bash shadow git npm  nodejs  ca-certificates caddy  php7-
 &&  useradd -u 1001 -U  -s /bin/bash  ttrss  \
 &&  usermod -G users ttrss   \
 # install mercury-parser-api 
-&&  cd /usr/local/  \
-&&  git clone  https://github.com/HenryQW/mercury-parser-api.git  \
-&&  cd /usr/local/mercury-parser-api    \ 
-&& npm install \
+&& npm install git+https://github.com/HenryQW/mercury-parser-api.git    \ 
 # install  plugins
-&&  cd /usr/local/tt-rss/defaults/plugins.local     \ 
 # install mercury_fulltext
-&&  git clone https://github.com/HenryQW/mercury_fulltext.git mercury_fulltext     \ 
+&&  git clone https://github.com/HenryQW/mercury_fulltext.git /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext     \ 
 # install feediron   
-&&  git clone git://github.com/m42e/ttrss_plugin-feediron.git feediron      \ 
+&&  git clone https://github.com/feediron/ttrss_plugin-feediron.git  /usr/local/tt-rss/defaults/plugins.local/feediron      \ 
 # install fever 
-&&  git clone https://github.com/DigitalDJ/tinytinyrss-fever-plugin fever     \
+&&  git clone https://github.com/DigitalDJ/tinytinyrss-fever-plugin /usr/local/tt-rss/defaults/plugins.local/fever     \
 # install api_feedreader
-&&  wget https://github.com/jangernert/FeedReader/archive/v2.10.0.zip     \
-&&  unzip v2.10.0.zip     \
-&&  cp -rf FeedReader-2.10.0/data/tt-rss-feedreader-plugin/api_feedreader /usr/local/tt-rss/defaults/plugins.local \
-&&  rm -rf *2.10.0* \
+&&  mkdir -p /usr/local/tt-rss/defaults/plugins.local/api_feedreader    \
+&&  wget -P /usr/local/tt-rss/defaults/plugins.local/api_feedreader https://raw.githubusercontent.com/jangernert/FeedReader/master/data/tt-rss-feedreader-plugin/api_feedreader/init.php  \
 # install themes
-&&  cd /usr/local/tt-rss/defaults/themes.local     \ 
-# install feedly themes
-&&  wget https://github.com/levito/tt-rss-feedly-theme/archive/master.zip      \ 
-&&  unzip master.zip     \ 
-&&  cd tt-rss-feedly-theme-master     \ 
-&&  cp -r feedly* /usr/local/tt-rss/defaults/themes.local     \ 
-&&  rm -rf /usr/local/tt-rss/defaults/themes.local/*master*     \ 
-&& apk del git 
-
+# install tt-rss-feedly-theme
+&&  git clone  https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme     \
+&&  cp -r /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly* /usr/local/tt-rss/defaults/themes.local     \ 
+&&  rm -rf /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme
  
 VOLUME  /config
 EXPOSE 80 3000 5432 
