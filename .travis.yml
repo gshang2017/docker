@@ -10,14 +10,14 @@ services:
   
 before_install:
 #qbittorrent
-- docker build -t  johngong/qbittorrent:4.2.5_arm64v8     ./qBittorrent  -f   ./qBittorrent/Dockerfile.aarch64
+#- docker build -t  johngong/qbittorrent:4.2.5_arm64v8     ./qBittorrent  -f   ./qBittorrent/Dockerfile.aarch64
 #qbittorrent:qee
-#- docker build -t  johngong/qbittorrent:qee_4.2.3.10_arm64v8     ./qBittorrent  -f   ./qBittorrent/Dockerfile.qee.aarch64
+- docker build -t  johngong/qbittorrent:qee_4.2.5.10_arm64v8     ./qBittorrent  -f   ./qBittorrent/Dockerfile.qee.aarch64
 
 script:
 - echo "$DOCKER_PASSWORD" | docker login  --username  "$DOCKER_USERNAME" --password-stdin
 #qbittorrent
-- docker push  johngong/qbittorrent:4.2.5_arm64v8
+#- docker push  johngong/qbittorrent:4.2.5_arm64v8
 #qbittorrent:qee
-#- docker push  johngong/qbittorrent:qee_4.2.3.10_arm64v8
+- docker push  johngong/qbittorrent:qee_4.2.5.10_arm64v8
 
