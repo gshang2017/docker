@@ -5,8 +5,13 @@
 [https://github.com/dae/anki](https://github.com/dae/anki "https://github.com/dae/anki")                                  
 [https://github.com/tsudoko/anki-sync-server](https://github.com/tsudoko/anki-sync-server "https://github.com/tsudoko/anki-sync-server")
 
+### 版本：
+
+|名称|版本|说明|
+|:-|:-|:-|
+|Anki-sync-server|2.1.0|amd64,目前支持的版本范围是Anki:2.0.27~2.1.16(2.1.9除外)、AnkiDroid:2.3，其它版本自测。|
+
 ### 注意:
-* 目前支持的版本范围是2.1.1〜2.1.11 (2.1.9除外)，其它版本自测。
 
 * 升级安装需移除配置文件夹内auth.db和session.db文件,并暂时重命名collections文件夹内的用户名文件夹。等程序重建auth.db后，即可将collections内重命名后的文件夹改为用户名。
 
