@@ -8,6 +8,9 @@ else
 echo sogouscelupdate更新任务已存在。
 fi
 
+#启动时更新sogouscel。
+python3 /usr/local/sogouscelupdate/sogouscelupdate.py
+
 #设置时区
 ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime 
 echo $TZ > /etc/timezone
