@@ -1,11 +1,11 @@
 ## 群晖nas自用
 
 ### 感谢以下项目:
-
-[https://gitlab.com/gothfox/tt-rss](https://gitlab.com/gothfox/tt-rss "https://gitlab.com/gothfox/tt-rss")               
-[https://github.com/docker-library/postgres](https://github.com/docker-library/postgres "https://github.com/docker-library/postgres")    
-[https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api "https://github.com/HenryQW/mercury-parser-api")     
-[https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")     
+  
+[https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static](https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static "https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static")  
+[https://github.com/docker-library/postgres](https://github.com/docker-library/postgres "https://github.com/docker-library/postgres")   
+[https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api "https://github.com/HenryQW/mercury-parser-api")  
+[https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron "https://github.com/feediron/ttrss_plugin-feediron")     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin "https://github.com/DigitalDJ/tinytinyrss-fever-plugin")      
 [https://github.com/jangernert/FeedReader](https://github.com/jangernert/FeedReader "https://github.com/jangernert/FeedReader")       
@@ -15,10 +15,25 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-19.8|X86_64,集成postgres数据库(PostgreSQL-12),mercury-parser-api及一些常用插件|
+|ttrss|plugins-20.04-84bea5086|X86_64,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-19.8|X86_64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|X86_64,需自建数据库|
 
+#### 版本升级注意：
+
+* plugins-19.8升级到plugins-20.04需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
+
 ### Postgres数据库导入导出
+
+#### 例如：数据库配置为[postgre:/var/lib/postgresql/data] 
+
+#### 群晖步骤： 
+
+1. 旧版ttrss容器-终端机新增-bash-执行导出命令[完成后postgre里会出现db.sql]
+
+2. 新建新版容器[新版容器配置与旧版一样，将postgre文件夹重命名为其它(例如:postgre.bak)，再新建一个postgre空文件夹。]-启动容器-将导出的db.sql文件复制到新建的postgre文件夹[需新版PostgreSQL初始化完成后才能复制(空文件夹postgre重新有内容)]-终端机新增-bash-执行导入命令
+
+3. 重启容器登录ttrss按提示更新数据库
 
 #### 注意：
 
@@ -141,7 +156,6 @@
 |平台|软件|
 |:-|:-|
 |android|feedme (免费)|
-|windowns 10 应用商店|Tiny Tiny RSS (免费)|
 |linux|FeedReader (免费)|
 |mac os x|Reeder 4|
 
