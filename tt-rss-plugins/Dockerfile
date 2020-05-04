@@ -1,4 +1,4 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:20.04-84bea5086  as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:20.04-3a4b9249a  as ttrss-src
 FROM postgres:12.0-alpine
 
 ARG  S6_VER=1.22.1.0
