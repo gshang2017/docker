@@ -11,7 +11,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.6|X86_64|
+|calibre-web|0.6.7|X86_64|
 |calibre-server|3.48.0|X86_64|
 
 ### docker命令行设置：
