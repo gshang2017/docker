@@ -1,11 +1,11 @@
-FROM alpine:3.11 as compilingqB
+FROM alpine:3.12 as compilingqB
 
 #compiling qB
 
-ARG  LIBTORRENT_VER=1.2.6
-ARG  QBITTORRENT_VER=4.2.5.10
-#ARG  LIBTORRENT_VER=1.1.14
-#ARG  QBITTORRENT_VER=4.1.9.16
+#ARG  LIBTORRENT_VER=1.2.6
+#ARG  QBITTORRENT_VER=4.2.5.10
+ARG  LIBTORRENT_VER=1.1.14
+ARG  QBITTORRENT_VER=4.1.9.17
 
 
 RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file \
@@ -31,9 +31,9 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
  # docker qB
 
 
-FROM alpine:3.11
+FROM alpine:3.12
 
-ARG  S6_VER=1.22.1.0
+ARG  S6_VER=2.0.0.1
 
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
