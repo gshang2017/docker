@@ -11,8 +11,12 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.7|X86_64|
+|calibre-web|0.6.8|X86_64|
 |calibre-server|3.48.0|X86_64|
+
+#### 版本升级注意：
+
+* 0.6.8新增kepubify(Epub转换Kepub)，默认路径/usr/local/bin/kepubify(基本配置-外部二进制)。升级安装需自己设置。
 
 ### docker命令行设置：
 
