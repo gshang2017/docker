@@ -1,9 +1,10 @@
-FROM alpine:3.11
+FROM alpine:3.12
 
 ARG  GLIBC_VER=2.31
-ARG  S6_VER=1.22.1.0
-ARG  CALIBRE_WEB_VER=0.6.7
+ARG  S6_VER=2.0.0.1
+ARG  CALIBRE_WEB_VER=0.6.8
 ARG  CALIBRE_VER=3.48.0
+ARG  KEPUBIFY_VER=3.1.2
 
 ENV USER=
 ENV PASSWORD=
@@ -32,6 +33,7 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip  unrar expect libst
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
 #install calibre-web dep
 &&  apk add --no-cache  py3-gevent  py3-lxml  \ 
+&&  apk add --no-cache 'py3-six<1.15.0' --repository http://dl-4.alpinelinux.org/alpine/v3.11/main  \ 
 #&&  export C_INCLUDE_PATH=/usr/include/libxml2/   \ 
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \ 
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \ 
@@ -44,6 +46,8 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip  unrar expect libst
 &&  cp /tmp/lib-linux/usr/lib/libuuid.so.1.3.0 /usr/glibc-compat/lib  \ 
 &&  cp  /tmp/lib-linux/usr/lib/gcc/x86_64-pc-linux-gnu/8.4.0/libstdc++.so.6.0.25  /usr/glibc-compat/lib  \ 
 &&  /usr/glibc-compat/sbin/ldconfig  \  
+#install kepubify
+&&  wget https://github.com/geek1011/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-64bit -O /usr/local/bin/kepubify   \ 
 #clean
 &&  rm  /etc/apk/keys/sgerrand.rsa.pub   \ 
 &&  apk del glibc-i18n calibrewebdep  \ 
@@ -51,7 +55,8 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip  unrar expect libst
 &&  rm -rf /var/cache/apk/*  \ 
 &&  rm -rf /tmp/*  \   
 &&  chmod a+x /usr/local/calibre-server/useradd.sh   \ 
-&&  chmod a+x /usr/local/calibre-server/languagechange.sh
+&&  chmod a+x /usr/local/calibre-server/languagechange.sh   \ 
+&&  chmod a+x /usr/local/bin/kepubify
 
 VOLUME /library  /config
 EXPOSE 8080 8083
