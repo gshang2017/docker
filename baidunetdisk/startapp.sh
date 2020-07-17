@@ -1,4 +1,4 @@
 #!/bin/sh
 
 export HOME=/config
-/opt/baidunetdisk/baidunetdisk
+/opt/baidunetdisk/baidunetdisk --no-sandbox
