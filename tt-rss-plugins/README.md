@@ -1,7 +1,7 @@
 ## 群晖nas自用
 
 ### 感谢以下项目:
-  
+
 [https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static](https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static "https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static")  
 [https://github.com/docker-library/postgres](https://github.com/docker-library/postgres "https://github.com/docker-library/postgres")   
 [https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api "https://github.com/HenryQW/mercury-parser-api")  
@@ -15,19 +15,19 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-20.06-c352e872e|X86_64,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-20.07-376fe6271|X86_64,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|X86_64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|X86_64,需自建数据库|
 
 #### 版本升级注意：
 
-* plugins-19.8升级到plugins-20.06需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
+* plugins-19.8升级到plugins-20.07需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
 
 ### Postgres数据库导入导出
 
-#### 例如：数据库配置为[postgre:/var/lib/postgresql/data] 
+#### 例如：数据库配置为[postgre:/var/lib/postgresql/data]
 
-#### 群晖步骤： 
+#### 群晖步骤：
 
 1. 旧版ttrss容器-终端机新增-bash-执行导出命令[完成后postgre里会出现db.sql]
 
@@ -138,7 +138,7 @@
 
 * mercury_fulltext：
 
-  1. 偏好设置启用插件 
+  1. 偏好设置启用插件
   2. 信息源栏 Mercury Fulltext settings 填入 [ip:本地端口2](ip:本地端口2)
 
 * api_feedreader：
