@@ -1,4 +1,4 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:20.06-c352e872e  as ttrss-src   
+FROM cthulhoo/ttrss-fpm-pgsql-static:20.07-376fe6271  as ttrss-src   
 FROM postgres:12.0-alpine
 
 ARG  S6_VER=2.0.0.1
@@ -27,14 +27,14 @@ RUN apk add --no-cache bash shadow git npm  nodejs  ca-certificates caddy  php7-
 &&  groupmod -g 1000 users \
 &&  useradd -u 1001 -U  -s /bin/bash  ttrss  \
 &&  usermod -G users ttrss   \
-# install mercury-parser-api 
-&& npm install git+https://github.com/HenryQW/mercury-parser-api.git    \ 
+# install mercury-parser-api
+&& npm install git+https://github.com/HenryQW/mercury-parser-api.git    \
 # install  plugins
 # install mercury_fulltext
-&&  git clone https://github.com/HenryQW/mercury_fulltext.git /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext     \ 
-# install feediron   
-&&  git clone https://github.com/feediron/ttrss_plugin-feediron.git  /usr/local/tt-rss/defaults/plugins.local/feediron      \ 
-# install fever 
+&&  git clone https://github.com/HenryQW/mercury_fulltext.git /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext     \
+# install feediron
+&&  git clone https://github.com/feediron/ttrss_plugin-feediron.git  /usr/local/tt-rss/defaults/plugins.local/feediron      \
+# install fever
 &&  git clone https://github.com/DigitalDJ/tinytinyrss-fever-plugin /usr/local/tt-rss/defaults/plugins.local/fever     \
 # install api_feedreader
 &&  mkdir -p /usr/local/tt-rss/defaults/plugins.local/api_feedreader    \
@@ -42,9 +42,9 @@ RUN apk add --no-cache bash shadow git npm  nodejs  ca-certificates caddy  php7-
 # install themes
 # install tt-rss-feedly-theme
 &&  git clone  https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme     \
-&&  cp -r /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly* /usr/local/tt-rss/defaults/themes.local     \ 
+&&  cp -r /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly* /usr/local/tt-rss/defaults/themes.local     \
 &&  rm -rf /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme
- 
+
 VOLUME  /config
-EXPOSE 80 3000 5432 
+EXPOSE 80 3000 5432
 ENTRYPOINT [ "/init" ]
