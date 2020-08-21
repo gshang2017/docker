@@ -1,19 +1,21 @@
 ## 群晖nas自用：
 
 ### 感谢以下项目:
-    
+
 [https://github.com/qbittorrent/qBittorrent](https://github.com/qbittorrent/qBittorrent)   
 [https://github.com/c0re100/qBittorrent-Enhanced-Edition](https://github.com/c0re100/qBittorrent-Enhanced-Edition)    
 [https://github.com/ngosang/trackerslist]( https://github.com/ngosang/trackerslist)
 
 ### 版本：
-  
+
 |名称|版本|说明|
 |:-|:-|:-|
 |qBittorrent|4.2.5|原版 (amd64) 集成Trackers自动更新|
 |qBittorrent|4.2.5_arm64v8|原版 (arm64v8) 集成Trackers自动更新|
+|qBittorrent|4.2.5_arm32v7|原版 (arm32v7) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.5.13|增强版 (amd64) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.5.13_arm64v8|增强版 (arm64v8) 集成Trackers自动更新|
+|qBittorrent|qee_4.2.5.13_arm32v7|增强版 (arm32v7) 集成Trackers自动更新|
 
 ### 注意：
 
@@ -27,8 +29,10 @@
 |-|:-|
 |原版|docker pull johngong/qbittorrent:latest|
 |原版arm64v8版|docker pull johngong/qbittorrent:4.2.5_arm64v8|
+|原版arm64v8版|docker pull johngong/qbittorrent:4.2.5_arm32v7|
 |qee版|docker pull johngong/qbittorrent:qee_4.2.5.13|
 |qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.2.5.13_arm64v8|
+|qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.2.5.13_arm32v7|
 
 2. 创建qbittorrent容器
 
