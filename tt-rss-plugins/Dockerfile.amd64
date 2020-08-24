@@ -1,4 +1,4 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:20.07-376fe6271  as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:20.07-376fe6271  as ttrss-src   
 FROM postgres:12.0-alpine
 
 ARG  S6_VER=2.0.0.1
@@ -14,10 +14,9 @@ COPY --from=ttrss-src  /src/tt-rss  /usr/local/tt-rss
 RUN apk add --no-cache bash shadow git npm  nodejs  ca-certificates caddy  php7-pcntl php7-cli php7-curl php7-ldap php7-mcrypt php7-mysqli php7-mysqlnd php7-pdo_mysql php7-mbstring php7-json php7-gd php7-pgsql php7-xml php7-opcache php7-posix php7-apcu php7-fpm  php7-pdo  php7-fileinfo  php7-iconv php7-dom php7-intl  php7-pdo_pgsql php7-session  \
 &&  rm -rf /var/cache/apk/*   \
 # install s6-overlay
-&&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
-&&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
-&&  tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
-&&  rm s6-overlay-${s6_arch}.tar.gz   \
+&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
+&&  tar -xvzf s6-overlay-amd64.tar.gz  \
+&&  rm s6-overlay-amd64.tar.gz  \
 &&  mkdir -p  /usr/local/tt-rss/defaults \
 &&  mv /usr/local/tt-rss/cache /usr/local/tt-rss/defaults/cache \
 &&  mv /usr/local/tt-rss/feed-icons /usr/local/tt-rss/defaults/feed-icons \
