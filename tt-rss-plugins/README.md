@@ -15,9 +15,9 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-20.07-376fe6271|X86_64,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
-|ttrss|plugins-19.8|X86_64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
-|ttrss|19.8|X86_64,需自建数据库|
+|ttrss|plugins-20.07-376fe6271|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
+|ttrss|19.8|amd64,需自建数据库|
 
 #### 版本升级注意：
 
