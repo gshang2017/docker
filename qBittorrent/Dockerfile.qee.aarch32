@@ -40,16 +40,23 @@ ARG  S6_VER=2.0.0.1
 ENV TRACKERSAUTO=YES
 ENV TZ=Asia/Shanghai
 ENV WEBUIPORT=8989
+ENV UID=0
+ENV GID=0
+ENV UMASK=022
 
 COPY root /
 COPY --from=compilingqB  /qbittorrent  /
 
-# install bash curl caddy tzdata s6 overlay python3
+# install bash curl caddy tzdata s6 overlay python3 shadow
 RUN  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-arm.tar.gz  \
 &&   tar -xvzf s6-overlay-arm.tar.gz  \
 &&   rm s6-overlay-arm.tar.gz   \
-&&   apk add --no-cache bash curl ca-certificates  tzdata  python3 \
+&&   apk add --no-cache bash curl ca-certificates  tzdata  python3 shadow \
 &&   rm -rf /var/cache/apk/*   \
+#create qbittorrent user
+&&  useradd -u 1000 -U -d /config -s /bin/false   qbittorrent   \
+&&  usermod -G users qbittorrent   \
+#
 &&   chmod a+x  /usr/local/qbittorrent/updatetrackers.sh  \
 &&   chmod a+x  /usr/local/bin/qbittorrent-nox
 

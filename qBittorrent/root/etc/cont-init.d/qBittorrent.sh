@@ -1,13 +1,13 @@
 #! /usr/bin/with-contenv bash
 
 #检查config配置文件，并创建.
-if [ ! -e "/config/qBittorrent/config/qBittorrent.conf" ] ;  then 
+if [ ! -e "/config/qBittorrent/config/qBittorrent.conf" ] ;  then
 mkdir -p /config/qBittorrent/config/
 cp /usr/local/qbittorrent/defaults/qBittorrent.conf  /config/qBittorrent/config/qBittorrent.conf
 fi
 
 #检查Search文件，并创建.
-if [ ! -d "/config/qBittorrent/data/nova3/engines" ] ;  then 
+if [ ! -d "/config/qBittorrent/data/nova3/engines" ] ;  then
 mkdir -p /config/qBittorrent/data/nova3/engines
 fi
 cp -ru /usr/local/qbittorrent/defaults/Search/*  /config/qBittorrent/data/nova3/engines
@@ -27,5 +27,14 @@ if [ "$TRACKERSAUTO" == "YES" ];then
 fi
 
 #设置时区
-ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime 
+ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime
 echo $TZ > /etc/timezone
+
+#修改用户UID GID
+groupmod -o -g "$GID" qbittorrent
+usermod -o -u "$UID" qbittorrent
+
+#修复权限
+chown -R qbittorrent:qbittorrent /config
+chown -R qbittorrent:qbittorrent /Downloads
+chown -R qbittorrent:qbittorrent /usr/local/qbittorrent/defaults

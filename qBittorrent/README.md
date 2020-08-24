@@ -10,12 +10,14 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent|4.2.5|原版 (amd64) 集成Trackers自动更新|
-|qBittorrent|4.2.5_arm64v8|原版 (arm64v8) 集成Trackers自动更新|
-|qBittorrent|4.2.5_arm32v7|原版 (arm32v7) 集成Trackers自动更新|
-|qBittorrent|qee_4.2.5.13|增强版 (amd64) 集成Trackers自动更新|
-|qBittorrent|qee_4.2.5.13_arm64v8|增强版 (arm64v8) 集成Trackers自动更新|
-|qBittorrent|qee_4.2.5.13_arm32v7|增强版 (arm32v7) 集成Trackers自动更新|
+|qBittorrent|latest|原版(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent|qee-latest|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent|4.2.5|原版:amd64 集成Trackers自动更新|
+|qBittorrent|4.2.5_arm64v8|原版:arm64v8 集成Trackers自动更新|
+|qBittorrent|4.2.5_arm32v7|原版:arm32v7 集成Trackers自动更新|
+|qBittorrent|qee_4.2.5.13|qee:amd64 集成Trackers自动更新|
+|qBittorrent|qee_4.2.5.13_arm64v8|qee:arm64v8 集成Trackers自动更新|
+|qBittorrent|qee_4.2.5.13_arm32v7|qee:arm32v7 集成Trackers自动更新|
 
 ### 注意：
 
@@ -27,18 +29,23 @@
 
 |版本|命令|
 |-|:-|
-|原版|docker pull johngong/qbittorrent:latest|
-|原版arm64v8版|docker pull johngong/qbittorrent:4.2.5_arm64v8|
-|原版arm64v8版|docker pull johngong/qbittorrent:4.2.5_arm32v7|
-|qee版|docker pull johngong/qbittorrent:qee_4.2.5.13|
-|qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.2.5.13_arm64v8|
-|qee_arm64v8版|docker pull johngong/qbittorrent:qee_4.2.5.13_arm32v7|
+|原版(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:latest|
+|原版:amd64|docker pull johngong/qbittorrent:4.2.5|
+|原版:arm64v8|docker pull johngong/qbittorrent:4.2.5_arm64v8|
+|原版:arm32v7|docker pull johngong/qbittorrent:4.2.5_arm32v7|
+|qee(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:qee-latestt|
+|qee:amd64|docker pull johngong/qbittorrent:qee_4.2.5.13|
+|qee:arm64v8|docker pull johngong/qbittorrent:qee_4.2.5.13_arm64v8|
+|qee:arm32v7|docker pull johngong/qbittorrent:qee_4.2.5.13_arm32v7|
 
 2. 创建qbittorrent容器
 
         docker create  \
            --name=qbittorrent  \
            -e WEBUIPORT=8989  \
+           -e UID=0  \
+           -e GID=0  \
+           -e UMASK=022  \         
            -p 6881:6881  \
            -p 6881:6881/udp  \
            -p 8989:8989  \
@@ -74,9 +81,12 @@
 | `-p 6881:6881/udp` |BT下载DHT监听端口
 | `-v /配置文件位置:/config` |qBittorrent配置文件位置|
 | `-v /下载位置:/Downloads` |qBittorrent下载位置|
-| `-e WEBUIPORT=8989` |web访问端口环境变量|
 | `-e TRACKERSAUTO=YES` |自动更新qBittorrent的trackers,默认开启此功能|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
+| `-e WEBUIPORT=8989` |web访问端口环境变量|
+| `-e UID=0` |uid设置,默认为0|
+| `-e GID=0` |gid设置,默认为0|
+| `-e UMASK=022` |umask设置,默认为022|
 
 ### 群晖docker设置：
 
@@ -102,6 +112,9 @@
 | `TRACKERSAUTO=YES` |自动更新qBittorrent的trackers,默认开启此功能|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `WEBUIPORT=8989` |web访问端口环境变量|
+| `UID=0` |uid设置,默认为0|
+| `GID=0` |gid设置,默认为0|
+| `UMASK=022` |umask设置,默认为022|
 
 ### 搜索：
 
