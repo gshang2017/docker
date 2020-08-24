@@ -1,7 +1,7 @@
-FROM alpine:3.12
+FROM alpine:3.11
 
 ARG  ANKI__SYNC_SERVER=2.1.0
-ARG  S6_VER=2.0.0.1
+ARG  S6_VER=1.22.1.0
 
 ENV USER=
 ENV PASSWORD=
@@ -17,11 +17,10 @@ RUN apk add --no-cache bash  python3  expect py3-pip \
 &&  pip3 install  --no-cache-dir -r /usr/local/anki-sync-server/anki-bundled/requirements.txt    \
 &&  pip3 install  --no-cache-dir webob    \
 #install s6-overlay
-&&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
-&&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
-&&  tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
+&&  wget   https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
+&&  tar xvzf s6-overlay-amd64.tar.gz  \
 #clear
-&&  rm s6-overlay-${s6_arch}.tar.gz   \
+&&  rm s6-overlay-amd64.tar.gz    \
 &&  rm -rf /var/cache/apk/*  \
 &&  rm -rf /tmp/*   \
 #defaults ankisyncd.conf
