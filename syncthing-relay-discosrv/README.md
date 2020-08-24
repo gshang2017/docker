@@ -8,8 +8,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|relaysrv|1.3.1|amd64|
-|discosrv|1.3.1|amd64|
+|relaysrv|1.8.0|amd64;arm64v8;arm32v7|
+|discosrv|1.8.0|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -96,7 +96,7 @@
 
 ### 客户端配置：
 
-* deviceID 
+* deviceID
 
 1. 群晖看docker日志
 2. 命令
@@ -105,7 +105,7 @@
 * 界面- 操作-设置-连接
 
 1. 协议监听地址:[ relay://ip或域名:本地端口1/?id=deviceID]( relay://ip或域名:本地端口1/?id=deviceID " relay://ip或域名:本地端口1/?id=deviceID"),例:[relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM "relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM")
-2. 开启（启用NAT遍历 全球发现 本地发现 开启中继）
+2. 开启（启用NAT遍历 全球发现[自用可不开启] 本地发现 开启中继）
 3. 全球发现服务器:[https://ip或域名:本地端口3/?id=deviceID](https://ip或域名:本地端口3/?id=deviceID "https://ip或域名:本地端口3/?id=deviceID"),例:[https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM "https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM")
 
 *  界面- 远程设备
@@ -115,4 +115,3 @@
 ### 其它：
 
 详见[https://docs.syncthing.net/users/](https://docs.syncthing.net/users/ "https://docs.syncthing.net/users/")
-
