@@ -10,8 +10,12 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|Aria2|1.35.0|X86_64,修改线程数至128，默认32。集成Trackers自动更新。|
+|Aria2|1.35.0|amd64;arm64v8;arm32v7,修改线程数至128，默认32。集成Trackers自动更新。|
 |AriaNg|1.1.6|Aria2的web管理界面|
+
+### 注意：
+
+1. docker启动会自动修复/config及/Downloads配置文件夹用户权限。请勿将对权限敏感的文件夹映射到此文件夹。
 
 ### docker命令行设置：
 
@@ -28,6 +32,9 @@
            -p 6800:6800  \
            -p 80:80  \
            -e RPC_SECRET=不需要可不填 \
+           -e UID=0  \
+           -e GID=0  \
+           -e UMASK=022  \
            -v /配置文件位置:/config  \
            -v /下载位置:/Downloads  \
            --restart unless-stopped  \
@@ -65,6 +72,9 @@
 | `-e SECRETAUTO=YES` |添加Aria2NG里RPC连接设置中token值为设置的默认值,默认开启此功能|
 | `-e TRACKERSAUTO=YES` |自动更新Aria2的trackers,默认开启此功能|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
+| `-e UID=0` |uid设置,默认为0|
+| `-e GID=0` |gid设置,默认为0|
+| `-e UMASK=022` |umask设置,默认为022|
 
 ### 群晖docker设置：
 
@@ -92,5 +102,6 @@
 | `SECRETAUTO=YES` |添加Aria2NG里RPC连接设置中token值为设置的默认值,默认开启此功能|
 | `TRACKERSAUTO=YES` |自动更新Aria2的trackers,默认开启此功能|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai |
-
-
+| `UID=0` |uid设置,默认为0|
+| `GID=0` |gid设置,默认为0|
+| `UMASK=022` |umask设置,默认为022|

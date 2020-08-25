@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 # 启动darkhttpd
-exec darkhttpd /usr/local/aria2/AriaNg
+exec s6-setuidgid aria2  darkhttpd /usr/local/aria2/AriaNg

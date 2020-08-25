@@ -1,9 +1,12 @@
 #! /usr/bin/with-contenv bash
 
-# 启动aria2
-if [ ! -n "$RPC_SECRET" ] ;  then 
-exec aria2c --conf-path=/config/aria2.conf --enable-rpc --rpc-listen-all  
-else 
-exec aria2c --conf-path=/config/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET" 
-fi
 
+#设置umask
+umask "$UMASK"
+
+# 启动aria2
+if [ ! -n "$RPC_SECRET" ] ;  then
+exec s6-setuidgid aria2 aria2c --conf-path=/config/aria2.conf --enable-rpc --rpc-listen-all
+else
+exec s6-setuidgid aria2 aria2c --conf-path=/config/aria2.conf --enable-rpc --rpc-listen-all --rpc-secret="$RPC_SECRET"
+fi

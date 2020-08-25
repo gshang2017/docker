@@ -21,7 +21,7 @@
 
 ### 注意：
 
-1. qBittorrent-Enhanced-Edition 增强版 需下载对应版本ipfilter.dat放入qBittorrent配置文件夹才能屏蔽离线下载 [https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases](https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases)
+1. docker启动会自动修复/config及/Downloads配置文件夹用户权限。请勿将对权限敏感的文件夹映射到此文件夹。
 
 ### docker命令行设置：
 
