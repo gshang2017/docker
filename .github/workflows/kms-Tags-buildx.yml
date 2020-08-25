@@ -1,0 +1,69 @@
+name: Build kms-Tags Image
+
+on:
+  push:
+    paths:
+    - '.github/workflows/kms-Tags-buildx.yml'
+
+env:
+  SVN_VER: 1113
+
+jobs:
+  buildx:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Login to DockerHub
+        uses: crazy-max/ghaction-docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v3
+        with:
+          buildx-version: latest
+          qemu-version: latest
+
+      - name: Build dockerfile (with push)
+        run: |
+          docker buildx build \
+          --platform linux/amd64,linux/arm/v7,linux/arm64 \
+          --output "type=image,push=true" \
+          --tag johngong/kms:${{ env.SVN_VER }} \
+          --file ./kms/Dockerfile ./kms
+
+      - name: Build dockerfile (with push)
+        run: |
+          docker buildx build \
+          --platform linux/amd64 \
+          --output "type=image,push=true" \
+          --tag johngong/kms:${{ env.SVN_VER }}_amd64 \
+          --file ./kms/Dockerfile ./kms
+
+      - name: Build dockerfile (with push)
+        run: |
+          docker buildx build \
+          --platform linux/arm64 \
+          --output "type=image,push=true" \
+          --tag johngong/kms:${{ env.SVN_VER }}_arm64v8 \
+          --file ./kms/Dockerfile ./kms
+
+      - name: Build dockerfile (with push)
+        run: |
+          docker buildx build \
+          --platform linux/arm/v7 \
+          --output "type=image,push=true" \
+          --tag johngong/kms:${{ env.SVN_VER }}_arm32v7 \
+          --file ./kms/Dockerfile ./kms
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        env:
+         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+         DOCKERHUB_REPOSITORY: johngong/kms
+         README_FILEPATH: ./kms/README.md

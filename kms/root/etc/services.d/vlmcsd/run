@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+# 启动vlmcsd
+exec  vlmcsd -D
