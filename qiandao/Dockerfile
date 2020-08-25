@@ -1,6 +1,6 @@
-FROM alpine:3.10
+FROM alpine:3.12
 
-ARG  S6_VER=1.22.1.0
+ARG  S6_VER=2.0.0.1
 
 ENV  TZ=Asia/Shanghai
 ENV  DOMAIN=
@@ -15,26 +15,31 @@ ENV  MAILGUN_KEY=
 ENV  ADMINEMAIL=
 
 
-RUN  apk add --no-cache bash  ca-certificates  tzdata python  py-pip git  gcc  libc-dev python-dev    \
+RUN  apk add --no-cache bash ca-certificates tzdata python2 git gcc libc-dev python2-dev \
+#install pip2(alpine:3.12)
+&&  wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py \
+&&  python2 get-pip.py \
 # install s6-overlay
-&&  wget  https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-amd64.tar.gz  \
-&&  tar -xvzf s6-overlay-amd64.tar.gz  \
-&&  rm s6-overlay-amd64.tar.gz  \
+&&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
+&&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
+&&  tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
+&&  rm s6-overlay-${s6_arch}.tar.gz   \
 # install  qiandao
 &&  git clone https://github.com/binux/qiandao.git /usr/local/qiandao  \
-&&  pip install --no-cache-dir  -r /usr/local/qiandao/requirements.txt  \ 
+&&  pip2 install --no-cache-dir  -r /usr/local/qiandao/requirements.txt  \
 &&  mkdir -p /usr/local/qiandao/defaults/  \
 &&  mv /usr/local/qiandao/config.py  /usr/local/qiandao/defaults/   \
 &&  mv /usr/local/qiandao/libs/utils.py  /usr/local/qiandao/defaults/   \
 &&  chmod a+x /usr/local/qiandao/run.py   \
 # clean
-&&  pip uninstall redis -y  \
-&&  apk del py-pip git  gcc  libc-dev python-dev   \
-&&  rm -rf /var/cache/apk/*  
+&&  rm get-pip.py \
+&&  pip2 uninstall redis -y  \
+&&  apk del  git  gcc  libc-dev python2-dev   \
+&&  rm -rf /var/cache/apk/*
 
 COPY root /
 
 
 VOLUME  /dbpath
-EXPOSE 8923  
+EXPOSE 8923
 ENTRYPOINT [ "/init" ]

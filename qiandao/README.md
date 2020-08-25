@@ -4,6 +4,12 @@
 
 [https://github.com/binux/qiandao](https://github.com/binux/qiandao)
 
+### 版本：
+
+|名称|版本|说明|
+|:-|:-|:-|
+|qiandao|v_380e25e|amd64;arm64v8;arm32v7|
+
 ### docker命令行设置：
 
 1. 下载镜像
