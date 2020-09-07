@@ -26,7 +26,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc file cppunit-dev zlib-dev o
 
 FROM alpine:3.12
 
-ARG  AriaNg_VER=1.1.6
+ARG  AriaNg_VER=1.1.7
 ARG  S6_VER=2.0.0.1
 
 ENV RPC_SECRET=
@@ -62,5 +62,5 @@ RUN apk add --no-cache bash  curl ca-certificates  darkhttpd  tzdata shadow \
 
 
 VOLUME /Downloads /config
-EXPOSE 6800  80  6881  6881/udp
+EXPOSE 6800  8080  6881  6881/udp
 ENTRYPOINT [ "/init" ]
