@@ -7,7 +7,7 @@ on:
 
 env:
   LIBTORRENT_VER: 1.2.10
-  QBITTORRENT_VER: 4.2.5.15
+  QBITTORRENT_VER: 4.2.5.16
 
 
 jobs:

@@ -15,7 +15,7 @@
 |qBittorrent|4.2.5|原版:amd64 集成Trackers自动更新|
 |qBittorrent|4.2.5_arm64v8|原版:arm64v8 集成Trackers自动更新|
 |qBittorrent|4.2.5_arm32v7|原版:arm32v7 集成Trackers自动更新|
-|qBittorrent|qee_4.2.5.15|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent|qee_4.2.5.16|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 
 ### 注意：
@@ -33,7 +33,7 @@
 |原版:arm64v8|docker pull johngong/qbittorrent:4.2.5_arm64v8|
 |原版:arm32v7|docker pull johngong/qbittorrent:4.2.5_arm32v7|
 |qee(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:qee-latest|
-|qee(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:qee_4.2.5.15|
+|qee(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:qee_4.2.5.16|
 
 
 2. 创建qbittorrent容器
