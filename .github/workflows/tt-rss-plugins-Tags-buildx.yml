@@ -6,7 +6,7 @@ on:
     - '.github/workflows/tt-rss-plugins-Tags-buildx.yml'
 
 env:
-  TTRSS_VER: 20.07-376fe6271
+  TTRSS_VER: 20.08-67f02e2aa
 
 jobs:
   buildx:

@@ -8,20 +8,19 @@
 [https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron "https://github.com/feediron/ttrss_plugin-feediron")     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin "https://github.com/DigitalDJ/tinytinyrss-fever-plugin")      
-[https://github.com/jangernert/FeedReader](https://github.com/jangernert/FeedReader "https://github.com/jangernert/FeedReader")       
 [https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme "https://github.com/levito/tt-rss-feedly-theme")
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-20.07-376fe6271|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-20.08-67f02e2aa|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|amd64,需自建数据库|
 
 #### 版本升级注意：
 
-* plugins-19.8升级到plugins-20.07需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
+* plugins-19.8升级到plugins-20.08需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
 
 ### Postgres数据库导入导出
 
@@ -41,8 +40,8 @@
 
 |标题|命令|举例|
 |:-|:-|:-|
-|导出|pg_dump -U PostgreSQL用户名 -f /var/lib/postgresql/data/db.sql PostgreSQL数据库名称| pg_dump -U ttrss -f /var/lib/postgresql/data/db.sql ttrss|
-|导入|psql -d PostgreSQL用户名 -f /var/lib/postgresql/data/db.sql PostgreSQL数据库名称|psql -d ttrss -f /var/lib/postgresql/data/db.sql ttrss|
+|导出|pg_dump -U PostgreSQL用户名 -f /var/lib/postgresql/data/db.sql -d PostgreSQL数据库名称| pg_dump -U ttrss -f /var/lib/postgresql/data/db.sql -d ttrss|
+|导入|psql -d PostgreSQL数据库名称 -f /var/lib/postgresql/data/db.sql -U PostgreSQL用户名|psql -d ttrss -f /var/lib/postgresql/data/db.sql -U ttrss|
 
 ### docker命令行设置：
 
@@ -141,9 +140,20 @@
   1. 偏好设置启用插件
   2. 信息源栏 Mercury Fulltext settings 填入 [ip:本地端口2](ip:本地端口2)
 
-* api_feedreader：
-  1. 启用插件需修改config.php文件添加 api_feedreader；
-  define('PLUGINS', 'auth_internal, note, api_feedreader');
+### 中文搜索设置：
+
+* zhparser(用于简体中文全文搜索)：
+
+  1. 偏好设置-信息源-默认语言-Chinese_simplified
+
+#### 注意：
+
+* 升级安装需手动添加zhparser扩展：
+
+|标题|命令|举例|
+|:-|:-|:-|
+|添加zhparser扩展|psql -U PostgreSQL用户名 -d  PostgreSQL数据库名称 -a -f  /docker-entrypoint-initdb.d/install_extension.sql| psql -U ttrss -d  ttrss -a -f  /docker-entrypoint-initdb.d/install_extension.sql|
+|更新旧数据库(可选)|psql -U PostgreSQL用户名 -d  PostgreSQL数据库名称 -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"| psql -U ttrss -d  ttrss -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"|
 
 ### 常见问题:
 
@@ -156,7 +166,7 @@
 |平台|软件|
 |:-|:-|
 |android|feedme (免费)|
-|linux|FeedReader (免费)|
+|linux|NewsFlash (免费)|
 |mac os x|Reeder 4|
 
 
