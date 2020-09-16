@@ -11,19 +11,21 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.8|X86_64|
-|calibre-server|3.48.0|X86_64|
+|calibre-web|0.6.8|amd64|
+|calibre-server|4.23.0|amd64|
+|kepubify|3.1.4|amd64|
 
 #### 版本升级注意：
 
 * 0.6.8新增kepubify(Epub转换Kepub)，默认路径/usr/local/bin/kepubify(基本配置-外部二进制)。升级安装需自己设置。
+* 新增容器启动时自动添加图书(添加后会自动删除)。
 
 ### docker命令行设置：
 
 1. 下载镜像
 
-       docker pull johngong/calibre-web:latest  [带Limit标签为最少依赖版本]
- 
+       docker pull johngong/calibre-web:latest
+
 2. 创建calibre-web容器
 
         docker create  \
@@ -32,6 +34,7 @@
            -p 8080:8080  \
            -v /配置文件位置:/config  \
            -v /书库:/library  \
+           -v /自动添加文件夹:/autoaddbooks  \
            -e USER=用户名  \
            -e PASSWORD=用户密码 \
            --restart unless-stopped  \
@@ -62,6 +65,7 @@
 | `-p 8080:8080` |calibre-server web访问端口 [ip:8080](ip:8080)|
 | ` -v /配置文件位置:/config` |calibre-web与calibre-server配置位置文件|
 | `-v /书库:/library` |calibre-web与calibre-server书库默认位置|
+| `-v /自动添加文件夹:/autoaddbooks` |calibre自动添加图书文件夹位置|
 | `-e USER=用户名` |calibre-server 用户名|
 | ` -e PASSWORD=用户密码` |calibre-server 用户密码|
 | `-e WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
@@ -83,6 +87,7 @@
 |:-|:-|
 | `本地文件夹1:/library` |calibre-web与calibre-server书库默认位置|
 | `本地文件夹2:/config` |calibre-web与calibre-server配置位置文件|
+| `本地文件夹3:/autoaddbooks` |calibre自动添加图书文件夹位置|
 
 2. 端口
 
