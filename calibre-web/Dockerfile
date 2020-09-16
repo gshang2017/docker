@@ -14,7 +14,7 @@ ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 
 COPY  root  /
 
-RUN apk add --no-cache bash ca-certificates  python3 py3-pip  unrar expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  bash-completion  zstd ttf-dejavu eudev-libs \
+RUN apk add --no-cache bash ca-certificates  python3 py3-pip  unrar expect libstdc++ mesa-gl libxcomposite  fontconfig  libxrender  imagemagick6  bash-completion  zstd ttf-dejavu eudev-libs inotify-tools \
 &&  apk add --no-cache --virtual  calibrewebdep zstd   py3-setuptools  git gcc g++ python3-dev openldap-dev  libxml2-dev libxslt-dev  libjpeg-turbo-dev  \
 #install glibc
 &&  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub    \

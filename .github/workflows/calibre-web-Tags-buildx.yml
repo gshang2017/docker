@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - '.github/workflows/calibre-web-Tags-buildx.yml'
+  workflow_dispatch:
 
 env:
   CALIBRE_WEB_VER: 0.6.8  

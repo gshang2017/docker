@@ -1,0 +1,14 @@
+#! /usr/bin/with-contenv bash
+
+# 启动inotify
+
+while inotifywait  -e close -r /autoaddbooks; do                                                      
+    if [ "`ls -A /autoaddbooks`" != "" ];then                                                         
+    inotifywait -mr /autoaddbooks -t 30                                                             
+    mv /opt/calibre/bin/calibre-server /opt/calibre/bin/calibre-server.bak                             
+    ps -ef |grep /opt/calibre/bin/calibre-server |grep -v grep|awk '{print $1}'|xargs kill -9          
+    calibredb add -r "/autoaddbooks" --library-path="/library"                                        
+    mv /opt/calibre/bin/calibre-server.bak /opt/calibre/bin/calibre-server                             
+    rm  -r /autoaddbooks/*                                                                            
+    fi                                                                                                 
+done 

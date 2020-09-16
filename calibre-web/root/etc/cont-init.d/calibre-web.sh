@@ -90,9 +90,18 @@ mv  /root/.config/calibre/global.py.bak /root/.config/calibre/global.py
 rm /root/.config/calibre/global.pyc
 fi
 
+
 #自动添加图书.
+#检查calibre-server文件
+if [ -f /opt/calibre/bin/calibre-server.bak ] ;  then 
+mv /opt/calibre/bin/calibre-server.bak /opt/calibre/bin/calibre-server
+fi
+#添加图书.
+if [ "`ls -A /autoaddbooks`" != "" ];then                                               
 calibredb add -r "/autoaddbooks" --library-path="/library"
 rm  -r /autoaddbooks/*
+fi
+
 
 #calibre-server语言.
 if [  -n "$WEBLANGUAGE" ] ;  then
