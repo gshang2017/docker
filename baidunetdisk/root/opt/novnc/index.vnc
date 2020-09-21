@@ -141,9 +141,9 @@
           </li>
           <!-- Virtual keyboard -->
           <li id="navbarVirtualKeyboardButton" class="hide">
-            <button id="virtualKeyboardToggleButton" class="btn btn-default navbar-btn" title="Toggle the virtual keyboard">
+            <button id="virtualKeyboardToggleButton" class="btn btn-default navbar-btn" title="切换虚拟键盘">
               <i class="fa fa-keyboard-o fa-fw" aria-hidden="true"></i>
-              <span class="hidden-sm">&nbsp;Keyboard</span>
+              <span class="hidden-sm">&nbsp;键盘</span>
             </button>
           </li>
           <!-- Example without a button:

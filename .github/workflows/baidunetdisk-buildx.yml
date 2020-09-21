@@ -1,0 +1,44 @@
+name: Build baidunetdisk-latest Image
+
+on:
+  push:
+    paths:
+    - 'baidunetdisk/Dockerfile'
+    - 'baidunetdisk/root/*'
+  workflow_dispatch:
+
+jobs:
+  buildx:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Login to DockerHub
+        uses: crazy-max/ghaction-docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v3
+        with:
+          buildx-version: latest
+          qemu-version: latest
+
+      - name: Build dockerfile (with push)
+        run: |
+          docker buildx build \
+          --platform linux/amd64 \
+          --output "type=image,push=true" \
+          --tag johngong/baidunetdisk:latest \
+          --file ./baidunetdisk/Dockerfile ./baidunetdisk
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        env:
+         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+         DOCKERHUB_REPOSITORY: johngong/baidunetdisk
+         README_FILEPATH: ./baidunetdisk/README.md
