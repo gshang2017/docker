@@ -2,7 +2,7 @@
 
 # 启动inotify
 
-while inotifywait  -e close -r /autoaddbooks; do                                                      
+while inotifywait  -e close -e move -r /autoaddbooks; do                                                      
     if [ "`ls -A /autoaddbooks`" != "" ];then                                                         
     inotifywait -mr /autoaddbooks -t 30                                                             
     mv /opt/calibre/bin/calibre-server /opt/calibre/bin/calibre-server.bak                             
