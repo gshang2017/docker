@@ -4,7 +4,8 @@ on:
   push:
     paths:
     - 'aria2/Dockerfile'
-    - 'aria2/root/*'
+    - 'aria2/root/**'
+  workflow_dispatch:
 
 jobs:
   buildx:

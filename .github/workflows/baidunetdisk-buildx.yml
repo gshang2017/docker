@@ -4,7 +4,7 @@ on:
   push:
     paths:
     - 'baidunetdisk/Dockerfile'
-    - 'baidunetdisk/root/*'
+    - 'baidunetdisk/root/**'
   workflow_dispatch:
 
 jobs:

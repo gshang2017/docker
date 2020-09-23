@@ -4,7 +4,8 @@ on:
   push:
     paths:
     - 'qiandao/Dockerfile'
-    - 'qiandao/root/*'
+    - 'qiandao/root/**'
+  workflow_dispatch:
 
 jobs:
   buildx:

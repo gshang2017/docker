@@ -4,7 +4,8 @@ on:
   push:
     paths:
     - 'kms/Dockerfile'
-    - 'kms/root/*'
+    - 'kms/root/**'
+  workflow_dispatch:
 
 jobs:
   buildx:

@@ -4,7 +4,8 @@ on:
   push:
     paths:
     - 'qBittorrent/Dockerfile'
-    - 'qBittorrent/root/*'
+    - 'qBittorrent/root/**'
+  workflow_dispatch:
 
 jobs:
   buildx:

@@ -4,7 +4,8 @@ on:
   push:
     paths:
     - 'anki-sync-server/Dockerfile'
-    - 'anki-sync-server/root/*'
+    - 'anki-sync-server/root/**'
+  workflow_dispatch:
 
 jobs:
   buildx:

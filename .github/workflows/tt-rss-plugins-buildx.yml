@@ -4,7 +4,8 @@ on:
   push:
     paths:
     - 'tt-rss-plugins/Dockerfile'
-    - 'tt-rss-plugins/root/*'
+    - 'tt-rss-plugins/root/**'
+  workflow_dispatch:
 
 jobs:
   buildx:
