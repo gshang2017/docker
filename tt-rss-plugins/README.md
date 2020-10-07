@@ -14,13 +14,13 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-20.08-67f02e2aa|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-20.09-8a02a728c|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|amd64,需自建数据库|
 
 #### 版本升级注意：
 
-* plugins-19.8升级到plugins-20.08需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
+* plugins-19.8升级到plugins-20.09需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
 
 ### Postgres数据库导入导出
 

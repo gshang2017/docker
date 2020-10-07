@@ -4,9 +4,10 @@ on:
   push:
     paths:
     - '.github/workflows/tt-rss-plugins-Tags-buildx.yml'
+  workflow_dispatch:
 
 env:
-  TTRSS_VER: 20.08-67f02e2aa
+  TTRSS_VER: 20.09-8a02a728c
 
 jobs:
   buildx:
