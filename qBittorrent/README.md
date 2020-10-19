@@ -12,9 +12,7 @@
 |:-|:-|:-|
 |qBittorrent|latest|原版(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 |qBittorrent|qee-latest|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
-|qBittorrent|4.2.5|原版:amd64 集成Trackers自动更新|
-|qBittorrent|4.2.5_arm64v8|原版:arm64v8 集成Trackers自动更新|
-|qBittorrent|4.2.5_arm32v7|原版:arm32v7 集成Trackers自动更新|
+|qBittorrent|4.3.0|原版(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 |qBittorrent|qee_4.2.5.16|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 
@@ -29,9 +27,7 @@
 |版本|命令|
 |-|:-|
 |原版(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:latest|
-|原版:amd64|docker pull johngong/qbittorrent:4.2.5|
-|原版:arm64v8|docker pull johngong/qbittorrent:4.2.5_arm64v8|
-|原版:arm32v7|docker pull johngong/qbittorrent:4.2.5_arm32v7|
+|原版(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:4.3.0|
 |qee(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:qee-latest|
 |qee(amd64;arm64v8;arm32v7)|docker pull johngong/qbittorrent:qee_4.2.5.16|
 
