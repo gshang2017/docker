@@ -1,15 +1,15 @@
-name: Build calibre-web-Tags Image
+name: Build calibre-web-glibc-Tags Image
 
 on:
   push:
     paths:
-    - '.github/workflows/calibre-web-Tags-buildx.yml'
+    - '.github/workflows/calibre-web-glibc-Tags-buildx.yml'
   workflow_dispatch:
 
 env:
   CALIBRE_WEB_VER: 0.6.9
-  CALIBRE_VER: 5.2.0
-  KEPUBIFY_VER: 3.1.6
+  CALIBRE_VER: 4.23.0
+  KEPUBIFY_VER: 3.1.4
 
 jobs:
   buildx:
@@ -36,8 +36,8 @@ jobs:
           docker buildx build \
           --platform linux/amd64 \
           --output "type=image,push=true" \
-          --tag johngong/calibre-web:${{ env.CALIBRE_WEB_VER }}-${{ env.CALIBRE_VER }}-musl \
-          --file ./calibre-web/Dockerfile ./calibre-web
+          --tag johngong/calibre-web:${{ env.CALIBRE_WEB_VER }}-${{ env.CALIBRE_VER }}-glibc \
+          --file ./calibre-web/Dockerfile.glibc ./calibre-web
 
 
       - name: Docker Hub Description
