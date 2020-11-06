@@ -6,14 +6,14 @@
 
 
 ### 版本：
-    
-   baidunetdisk:3.4.1 (amd64)
-   
+
+   baidunetdisk:3.5.0 (amd64)
+
 #### 注意：
-   
+
    * 重启群晖，网盘(baidunetdisk:3.0.1.2)不能登陆：只需要删除配置文件夹下baidunetdiskdata.db(下载进度会保留)，如果网盘设置闪退需删除帐户文件夹下userConf.db，重启docker。
-   
-   * 升级 baidunetdisk:3.4.1，下载位置需手动配置(右上角-设置)。
+
+   * 升级 baidunetdisk:3.5.0，下载位置需手动配置(右上角-设置)。
 
 ### docker命令行设置：
 
@@ -32,8 +32,8 @@
            -v /下载位置:/config/baidunetdiskdownload  \
            --restart unless-stopped  \
            johngong/baidunetdisk:latest
-           
-          
+
+
 
 
 3. 运行
