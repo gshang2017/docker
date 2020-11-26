@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  LIBTORRENT_VER: 1.2.10
-  QBITTORRENT_VER: 4.3.0.1
+  LIBTORRENT_VER: 1.2.11
+  QBITTORRENT_VER: 4.3.1
 
 
 jobs:
@@ -66,7 +66,7 @@ jobs:
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
          DOCKERHUB_REPOSITORY: johngong/qbittorrent
          README_FILEPATH: ./qBittorrent/README.md

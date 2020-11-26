@@ -4,10 +4,11 @@ on:
   push:
     paths:
     - '.github/workflows/qBittorrent.qee-Tags-buildx.yml'
-
+  workflow_dispatch:
+    
 env:
-  LIBTORRENT_VER: 1.2.10
-  QBITTORRENT_VER: 4.3.0.10
+  LIBTORRENT_VER: 1.2.11
+  QBITTORRENT_VER: 4.3.1.10
 
 
 jobs:
