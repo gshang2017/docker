@@ -14,14 +14,14 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-20.10-5738e422b|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-20.11-81c52b4b1|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|amd64,需自建数据库|
 
 #### 版本升级注意：
 
 * 从20.09开始ttrss不再支持非80及443端口订阅
-* plugins-19.8升级到plugins-20.10需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
+* plugins-19.8升级到plugins-20.11需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
 
 ### Postgres数据库导入导出
 
