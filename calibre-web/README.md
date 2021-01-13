@@ -11,9 +11,9 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.9|amd64|
-|calibre-server|5.2.0|amd64|
-|kepubify|3.1.6|amd64|
+|calibre-web|0.6.9|amd64;arm64v8|
+|calibre-server|5.2.0|amd64;arm64v8|
+|kepubify|3.1.6|amd64;arm64v8|
 
 #### 版本升级注意：
 
