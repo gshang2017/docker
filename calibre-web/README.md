@@ -11,15 +11,16 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.9|amd64;arm64v8|
-|calibre-server|5.2.0|amd64;arm64v8|
-|kepubify|3.1.6|amd64;arm64v8|
+|calibre-web|0.6.9|amd64;arm64v8;arm32v7|
+|calibre-server|5.2.0|amd64;arm64v8;arm32v7|
+|kepubify|3.1.6|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
 
 * 0.6.8新增kepubify(Epub转换Kepub)，默认路径/usr/local/bin/kepubify(基本配置-外部二进制)。升级安装需自己设置。
 * 新增容器启动时自动添加图书(配置autoaddbooks文件夹，图书添加后会自动删除)。使用此功能请备份图书。
 * 容器启动后添加至autoaddbooks文件夹的图书30s后会自动添加至书库，图书添加后会自动删除。使用此功能请备份图书。
+* arm32v7版ebook-convert可能无法转换成PDF格式。
 
 ### docker命令行设置：
 

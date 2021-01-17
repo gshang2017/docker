@@ -12,14 +12,14 @@ ENV LANG=C.UTF-8
 ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 
 COPY  root  /
-RUN apk add --no-cache bash ca-certificates  python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon ttf-dejavu inotify-tools \
+RUN apk add --no-cache bash ca-certificates  python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools \
 &&  apk add --no-cache --virtual  calibrewebdep build-base libffi-dev git python3-dev openldap-dev libxml2-dev libxslt-dev libjpeg-turbo-dev libevent-dev file cython py3-greenlet \
 #install s6-overlay
-&&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64; fi  \
+&&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
 &&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
 &&  tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
 #install  calibre-ebook
-&&  if [ "$(uname -m)" = "x86_64" ];then calibre_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then calibre_arch=aarch64; fi  \
+&&  if [ "$(uname -m)" = "x86_64" ];then calibre_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then calibre_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then calibre_arch=armv7; fi  \
 &&  wget -P /tmp  https://github.com/gshang2017/bypy/releases/download/v${CALIBRE_VER}/calibre-${CALIBRE_VER}-${calibre_arch}.musl.txz \
 &&  mkdir -p /opt/calibre && rm -rf /opt/calibre/* && tar xvf /tmp/calibre-${CALIBRE_VER}-${calibre_arch}.musl.txz -C /opt/calibre && /opt/calibre/calibre_postinstall \
 #install  calibre-web
@@ -34,7 +34,7 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip unrar expect imagem
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \
 #install kepubify
-&&  if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64; fi  \
+&&  if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi  \
 &&  wget https://github.com/geek1011/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify   \
 #clean
 &&  apk del  calibrewebdep  \
