@@ -1,7 +1,7 @@
 FROM alpine:3.12
 
 ARG  S6_VER=2.1.0.2
-ARG  CALIBRE_WEB_VER=0.6.9
+ARG  CALIBRE_WEB_VER=0.6.10
 ARG  CALIBRE_VER=5.2.0
 ARG  KEPUBIFY_VER=3.1.6
 
@@ -27,7 +27,7 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip unrar expect imagem
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \
 #douban api
-&& sed -i s/0df993c66c0c636e29ecbb5344252a4a/054022eaeae0b00e0fc068c0c0a2102a/g /usr/local/calibre-web/cps/static/js/get_meta.js   \
+#&& sed -i s/0df993c66c0c636e29ecbb5344252a4a/054022eaeae0b00e0fc068c0c0a2102a/g /usr/local/calibre-web/cps/static/js/get_meta.js   \
 #install calibre-web dep
 &&  apk add --no-cache py3-lxml  \
 &&  apk add --no-cache 'py3-six<1.15.0' --repository http://dl-4.alpinelinux.org/alpine/v3.11/main  \

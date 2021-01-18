@@ -11,7 +11,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.9|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.10|amd64;arm64v8;arm32v7|
 |calibre-server|5.2.0|amd64;arm64v8;arm32v7|
 |kepubify|3.1.6|amd64;arm64v8;arm32v7|
 
