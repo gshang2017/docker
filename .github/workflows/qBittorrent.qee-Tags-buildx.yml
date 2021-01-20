@@ -7,13 +7,13 @@ on:
   workflow_dispatch:
 
 env:
-  LIBTORRENT_VER: 1.2.11
-  QBITTORRENT_VER: 4.3.2.10
+  LIBTORRENT_VER: 1.2.12
+  QBITTORRENT_VER: 4.3.3.10
 
 
 jobs:
   buildx:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v1
