@@ -115,6 +115,22 @@ if [  -n "$USER" ] && [ -n "$PASSWORD" ] ;  then
 fi
 
 
+#calibre-server语言.
+if [  -n "$WEBLANGUAGE" ] ;  then
+  /usr/local/calibre-server/languagechange.sh
+fi
+
+#修复calibre-server web语言设置.
+if [  -f  /root/.config/calibre/global.py.json  ] ;  then
+  rm -f  /root/.config/calibre/global.py.json
+fi
+
+
+#设置时区
+ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime
+echo $TZ > /etc/timezone
+
+
 #自动添加图书.
 #检查calibre-server文件
 if [ -f /opt/calibre/bin/calibre-server.bak ] ;  then
@@ -124,15 +140,4 @@ fi
 if [ "`ls -A /autoaddbooks`" != "" ];then
   calibredb add -r "/autoaddbooks" --library-path="/library"
   rm  -r /autoaddbooks/*
-fi
-
-
-#calibre-server语言.
-if [  -n "$WEBLANGUAGE" ] ;  then
-  /usr/local/calibre-server/languagechange.sh
-fi
-
-#修复calibre-server web语言设置.
-if [  -f  /root/.config/calibre/global.py.json  ] ;  then
-  rm -f  /root/.config/calibre/global.py.json
 fi

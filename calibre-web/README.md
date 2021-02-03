@@ -11,8 +11,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.10|amd64;arm64v8;arm32v7|
-|calibre-server|5.2.0|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.11|amd64;arm64v8;arm32v7|
+|calibre-server|5.10.1|amd64;arm64v8;arm32v7|
 |kepubify|3.1.6|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
@@ -72,6 +72,7 @@
 | `-e USER=用户名` |calibre-server 用户名|
 | ` -e PASSWORD=用户密码` |calibre-server 用户密码|
 | `-e WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
+| `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 
 * 其它语言:
 
@@ -106,6 +107,7 @@
 | `USER=` |calibre-server 用户名|
 | `PASSWORD=` |calibre-server 用户密码|
 | `WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
+| `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 
 ### 其它：
 
