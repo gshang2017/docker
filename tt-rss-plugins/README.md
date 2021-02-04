@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-20.12-2abc434e2|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-21.01-6d8f2221b|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|amd64,需自建数据库|
 
@@ -167,9 +167,9 @@
 |平台|软件|
 |:-|:-|
 |android|feedme (免费)|
-|linux|NewsFlash (免费)|
-|mac os x|Reeder 4|
-
+|linux|NewsFlash(免费),fluent-reader(免费)|
+|mac os x|Reeder 4,fluent-reader(免费)|
+|windows|fluent-reader(免费)|
 
 ###  无插件版数据库搭建：
 
