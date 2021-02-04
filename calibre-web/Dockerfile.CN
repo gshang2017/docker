@@ -1,19 +1,20 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
-ARG  S6_VER=2.1.0.2
-ARG  CALIBRE_WEB_VER=0.6.10
-ARG  CALIBRE_VER=5.2.0
+ARG  S6_VER=2.2.0.1
+ARG  CALIBRE_WEB_VER=0.6.11
+ARG  CALIBRE_VER=5.10.1
 ARG  KEPUBIFY_VER=3.1.6
 
 ENV USER=
 ENV PASSWORD=
 ENV WEBLANGUAGE=zh_CN
 ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
 ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 
 COPY  root  /
-RUN apk add --no-cache bash ca-certificates  python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools \
-&&  apk add --no-cache --virtual  calibrewebdep build-base libffi-dev git python3-dev openldap-dev libxml2-dev libxslt-dev libjpeg-turbo-dev libevent-dev file cython py3-greenlet \
+RUN apk add --no-cache bash ca-certificates  tzdata python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools \
+&&  apk add --no-cache --virtual  calibrewebdep build-base libffi-dev git python3-dev openldap-dev libxml2-dev libxslt-dev libjpeg-turbo-dev libevent-dev file cython  \
 #install s6-overlay
 &&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
 &&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
