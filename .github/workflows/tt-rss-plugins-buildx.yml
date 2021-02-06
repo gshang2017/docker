@@ -9,22 +9,45 @@ on:
 
 jobs:
   buildx:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+
     steps:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: download postgres src
+        run: |
+          sudo apt-get update
+          sudo apt-get install  git
+          git clone https://github.com/docker-library/postgres.git
+          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 12.0/g' postgres/12/alpine/Dockerfile
+          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 cda2397215f758b793f741c86be05468257b0e6bcb1a6113882ab5d0df0855c6/g' postgres/12/alpine/Dockerfile
+
       - name: Set up QEMU
-        id: qemu
         uses: docker/setup-qemu-action@v1
-        with:
-          platforms: all
 
       - name: Set up Docker Buildx
-        id: buildx
         uses: docker/setup-buildx-action@v1
         with:
-          version: latest
+          driver-opts: network=host
+
+      - name: Build and push to local-registry
+        uses: docker/build-push-action@v2
+        with:
+          context: ./postgres/12/alpine
+          file: ./postgres/12/alpine/Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: true
+          tags: localhost:5000/postgres:12.0-alpine
+
+      - name: change Dockerfile
+        run: |
+          sed -i 's/postgres:12\.0-alpine/localhost:5000\/postgres:12\.0-alpine/g' tt-rss-plugins/Dockerfile
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -32,11 +55,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push
+      - name: Build and push to DockerHub
         uses: docker/build-push-action@v2
         with:
           context: ./tt-rss-plugins
-          file:  ./tt-rss-plugins/Dockerfile
+          file: ./tt-rss-plugins/Dockerfile
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           push: true
           tags: johngong/tt-rss:latest

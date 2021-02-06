@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 #启动 caddy
-exec s6-setuidgid ttrss caddy  --conf /etc/caddy/caddy.conf 
+exec caddy run --config /etc/caddy/caddy.conf  --adapter caddyfile
