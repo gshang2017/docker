@@ -9,36 +9,42 @@ on:
 
 jobs:
   buildx:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+
       - name: Login to DockerHub
-        uses: crazy-max/ghaction-docker-login@v1
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v3
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          buildx-version: latest
-          qemu-version: latest
-
-      - name: Build dockerfile (with push)
-        run: |
-          docker buildx build \
-          --platform linux/amd64,linux/arm/v7,linux/arm64 \
-          --output "type=image,push=true" \
-          --tag johngong/anki-sync-server:latest \
-          --file ./anki-sync-server/Dockerfile ./anki-sync-server
+          context: ./anki-sync-server
+          file: ./anki-sync-server/Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: true
+          tags: johngong/anki-sync-server:latest
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
          DOCKERHUB_REPOSITORY: johngong/anki-sync-server
          README_FILEPATH: ./anki-sync-server/README.md
