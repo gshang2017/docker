@@ -1,6 +1,6 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
-ARG  S6_VER=2.0.0.1
+ARG  S6_VER=2.2.0.1
 
 ENV  TZ=Asia/Shanghai
 ENV  DOMAIN=
@@ -16,8 +16,8 @@ ENV  ADMINEMAIL=
 
 
 RUN  apk add --no-cache bash ca-certificates tzdata python2 git gcc libc-dev python2-dev \
-#install pip2(alpine:3.12)
-&&  wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py \
+#install pip2(alpine:3.13)
+&&  wget --no-check-certificate https://bootstrap.pypa.io/2.7/get-pip.py \
 &&  python2 get-pip.py \
 # install s6-overlay
 &&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
