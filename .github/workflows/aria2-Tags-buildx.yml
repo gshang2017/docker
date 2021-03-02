@@ -7,7 +7,7 @@ on:
 
 env:
   ARIA2_VER: 1.35.0
-  AriaNg_VER: 1.1.7
+  AriaNg_VER: 1.2.1
 
 jobs:
   buildx:
