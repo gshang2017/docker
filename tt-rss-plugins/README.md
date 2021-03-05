@@ -14,12 +14,13 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-21.01-6d8f2221b|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-21.02-b05d4e3d9|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|amd64,需自建数据库|
 
 #### 版本升级注意：
 
+* 从21.02开始ttrss不再支持以前配置文件，需用环境变量重新设置，更新前请备份数据并清空tt-rss配置文件夹。
 * 从20.09开始ttrss不再支持非80及443端口订阅
 * plugins-19.8升级到plugins-20.12需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)
 
@@ -76,6 +77,10 @@
            -e POSTGRES_DB=ttrss   \
            -e POSTGRES_USER=ttrss   \
            -e POSTGRES_PASSWORD=ttrss   \
+           -e TTRSS_DB_NAME=ttrss   \
+           -e TTRSS_DB_USER=ttrss   \
+           -e TTRSS_DB_PASS=ttrss   \
+           -e TTRSS_SELF_URL_PATH=http://localhost:80/   \
            --restart unless-stopped  \
            johngong/tt-rss:latest
 
@@ -108,6 +113,14 @@
 | `-e POSTGRES_DB=ttrss` |PostgreSQL数据库名称 例如:ttrss|
 | `-e POSTGRES_USER=ttrss` |PostgreSQL用户名 例如:ttrss|
 | `-e POSTGRES_PASSWORD=ttrss` |PostgreSQL密码 例如:ttrss|
+| `-e TTRSS_DB_NAME=ttrss` |PostgreSQL数据库名称(POSTGRES_DB) 例如:ttrss|
+| `-e TTRSS_DB_USER=ttrss` |PostgreSQL用户名(POSTGRES_USER) 例如:ttrss|
+| `-e TTRSS_DB_PASS=ttrss` |PostgreSQL密码(POSTGRES_PASSWORD) 例如:ttrss|
+| `-e TTRSS_DB_TYPE=pgsql` |tt-rss使用的数据库类型,默认设置为pgsql，无需更改|
+| `-e TTRSS_DB_PORT=5432` |tt-rss使用的数据库端口,默认设置为容器内部端口，无需更改|
+| `-e TTRSS_DB_HOST=0.0.0.0` |tt-rss使用的数据库IP,默认设置为容器内部IP，无需更改|
+| `-e TTRSS_SELF_URL_PATH=http://localhost:80/` |tt-rss访问地址,需更改为IP或域名加tt-rss服务器web端口|
+| `-e TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext` |tt-rss默认开启插件|
 
 ### 群晖docker设置：
 
@@ -133,6 +146,14 @@
 | `POSTGRES_DB` |PostgreSQL数据库名称 例如:ttrss|
 | `POSTGRES_USER` |PostgreSQL用户名 例如:ttrss|
 | `POSTGRES_PASSWORD` |PostgreSQL密码 例如:ttrss|
+| `TTRSS_DB_NAME` |PostgreSQL数据库名称(POSTGRES_DB) 例如:ttrss|
+| `TTRSS_DB_USER` |PostgreSQL用户名(POSTGRES_USER) 例如:ttrss|
+| `TTRSS_DB_PASS` |PostgreSQL密码(POSTGRES_PASSWORD) 例如:ttrss|
+| `TTRSS_DB_TYPE=pgsql` |tt-rss使用的数据库类型,默认设置为pgsql，无需更改|
+| `TTRSS_DB_PORT=5432` |tt-rss使用的数据库端口,默认设置为容器内部端口，无需更改|
+| `TTRSS_DB_HOST=0.0.0.0` |tt-rss使用的数据库IP,默认设置为容器内部IP，无需更改|
+| `TTRSS_SELF_URL_PATH=http://localhost:80/` |tt-rss访问地址,需更改为IP或域名加tt-rss服务器web端口|
+| `TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext` |tt-rss默认开启插件|
 
 ### 插件设置：
 
@@ -160,7 +181,7 @@
 
 |问题|解决方法|
 |:-|:-|
-|群晖域名反代会出现: Please set SELF_URL_PATH to the correct value detected for your server:XXXXXXXXX|config.php 配置文件末尾添加 define('_SKIP_SELF_URL_PATH_CHECKS', true); 即可。|
+|群晖域名反代会出现: Please set SELF_URL_PATH to the correct value detected for your server:XXXXXXXXX|config.php 配置文件末尾添加 define('_SKIP_SELF_URL_PATH_CHECKS', true); 即可。[plugins-21.02失效]|
 
 ### 客服端软件：
 

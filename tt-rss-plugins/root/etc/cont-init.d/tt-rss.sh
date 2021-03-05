@@ -2,18 +2,15 @@
 
 #检查自定义config位置文件
 if [ ! -e "/config/config.php" ] ;  then
-  if [  -L "/usr/local/tt-rss/config.php" ] ;  then
+  cp  /usr/local/tt-rss/config.php-dist  /config/config.php
+  if [ -e "/usr/local/tt-rss/config.php" ] ;  then
     rm  /usr/local/tt-rss/config.php
   fi
-  if [  -e "/usr/local/tt-rss/config.php" ] ;  then
-    mv  /usr/local/tt-rss/config.php  /config/config.php
-    ln -s /config/config.php /usr/local/tt-rss/
-  fi
+  ln -s /config/config.php /usr/local/tt-rss/
 fi
 if  [  -e "/config/config.php" ] ;  then
-  if [ -e "/usr/local/tt-rss/config.php" ] && [ ! -L "/usr/local/tt-rss/config.php" ] ;  then
-    mv  /config/config.php /config/config.php.bak
-    mv  /usr/local/tt-rss/config.php  /config/config.php
+  if [ -e "/usr/local/tt-rss/config.php" ] ;  then
+    rm  /usr/local/tt-rss/config.php
   fi
   ln -s /config/config.php /usr/local/tt-rss/
 fi
@@ -44,6 +41,11 @@ fi
 if [  ! -L "/usr/local/tt-rss/lock" ] ;  then
   ln -s /config/lock  /usr/local/tt-rss/
 fi
+#检查update_daemon.stamp文件
+if [  ! -e "/config/lock/update_daemon.stamp" ] ;  then
+  mkdir -p /config/lock/
+  touch /config/lock/update_daemon.stamp
+fi
 
 #检查plugins.local文件夹位置
 if [  ! -d "/config/plugins.local" ] ;  then
@@ -66,6 +68,15 @@ if [  ! -d "/config/plugins.local/mercury_fulltext" ] ;  then
   cp -rf /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext  /config/plugins.local/
 fi
 
+#检查templates.local文件夹位置
+if [  ! -d "/config/templates.local" ] ;  then
+  cp -rf /usr/local/tt-rss/defaults/templates.local  /config/
+  ln -s /config/templates.local  /usr/local/tt-rss/
+fi
+if [  ! -L "/usr/local/tt-rss/templates.local" ] ;  then
+  ln -s /config/templates.local  /usr/local/tt-rss/
+fi
+
 #检查themes.local文件夹位置
 if [  ! -d "/config/themes.local" ] ;  then
   cp -rf /usr/local/tt-rss/defaults/themes.local  /config/
@@ -85,12 +96,14 @@ if [  ! -e "/config/php/log/error.log" ] ;  then
   mkdir -p /config/php/log/
   touch /config/php/log/error.log
 fi
-rm /var/log/php7/error.log
-ln -s /config/php/log/error.log  /var/log/php7/error.log
-
+rm /var/log/php8/error.log
+ln -s /config/php/log/error.log  /var/log/php8/error.log
 
 #更改文件夹权限
 chown -R ttrss:ttrss /config/
 chown -R ttrss:ttrss /usr/local/tt-rss/
-chown -R ttrss:ttrss /var/log/php7/
+chown -R ttrss:ttrss /var/log/php8/
 chown -R postgres:postgres /var/lib/postgresql/data
+
+#初始化ttrss_schema_pgsql.sql
+/usr/local/bin/initialize.sh &
