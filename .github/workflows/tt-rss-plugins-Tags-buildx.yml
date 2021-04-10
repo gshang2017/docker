@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  TTRSS_VER: 21.02-b05d4e3d9
+  TTRSS_VER: 21.03-c0fba62fa
 
 jobs:
   buildx:
