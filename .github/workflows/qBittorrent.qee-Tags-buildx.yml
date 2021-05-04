@@ -8,7 +8,7 @@ on:
 
 env:
   LIBTORRENT_VER: 1.2.13
-  QBITTORRENT_VER: 4.3.4.10
+  QBITTORRENT_VER: 4.3.5.10
 
 
 jobs:
