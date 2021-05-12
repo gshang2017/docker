@@ -8,7 +8,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|relaysrv|1.8.0|amd64;arm64v8;arm32v7|
+|relaysrv|1.15.0|amd64;arm64v8;arm32v7|
 |discosrv|1.8.0|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
