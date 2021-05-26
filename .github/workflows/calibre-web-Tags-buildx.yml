@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CALIBRE_WEB_VER: 0.6.11
+  CALIBRE_WEB_VER: 0.6.12
   CALIBRE_VER: 5.10.1
   KEPUBIFY_VER: 3.1.6
 
