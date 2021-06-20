@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  TTRSS_VER: 21.04-e8f78181f
+  TTRSS_VER: 21.05-92c78beb9
 
 jobs:
   buildx:
@@ -26,7 +26,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install  git
-          git clone https://github.com/docker-library/postgres.git
+          #git clone https://github.com/docker-library/postgres.git
+          wget https://github.com/docker-library/postgres/archive/56eb8091dc67efe65b7a5a101e80ab83a9ca70a3.zip
+          unzip   56eb8091dc67efe65b7a5a101e80ab83a9ca70a3.zip
+          mv postgres-56eb8091dc67efe65b7a5a101e80ab83a9ca70a3 postgres
           sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 12.0/g' postgres/12/alpine/Dockerfile
           sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 cda2397215f758b793f741c86be05468257b0e6bcb1a6113882ab5d0df0855c6/g' postgres/12/alpine/Dockerfile
 
