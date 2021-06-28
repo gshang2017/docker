@@ -12,8 +12,8 @@
 |:-|:-|:-|
 |qBittorrent|latest|原版(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 |qBittorrent|qee-latest|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
-|qBittorrent|4.3.5|原版(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
-|qBittorrent|qee_4.3.5.10|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent|4.3.6|原版(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent|qee_4.3.6.10|qee(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 
 ### 注意：

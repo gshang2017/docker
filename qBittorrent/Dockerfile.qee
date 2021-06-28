@@ -1,9 +1,9 @@
-FROM alpine:3.13 as compilingqB
+FROM alpine:3.14 as compilingqB
 
 #compiling qB
 
-ARG  LIBTORRENT_VER=1.2.13
-ARG  QBITTORRENT_VER=4.3.5.10
+ARG  LIBTORRENT_VER=1.2.14
+ARG  QBITTORRENT_VER=4.3.6.10
 #ARG  LIBTORRENT_VER=1.1.14
 #ARG  QBITTORRENT_VER=4.1.9.17
 
@@ -36,7 +36,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5
  # docker qB
 
 
-FROM alpine:3.13
+FROM alpine:3.14
 
 ARG  S6_VER=2.2.0.3
 

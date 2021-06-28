@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  LIBTORRENT_VER: 1.2.13
-  QBITTORRENT_VER: 4.3.5.10
+  LIBTORRENT_VER: 1.2.14
+  QBITTORRENT_VER: 4.3.6.10
 
 
 jobs:
