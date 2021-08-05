@@ -6,7 +6,7 @@ ARG  LIBTORRENT_VER=1.2.14
 ARG  QBITTORRENT_VER=4.3.6
 
 
-RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file \
+RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file qt5-qtbase-dev \
 &&   mkdir /qbtorrent  \
 &&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
 #&&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/libtorrent-${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
