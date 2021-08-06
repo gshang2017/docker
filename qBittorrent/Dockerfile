@@ -3,7 +3,7 @@ FROM alpine:3.14 as compilingqB
 #compiling qB
 
 ARG  LIBTORRENT_VER=1.2.14
-ARG  QBITTORRENT_VER=4.3.6
+ARG  QBITTORRENT_VER=4.3.7
 
 
 RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file \
@@ -53,7 +53,7 @@ RUN  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "
 &&   wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
 &&   tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
 &&   rm s6-overlay-${s6_arch}.tar.gz   \
-&&   apk add --no-cache bash curl ca-certificates  tzdata  python3 shadow \
+&&   apk add --no-cache bash curl ca-certificates  tzdata  python3 shadow qt5-qtbase-sqlite \
 &&   rm -rf /var/cache/apk/*   \
 #create qbittorrent user
 &&  useradd -u 1000 -U -d /config -s /bin/false   qbittorrent   \
