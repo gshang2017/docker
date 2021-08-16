@@ -1,4 +1,4 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:21.06-9669bb94d  as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:21.07-73d14338a  as ttrss-src
 FROM postgres:12.0-alpine
 
 ARG  S6_VER=2.2.0.3
@@ -20,7 +20,7 @@ COPY  root  /
 COPY --from=ttrss-src  /src/tt-rss  /usr/local/tt-rss
 
 # install php tt-rss caddy git [npm nodejs]-mercury-parser-api
-RUN apk add --no-cache bash shadow git npm nodejs ca-certificates caddy clang llvm10 build-base dumb-init postgresql-client \
+RUN apk add --no-cache bash shadow git npm nodejs ca-certificates caddy clang llvm11 build-base dumb-init postgresql-client \
 	          php8 php8-fpm php8-pdo php8-gd php8-pgsql php8-pdo_pgsql php8-mbstring php8-intl php8-xml php8-curl php8-session \
 	          php8-dom php8-fileinfo php8-json php8-iconv php8-pcntl php8-posix php8-zip php8-openssl php8-pecl-xdebug \
 # install s6-overlay
@@ -28,7 +28,7 @@ RUN apk add --no-cache bash shadow git npm nodejs ca-certificates caddy clang ll
 &&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
 &&  tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
 # install mercury-parser-api
-&& npm install git+https://github.com/HenryQW/mercury-parser-api.git    \
+&& npm install --prefix /usr/local/mercury-parser-api git+https://github.com/HenryQW/mercury-parser-api.git \
 # install zhparser
 &&  wget http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2   \
 &&  tar -xf scws-1.2.3.tar.bz2   \
@@ -63,7 +63,7 @@ RUN apk add --no-cache bash shadow git npm nodejs ca-certificates caddy clang ll
 &&  git clone  https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme     \
 &&  cp -r /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly* /usr/local/tt-rss/defaults/themes.local     \
 #clean
-&&  apk del clang llvm10 build-base  \
+&&  apk del clang llvm11 build-base  \
 &&  rm -rf /var/cache/apk/*   \
 &&  rm /s6-overlay-${s6_arch}.tar.gz   \
 &&  rm -rf /scws*   \
