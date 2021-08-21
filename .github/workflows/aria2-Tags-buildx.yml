@@ -6,7 +6,7 @@ on:
     - '.github/workflows/aria2-Tags-buildx.yml'
 
 env:
-  ARIA2_VER: 1.35.0
+  ARIA2_VER: 1.36.0
   AriaNg_VER: 1.2.2
 
 jobs:
