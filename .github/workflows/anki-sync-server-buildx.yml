@@ -32,19 +32,23 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: run multiarch/qemu-user-static
+        run: |
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: ./anki-sync-server
           file: ./anki-sync-server/Dockerfile
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: johngong/anki-sync-server:latest
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/anki-sync-server
-         README_FILEPATH: ./anki-sync-server/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/anki-sync-server
+          readme-filepath: ./anki-sync-server/README.md

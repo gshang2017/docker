@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 # 启动anki-sync-server
-exec python3 -m  ankisyncd /usr/local/anki-sync-server/ankisyncd.conf >/dev/null 2>&1
+exec python3 -m ankisyncd
