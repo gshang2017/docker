@@ -99,11 +99,25 @@ fi
 rm /var/log/php8/error.log
 ln -s /config/php/log/error.log  /var/log/php8/error.log
 
+#修改用户UID GID
+if [ $GID -ne 0 ] && [ $UID -ne 0 ] ;  then
+  groupmod -o -g "$GID" ttrss
+  usermod -o -u "$UID" ttrss
+  groupmod -o -g "$GID" postgres
+  usermod -o -u "$UID" postgres
+else
+  echo 请设定UID与GID为非0数值...
+fi
+
 #更改文件夹权限
 chown -R ttrss:ttrss /config/
 chown -R ttrss:ttrss /usr/local/tt-rss/
 chown -R ttrss:ttrss /var/log/php8/
 chown -R postgres:postgres /var/lib/postgresql/data
+if [ ! -d /var/run/postgresql/ ] ;  then
+  mkdir -p /var/run/postgresql/
+fi
+chown -R postgres:postgres /var/run/postgresql/
 
 #初始化ttrss_schema_pgsql.sql
 /usr/local/bin/initialize.sh &
