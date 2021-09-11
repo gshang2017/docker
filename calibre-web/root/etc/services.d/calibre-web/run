@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 # 启动calibre-web
-exec python3 /usr/local/calibre-web/cps.py
+exec s6-setuidgid calibre python3 /usr/local/calibre-web/cps.py

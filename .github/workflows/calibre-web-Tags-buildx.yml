@@ -9,7 +9,6 @@ on:
 env:
   CALIBRE_WEB_VER: 0.6.12
   CALIBRE_VER: 5.10.1
-  KEPUBIFY_VER: 3.1.6
 
 jobs:
   buildx:
@@ -74,8 +73,9 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/calibre-web
-         README_FILEPATH: ./calibre-web/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/calibre-web
+          short-description: calibre-web:${{ env.CALIBRE_WEB_VER }}电子书管理集成ebook-convert(calibre:${{ env.CALIBRE_VER }})
+          readme-filepath: ./calibre-web/README.md

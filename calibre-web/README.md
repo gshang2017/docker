@@ -13,7 +13,7 @@
 |:-|:-|:-|
 |calibre-web|0.6.12|amd64;arm64v8;arm32v7|
 |calibre-server|5.10.1|amd64;arm64v8;arm32v7|
-|kepubify|3.1.6|amd64;arm64v8;arm32v7|
+|kepubify|4.0.1|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
 
@@ -38,6 +38,8 @@
            -v /配置文件位置:/config  \
            -v /书库:/library  \
            -v /自动添加文件夹:/autoaddbooks  \
+           -e UID=1000  \
+           -e GID=1000  \
            -e USER=用户名  \
            -e PASSWORD=用户密码 \
            --restart unless-stopped  \
@@ -64,13 +66,15 @@
 |参数|说明|
 |:-|:-|
 | `--name=calibre-web` |容器名|
-| ` -p 8083:8083` |calibre-web web访问端口 [ip:8083](ip:8083),默认用户名: admin 默认密码: admin123|
+| `-p 8083:8083` |calibre-web web访问端口 [ip:8083](ip:8083),默认用户名: admin 默认密码: admin123|
 | `-p 8080:8080` |calibre-server web访问端口 [ip:8080](ip:8080)|
-| ` -v /配置文件位置:/config` |calibre-web与calibre-server配置位置文件|
+| `-v /配置文件位置:/config` |calibre-web与calibre-server配置位置文件|
 | `-v /书库:/library` |calibre-web与calibre-server书库默认位置|
 | `-v /自动添加文件夹:/autoaddbooks` |calibre自动添加图书文件夹位置|
+| `-e UID=1000` |uid设置,默认为1000|
+| `-e GID=1000` |gid设置,默认为1000|
 | `-e USER=用户名` |calibre-server 用户名|
-| ` -e PASSWORD=用户密码` |calibre-server 用户密码|
+| `-e PASSWORD=用户密码` |calibre-server 用户密码|
 | `-e WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
@@ -105,6 +109,8 @@
 
 |参数|说明|
 |:-|:-|
+| `UID=1000` |uid设置,默认为1000|
+| `GID=1000` |gid设置,默认为1000|
 | `USER=` |calibre-server 用户名|
 | `PASSWORD=` |calibre-server 用户密码|
 | `WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
