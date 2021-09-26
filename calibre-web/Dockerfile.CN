@@ -1,7 +1,7 @@
-FROM alpine:3.13
+FROM alpine:3.14
 
 ARG  S6_VER=2.2.0.3
-ARG  CALIBRE_WEB_VER=0.6.12
+ARG  CALIBRE_WEB_VER=0.6.13
 ARG  CALIBRE_VER=5.10.1
 ARG  KEPUBIFY_VER=4.0.1
 
@@ -41,6 +41,8 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip unrar 
 &&  apk add --no-cache py3-lxml py3-cryptography \
 #&&  apk add --no-cache 'py3-six<1.15.0' --repository http://dl-4.alpinelinux.org/alpine/v3.11/main  \
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \
+#del scholarly
+&&  sed -i '/scholarly/d' /usr/local/calibre-web/optional-requirements.txt  \
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \
 #install kepubify
 &&  if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi  \

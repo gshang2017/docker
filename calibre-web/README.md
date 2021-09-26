@@ -11,7 +11,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.12|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.13|amd64;arm64v8;arm32v7|
 |calibre-server|5.10.1|amd64;arm64v8;arm32v7|
 |kepubify|4.0.1|amd64;arm64v8;arm32v7|
 
@@ -22,6 +22,7 @@
 * 容器启动后添加至autoaddbooks文件夹的图书30s后会自动添加至书库，图书添加后会自动删除。使用此功能请备份图书。
 * arm32v7版ebook-convert可能无法转换成PDF格式。
 * CN版本修改了calibre，支持中文目录(非拼音)。修改了calibre-web的下载函数,支持中文(非拼音)下载。可能有bug，请慎用此版本。替换前请备份书库。
+* 未安装0.6.13新增的Google Scholar元数据搜索。
 
 ### docker命令行设置：
 
@@ -119,9 +120,10 @@
 
 ### 其它：
 
-1. ebook-convert转换配置：管理-配置-基本设置-外部二进制-选择使用calibre的电子书转换器-转换工具路径：/opt/calibre/ebook-convert-提交
-2. calibre-web自带上传功能并不好，可开启calibre-server，并用其上传。
-3. ebook-convert转换其它格式到PDF时需要语言字体，不然转换后只有英文。
+1. calibre-server的用户名和密码需在容器初次配置时或者web界面语言设置为en时才能自动配置。
+2. ebook-convert转换配置：管理-配置-基本设置-外部二进制-选择使用calibre的电子书转换器-转换工具路径：/opt/calibre/ebook-convert-提交
+3. calibre-web自带上传功能并不好，可开启calibre-server，并用其上传。
+4. ebook-convert转换其它格式到PDF时需要语言字体，不然转换后只有英文。
 
         PDF字体设置：
         复制字体到 config\calibre-server\calibrefonts （本地文件夹2\calibre-server\calibrefonts），重启docker。
