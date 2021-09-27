@@ -1,4 +1,4 @@
-FROM alpine:3.13 as compilingvlmcsd
+FROM alpine:3.14 as compilingvlmcsd
 
 #compiling vlmcsd
 
@@ -12,9 +12,9 @@ RUN  apk add --no-cache git make build-base  \
 
 
 
-FROM alpine:3.13
+FROM alpine:3.14
 
-ARG  S6_VER=2.2.0.1
+ARG  S6_VER=2.2.0.3
 ARG  SVN_VER=1113
 
 ENV WEB=YES

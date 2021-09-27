@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - '.github/workflows/kms-Tags-buildx.yml'
+  workflow_dispatch:
 
 env:
   SVN_VER: 1113
@@ -71,8 +72,9 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/kms
-         README_FILEPATH: ./kms/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/kms
+          short-description: kms:${{ env.SVN_VER }} 服务器
+          readme-filepath: ./kms/README.md
