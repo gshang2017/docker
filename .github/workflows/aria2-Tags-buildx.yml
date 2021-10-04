@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - '.github/workflows/aria2-Tags-buildx.yml'
+  workflow_dispatch:
 
 env:
   ARIA2_VER: 1.36.0
@@ -72,8 +73,9 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/aria2
-         README_FILEPATH: ./aria2/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/aria2
+          short-description: Aria2:${{ env.ARIA2_VER }},AriaNg:${{ env.AriaNg_VER }},集成Trackers更新。
+          readme-filepath: ./aria2/README.md

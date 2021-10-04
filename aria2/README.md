@@ -75,6 +75,7 @@
 | `-e UID=0` |uid设置,默认为0|
 | `-e GID=0` |gid设置,默认为0|
 | `-e UMASK=022` |umask设置,默认为022|
+| `-e TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 
 ### 群晖docker设置：
 
@@ -105,3 +106,4 @@
 | `UID=0` |uid设置,默认为0|
 | `GID=0` |gid设置,默认为0|
 | `UMASK=022` |umask设置,默认为022|
+| `TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |

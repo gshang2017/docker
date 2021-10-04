@@ -36,7 +36,7 @@ ENV TZ=Asia/Shanghai
 ENV UID=0
 ENV GID=0
 ENV UMASK=022
-
+ENV TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 
 COPY  root /
 COPY --from=compilingaria2c  /aria2  /
