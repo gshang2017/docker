@@ -4,8 +4,11 @@ on:
   push:
     paths:
     - '.github/workflows/syncthing-relay-discosrv-Tags-buildx.yml'
+  workflow_dispatch:
+
 env:
-  SRV_VER: 1.15.0
+  R_SRV_VER: 1.15.0
+  D_SRV_VER: 1.18.1
 
 jobs:
   buildx:
@@ -39,7 +42,7 @@ jobs:
           file: ./syncthing-relay-discosrv/Dockerfile
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           push: true
-          tags: johngong/syncthing-relay-discosrv:${{ env.SRV_VER }}
+          tags: johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -48,7 +51,7 @@ jobs:
           file: ./syncthing-relay-discosrv/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: johngong/syncthing-relay-discosrv:${{ env.SRV_VER }}_amd64
+          tags: johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -57,7 +60,7 @@ jobs:
           file: ./syncthing-relay-discosrv/Dockerfile
           platforms: linux/arm64
           push: true
-          tags: johngong/syncthing-relay-discosrv:${{ env.SRV_VER }}_arm64v8
+          tags: johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -66,12 +69,13 @@ jobs:
           file: ./syncthing-relay-discosrv/Dockerfile
           platforms: linux/arm/v7
           push: true
-          tags: johngong/syncthing-relay-discosrv:${{ env.SRV_VER }}_arm32v7
+          tags: johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/syncthing-relay-discosrv
-         README_FILEPATH: ./syncthing-relay-discosrv/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/syncthing-relay-discosrv
+          short-description: relaysrv:${{ env.R_SRV_VER }},discosrv:${{ env.D_SRV_VER }},syncthing同步中继与发现服务器
+          readme-filepath: ./syncthing-relay-discosrv/README.md

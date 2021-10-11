@@ -1,9 +1,11 @@
-FROM alpine:3.13
+FROM alpine:3.14
 
 ARG  RELAYSRV_VER=1.15.0
-ARG  DISCOSRV_VER=1.8.0
+ARG  DISCOSRV_VER=1.18.1
 ARG  S6_VER=2.2.0.3
 
+ENV UID=1000
+ENV GID=1000
 ENV GLOBAL_RATE=100000000
 ENV PER_SESSION_RATE=10000000
 ENV MESSAGE_TIMEOUT=1m30s
@@ -16,7 +18,7 @@ ENV RELAY_OTHER_OPTION=
 
 COPY  root  /
 
-RUN apk add --no-cache bash  ca-certificates  \
+RUN apk add --no-cache bash shadow ca-certificates  \
 # install relaysrv discosrv
 &&  if [ "$(uname -m)" = "x86_64" ];then srv_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then srv_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then srv_arch=arm; fi  \
 &&  wget https://github.com/syncthing/relaysrv/releases/download/v${RELAYSRV_VER}/strelaysrv-linux-${srv_arch}-v${RELAYSRV_VER}.tar.gz  \
@@ -29,6 +31,9 @@ RUN apk add --no-cache bash  ca-certificates  \
 &&  chmod a+x  /usr/local/bin/discosrv   \
 &&  rm -rf stdiscosrv*   \
 &&  rm -rf strelaysrv*   \
+#create stsrv user
+&&  useradd -u 1000 -U -d /config -s /bin/false   stsrv   \
+&&  usermod -G users stsrv   \
 # install s6-overlay
 &&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
 &&  wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
@@ -36,7 +41,7 @@ RUN apk add --no-cache bash  ca-certificates  \
 &&  rm s6-overlay-${s6_arch}.tar.gz  \
 &&  rm -rf /var/cache/apk/*
 
-VOLUME discosrvdb certs
+VOLUME config
 
 EXPOSE 22067 22070 8443
 ENTRYPOINT [ "/init" ]
