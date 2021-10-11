@@ -29,3 +29,11 @@ if [  -n "$USER" ] && [ -n "$PASSWORD" ] ;  then
     expect  /usr/local/anki-sync-server/useradd.sh  $USER $PASSWORD
   fi
 fi
+
+#修改用户UID GID
+groupmod -o -g "$GID" ankisync
+usermod -o -u "$UID" ankisync
+
+#修复权限
+chown -R ankisync:ankisync /config
+chown -R ankisync:ankisync /usr/local/anki-sync-server/

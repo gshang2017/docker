@@ -33,6 +33,8 @@
            -v /配置文件位置:/config  \
            -e USER=***  \
            -e PASSWORD=***  \
+           -e UID=1000  \
+           -e GID=1000  \
            --restart unless-stopped  \
            johngong/anki-sync-server:latest
 
@@ -61,6 +63,8 @@
 | `-v /配置文件位置:/config` |anki-sync-server配置位置文件|
 | `-e USER=` |anki-sync-server同步服务器用户名，建议用邮箱格式，例如：XXXXXXX@XX.com，不然android无法使用|
 | `-e PASSWORD=` |anki-sync-server同步服务器密码|
+| `-e UID=1000` |uid设置,默认为1000|
+| `-e GID=1000` |gid设置,默认为1000|
 
 ### 群晖docker设置：
 
@@ -82,6 +86,8 @@
 |:-|:-|
 | `USER=` |anki-sync-server同步服务器用户名，建议用邮箱格式，例如：XXXXXXX@XX.com，不然android无法使用|
 | `PASSWORD=` |anki-sync-server同步服务器密码|
+| `UID=1000` |uid设置,默认为1000|
+| `GID=1000` |gid设置,默认为1000|
 
 ### 客户端设置:
 

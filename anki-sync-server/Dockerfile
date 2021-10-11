@@ -29,6 +29,8 @@ ARG S6_VER=2.2.0.3
 
 ENV USER=
 ENV PASSWORD=
+ENV UID=1000
+ENV GID=1000
 
 COPY root /
 COPY --from=compilinganki  /anki/bazel-bin/bazel-dist  /
@@ -62,6 +64,9 @@ RUN apt-get update -q -y \
 &&  echo "/usr/local/anki-sync-server/src/" >  /usr/local/lib/python3.8/dist-packages/ankisyncd.pth \
 #
 &&  chmod a+x /usr/local/anki-sync-server/useradd.sh \
+#create ankisync user
+&&  useradd -u 1000 -U -d /config -s /bin/false   ankisync   \
+&&  usermod -G users ankisync   \
 #clear
 &&  apt-get clean \
 &&  rm -rf /*.whl \
