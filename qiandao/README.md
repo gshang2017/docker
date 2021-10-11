@@ -24,7 +24,9 @@
            --name=qiandao  \
            -p 8923:8923 \
            -v /数据库位置:/dbpath  \
-           -e  ADMINEMAIL=**@qq.com  \
+           -e UID=1000  \
+           -e GID=1000  \
+           -e ADMINEMAIL=**@qq.com  \
            --restart unless-stopped  \
            johngong/qiandao:latest
 
@@ -34,14 +36,16 @@
            --name=qiandao  \
            -p 8923:8923 \
            -v /数据库位置:/dbpath  \
-           -e  DOMAIN=域名或ip:端口 \
-           -e  MAIL_STMP=smtp-mail.outlook.com \
-           -e  MAIL_PORT=587  \
-           -e  MAIL_SSL=True  \
-           -e  MAIL_STARTTLS=True  \
-           -e  MAIL_USER=**@hotmail.com \
-           -e  MAIL_PASSWORD=**  \
-           -e  ADMINEMAIL=**@qq.com  \
+           -e UID=1000  \
+           -e GID=1000  \
+           -e DOMAIN=域名或ip:端口 \
+           -e MAIL_STMP=smtp-mail.outlook.com \
+           -e MAIL_PORT=587  \
+           -e MAIL_SSL=True  \
+           -e MAIL_STARTTLS=True  \
+           -e MAIL_USER=**@hotmail.com \
+           -e MAIL_PASSWORD=**  \
+           -e ADMINEMAIL=**@qq.com  \
            --restart unless-stopped  \
            johngong/qiandao:latest
 
@@ -66,8 +70,10 @@
 |参数|说明|
 |:-|:-|
 | `--name=qiandao` |容器名|
-| ` -p 8923:8923` |qiandao程序web访问端口  [IP:8923](IP:8923)|
+| `-p 8923:8923` |qiandao程序web访问端口  [IP:8923](IP:8923)|
 | `-v /数据库位置:/dbpath ` |qiandao程序数据库database.db存储位置，设置后重装只要备份database.db即可，数据不会丢失|
+| `-e UID=1000` |uid设置,默认为1000|
+| `-e GID=1000` |gid设置,默认为1000|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e DOMAIN=` |站点域名，可不设置，设置后可发送验证mail，需同时设置MAIL值，本地可设置为[IP:端口](ip:端口]);例:[192.168.1.111:8923](192.168.1.111:8923)|
 | `-e MAIL_STMP=` |邮件smtp地址-可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
@@ -98,6 +104,8 @@
 
 |参数|说明|
 |:-|:-|
+| `UID=1000` |uid设置,默认为1000|
+| `GID=1000` |gid设置,默认为1000|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `DOMAIN=` |站点域名，可不设置，设置后可发送验证mail，需同时设置MAIL值，本地可设置为[IP:端口](ip:端口]);例:[192.168.1.111:8923](192.168.1.111:8923)|
 | `MAIL_STMP=` |邮件smtp地址-可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|

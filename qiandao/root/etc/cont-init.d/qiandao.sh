@@ -37,3 +37,11 @@ fi
 #设置时区
 ln -sf /usr/share/zoneinfo/$TZ   /etc/localtime
 echo $TZ > /etc/timezone
+
+#修改用户UID GID
+groupmod -o -g "$GID" qiandao
+usermod -o -u "$UID" qiandao
+
+#修复权限
+chown -R qiandao:qiandao /usr/local/qiandao
+chown -R qiandao:qiandao /dbpath

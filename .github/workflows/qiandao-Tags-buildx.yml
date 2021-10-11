@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - '.github/workflows/qiandao-Tags-buildx.yml'
+  workflow_dispatch:
 
 env:
   QIANDAO_VER: v_380e25e
@@ -71,8 +72,9 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/qiandao
-         README_FILEPATH: ./qiandao/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/qiandao
+          short-description: qiandao:${{ env.QIANDAO_VER }},自动签到程序。
+          readme-filepath: ./qiandao/README.md
