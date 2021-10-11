@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-21.08-b8f82ca12|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
+|ttrss|plugins-21.09-949e2ab4d|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-12.0),mercury-parser-api及一些常用插件|
 |ttrss|plugins-19.8|amd64,集成postgres数据库(PostgreSQL-12beta4),mercury-parser-api及一些常用插件|
 |ttrss|19.8|amd64,需自建数据库|
 
@@ -75,7 +75,7 @@
            -v /配置文件位置:/config  \
            -v /PostgreSQL存储数据的位置:/var/lib/postgresql/data  \
            -e UID=1000  \
-           -e GID=1000  \           
+           -e GID=1000  \
            -e POSTGRES_DB=ttrss   \
            -e POSTGRES_USER=ttrss   \
            -e POSTGRES_PASSWORD=ttrss   \
@@ -182,12 +182,6 @@
 |:-|:-|:-|
 |添加zhparser扩展|psql -U PostgreSQL用户名 -d  PostgreSQL数据库名称 -a -f  /docker-entrypoint-initdb.d/install_extension.sql| psql -U ttrss -d  ttrss -a -f  /docker-entrypoint-initdb.d/install_extension.sql|
 |更新旧数据库(可选)|psql -U PostgreSQL用户名 -d  PostgreSQL数据库名称 -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"| psql -U ttrss -d  ttrss -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"|
-
-### 常见问题:
-
-|问题|解决方法|
-|:-|:-|
-|群晖域名反代会出现: Please set SELF_URL_PATH to the correct value detected for your server:XXXXXXXXX|config.php 配置文件末尾添加 define('_SKIP_SELF_URL_PATH_CHECKS', true); 即可。[plugins-21.02失效]|
 
 ### 客服端软件：
 

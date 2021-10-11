@@ -96,7 +96,9 @@ if [  ! -e "/config/php/log/error.log" ] ;  then
   mkdir -p /config/php/log/
   touch /config/php/log/error.log
 fi
-rm /var/log/php8/error.log
+if [  -e "/var/log/php8/error.log" ] ;  then
+  rm /var/log/php8/error.log
+fi
 ln -s /config/php/log/error.log  /var/log/php8/error.log
 
 #修改用户UID GID
