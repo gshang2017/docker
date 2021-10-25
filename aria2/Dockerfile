@@ -26,7 +26,7 @@ RUN  apk add --no-cache ca-certificates make g++ gcc file cppunit-dev zlib-dev o
 
 FROM alpine:3.14
 
-ARG  AriaNg_VER=1.2.2
+ARG  AriaNg_VER=1.2.3
 ARG  S6_VER=2.2.0.3
 
 ENV RPC_SECRET=
