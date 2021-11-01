@@ -3,7 +3,7 @@ FROM alpine:3.14 as compilingqB
 #compiling qB
 
 ARG  LIBTORRENT_VER=1.2.14
-ARG  QBITTORRENT_VER=4.3.8
+ARG  QBITTORRENT_VER=4.3.9
 
 
 RUN  apk add --no-cache ca-certificates make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file \
@@ -44,6 +44,7 @@ ENV WEBUIPORT=8989
 ENV UID=0
 ENV GID=0
 ENV UMASK=022
+ENV TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 
 COPY root /
 COPY --from=compilingqB  /qbittorrent  /

@@ -3,7 +3,7 @@ FROM alpine:3.14 as compilingqB
 #compiling qB
 
 ARG  LIBTORRENT_VER=1.2.14
-ARG  QBITTORRENT_VER=4.3.8.10
+ARG  QBITTORRENT_VER=4.3.9.10
 #ARG  LIBTORRENT_VER=1.1.14
 #ARG  QBITTORRENT_VER=4.1.9.17
 
@@ -46,6 +46,7 @@ ENV WEBUIPORT=8989
 ENV UID=0
 ENV GID=0
 ENV UMASK=022
+ENV TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 
 COPY root /
 COPY --from=compilingqB  /qbittorrent  /

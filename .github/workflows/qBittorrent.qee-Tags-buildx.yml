@@ -8,8 +8,8 @@ on:
 
 env:
   LIBTORRENT_VER: 1.2.14
-  QBITTORRENT_VER: 4.3.8.10
-
+  QBITTORRENT_EE_VER: 4.3.9.10
+  QBITTORRENT_VER: 4.3.9
 
 jobs:
   buildx:
@@ -43,7 +43,7 @@ jobs:
           file: ./qBittorrent/Dockerfile.qee
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           push: true
-          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_VER }}
+          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_EE_VER }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -52,7 +52,7 @@ jobs:
           file: ./qBittorrent/Dockerfile.qee
           platforms: linux/amd64
           push: true
-          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_VER }}_amd64
+          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_EE_VER }}_amd64
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -61,7 +61,7 @@ jobs:
           file: ./qBittorrent/Dockerfile.qee
           platforms: linux/arm64
           push: true
-          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_VER }}_arm64v8
+          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_EE_VER }}_arm64v8
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -70,12 +70,13 @@ jobs:
           file: ./qBittorrent/Dockerfile.qee
           platforms: linux/arm/v7
           push: true
-          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_VER }}_arm32v7
+          tags: johngong/qbittorrent:qee_${{ env.QBITTORRENT_EE_VER }}_arm32v7
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/qbittorrent
-         README_FILEPATH: ./qBittorrent/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/qbittorrent
+          short-description: qBittorrent:${{ env.QBITTORRENT_VER }},qBittorrent-EE:${{ env.QBITTORRENT_EE_VER }},集成Trackers更新
+          readme-filepath: ./qBittorrent/README.md

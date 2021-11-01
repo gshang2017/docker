@@ -2,7 +2,7 @@
 
 if [ "$TRACKERSAUTO" == "YES" ];then
 
-curl -so  /tmp/trackers_all.txt https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
+curl -so  /tmp/trackers_all.txt $TRACKERS_LIST_URL
 #wget -qP  /tmp  https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt --no-check-certificate
 Newtrackers="Bittorrent\TrackersList=$(awk '{if(!NF){next}}1'  /tmp/trackers_all.txt|sed ':a;N;s/\n/\\n/g;ta' )"
 Oldtrackers="`grep  TrackersList=  /config/qBittorrent/config/qBittorrent.conf`"
