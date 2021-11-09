@@ -49,6 +49,16 @@ fi
 if [ ! -L /usr/local/calibre-web/gdrive.db ] && [ -f /config/calibre-web/gdrive.db ];  then
 	ln -s /config/calibre-web/gdrive.db /usr/local/calibre-web/gdrive.db
 fi
+#检查douban搜索文件
+if [ -n "$DOUBANIP" ] ;  then
+  if [ ! -f /usr/local/calibre-web/cps/metadata_provider/douban.py ] ;  then
+    cp /usr/local/calibre-web/defaults/douban.py  /usr/local/calibre-web/cps/metadata_provider/douban.py
+  fi
+else
+  if [ -f /usr/local/calibre-web/cps/metadata_provider/douban.py ] ;  then
+    rm /usr/local/calibre-web/cps/metadata_provider/douban.py
+  fi
+fi
 
 #修改用户UID GID
 groupmod -o -g "$GID" calibre

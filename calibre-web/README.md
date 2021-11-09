@@ -23,6 +23,7 @@
 * arm32v7版ebook-convert可能无法转换成PDF格式。
 * CN版本修改了calibre，支持中文目录(非拼音)。修改了calibre-web的下载函数,支持中文(非拼音)下载。可能有bug，请慎用此版本。替换前请备份书库。
 * 未安装0.6.13新增的Google Scholar元数据搜索。
+* 豆瓣搜索需自行安装 https://hub.docker.com/r/fugary/simple-boot-douban-api ，并配置环境变量DOUBANIP。
 
 ### docker命令行设置：
 
@@ -79,6 +80,7 @@
 | `-e WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
+| `-e DOUBANIP=` |自定义豆瓣搜索IP,例如 http://IP:8085 |
 
 * 其它语言:
 
@@ -117,6 +119,7 @@
 | `WEBLANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
+| `DOUBANIP=` |自定义豆瓣搜索IP,例如 http://IP:8085 |
 
 ### 其它：
 

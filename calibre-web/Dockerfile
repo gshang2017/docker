@@ -15,6 +15,7 @@ ENV TZ=Asia/Shanghai
 ENV HOME=/home/calibre
 ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 ENV CALIBREDB_OTHER_OPTION=
+ENV DOUBANIP=
 
 COPY  root  /
 RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools \
