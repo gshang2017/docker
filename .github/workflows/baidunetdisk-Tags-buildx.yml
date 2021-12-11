@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  BAIDUNETDISK_VER: 3.5.0
+  BAIDUNETDISK_VER: 4.3.0
 
 jobs:
   buildx:
@@ -45,8 +45,9 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-         DOCKERHUB_REPOSITORY: johngong/baidunetdisk
-         README_FILEPATH: ./baidunetdisk/README.md
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/baidunetdisk
+          short-description: 官方百度网盘客户端VNC版:(baidunetdisk:${{ env.BAIDUNETDISK_VER }})
+          readme-filepath: ./baidunetdisk/README.md

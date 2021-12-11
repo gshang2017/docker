@@ -179,13 +179,13 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Password required</h4>
+          <h4 class="modal-title">请输入密码</h4>
         </div>
         <div class="modal-body">
-            <input type="password" class="form-control" id="vnc_password" name="password" placeholder="Password"/>
+            <input type="password" class="form-control" id="vnc_password" name="password" placeholder="密码"/>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-default" id="SubmitPasswordButton">Submit</button>
+          <button class="btn btn-default" id="SubmitPasswordButton">提交</button>
         </div>
       </div>
     </div>
