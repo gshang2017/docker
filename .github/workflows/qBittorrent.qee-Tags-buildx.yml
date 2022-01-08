@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  LIBTORRENT_VER: 1.2.14
-  QBITTORRENT_EE_VER: 4.3.9.10
-  QBITTORRENT_VER: 4.3.9
+  LIBTORRENT_VER: 2.0.5
+  QBITTORRENT_EE_VER: 4.4.0.10
+  QBITTORRENT_VER: 4.4.0
 
 jobs:
   buildx:
