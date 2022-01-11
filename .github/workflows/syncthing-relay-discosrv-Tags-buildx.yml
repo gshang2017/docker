@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  R_SRV_VER: 1.15.0
-  D_SRV_VER: 1.18.1
+  R_SRV_VER: 1.18.6
+  D_SRV_VER: 1.18.6
 
 jobs:
   buildx:
