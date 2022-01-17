@@ -10,7 +10,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|Anki-sync-server|v_e719131(ankicommunity)|amd64;arm64v8,目前支持的版本范围是Anki:2.1.43、AnkiDroid:2.15.6,其它自测。|
+|Anki-sync-server|2.3.0(ankicommunity)|amd64;arm64v8,目前支持的版本范围是Anki:2.1.43、AnkiDroid:2.15.6,其它自测。|
 |Anki-sync-server|2.1.0(tsudoko)|amd64;arm64v8;arm32v7,目前支持的版本范围是Anki:2.0.27~2.1.15(2.1.9除外)、AnkiDroid:2.14.6,其它自测。|
 
 ### 注意:
@@ -90,6 +90,10 @@
 | `GID=1000` |gid设置,默认为1000|
 
 ### 客户端设置:
+
+##### 注意:
+
+    * Android(2.15.6)自定义同步服务器需配置https，无法使用ip地址。请设置反向代理。
 
 * Android
 

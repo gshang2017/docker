@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ANKI-SYNC-SERVER_VER: v_e719131
+  ANKI-SYNC-SERVER_VER: 2.3.0
   ANKI_VER: 2.1.43
 
 jobs:

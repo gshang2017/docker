@@ -1,6 +1,6 @@
 FROM ubuntu:20.04  as compilinganki
 
-ARG BAZELISK_VER=1.10.1
+ARG BAZELISK_VER=1.11.0
 ARG ANKI_VER=2.1.43
 
 RUN apt-get update -q -y \
@@ -24,7 +24,7 @@ RUN apt-get update -q -y \
 
 FROM ubuntu:20.04
 
-ARG ANKI__SYNC_SERVER=2.1.0
+ARG ANKI__SYNC_SERVER=2.3.0
 ARG S6_VER=2.2.0.3
 
 ENV USER=
@@ -41,9 +41,11 @@ RUN apt-get update -q -y \
 &&  apt-get install -q -y expect python3 python3-pip wget unzip nginx \
 &&  pip install --no-cache-dir /anki*.whl \
 #install anki-sync-server
-&&  wget -P /tmp https://github.com/ankicommunity/anki-sync-server/archive/refs/heads/develop.zip \
-&&  unzip -d /tmp /tmp/develop.zip \
-&&  cp -rf /tmp/anki-sync-server-develop/*  /usr/local/anki-sync-server \
+#&&  wget -P /tmp https://github.com/ankicommunity/anki-sync-server/archive/refs/heads/develop.zip \
+#&&  unzip -d /tmp /tmp/develop.zip \
+#&&  cp -rf /tmp/anki-sync-server-develop/*  /usr/local/anki-sync-server \
+&&  wget -P /tmp https://github.com/ankicommunity/anki-sync-server/archive/refs/tags/v${ANKI__SYNC_SERVER}.tar.gz \
+&&  tar  -zxvf  /tmp/v${ANKI__SYNC_SERVER}.tar.gz --strip-components 1 -C  /usr/local/anki-sync-server   \
 &&  sed -i 's/anki==*.*.*;/anki;/g'  /usr/local/anki-sync-server/src/requirements.txt \
 &&  pip install --no-cache-dir -r /usr/local/anki-sync-server/src/requirements.txt \
 #install s6-overlay
@@ -57,7 +59,7 @@ RUN apt-get update -q -y \
 &&  sed -i 's/\.\//\/config\//g' /usr/local/anki-sync-server/defaults/ankisyncd.conf \
 &&  sed -i 's/27701/27702/g' /usr/local/anki-sync-server/defaults/ankisyncd.conf \
 #defaults nginx.conf
-&&  cp -rf /usr/local/anki-sync-server/docs/nginx.conf /usr/local/anki-sync-server/defaults/nginx.conf \
+&&  cp -rf /usr/local/anki-sync-server/docs/src/nginx/nginx.example.conf /usr/local/anki-sync-server/defaults/nginx.conf \
 &&  sed -i 's/2048m/0/g' /usr/local/anki-sync-server/defaults/nginx.conf \
 &&  sed -i 's/default;/localhost;/g' /usr/local/anki-sync-server/defaults/nginx.conf \
 #ankisyncd路径
