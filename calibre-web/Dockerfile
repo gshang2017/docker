@@ -1,9 +1,9 @@
-FROM alpine:3.14
+FROM alpine:3.15
 
 ARG  S6_VER=2.2.0.3
-ARG  CALIBRE_WEB_VER=0.6.14
+ARG  CALIBRE_WEB_VER=0.6.15
 ARG  CALIBRE_VER=5.10.1
-ARG  KEPUBIFY_VER=4.0.1
+ARG  KEPUBIFY_VER=4.0.3
 
 ENV UID=1000
 ENV GID=1000
@@ -18,7 +18,8 @@ ENV CALIBREDB_OTHER_OPTION=
 ENV DOUBANIP=
 
 COPY  root  /
-RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools \
+RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools libldap \
+&&  apk add unrar --repository https://dl-cdn.alpinelinux.org/alpine/v3.14/main  \
 &&  apk add --no-cache --virtual  calibrewebdep build-base libffi-dev git python3-dev openldap-dev libxml2-dev libxslt-dev libjpeg-turbo-dev libevent-dev file cython  \
 #install s6-overlay
 &&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
@@ -37,6 +38,7 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip unrar 
 #douban api
 #&& sed -i s/0df993c66c0c636e29ecbb5344252a4a/054022eaeae0b00e0fc068c0c0a2102a/g /usr/local/calibre-web/cps/static/js/get_meta.js   \
 #install calibre-web dep
+&&  echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
 &&  apk add --no-cache py3-lxml py3-cryptography \
 #&&  apk add --no-cache 'py3-six<1.15.0' --repository http://dl-4.alpinelinux.org/alpine/v3.11/main  \
 &&  pip3  install  --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \
