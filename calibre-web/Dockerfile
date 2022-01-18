@@ -33,10 +33,6 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect
 &&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \
-#fix Epub viewer (0.6.14)
-&&  wget https://raw.githubusercontent.com/janeczku/calibre-web/b414d9196417872d5bca443fee09d0a6e6c9efb0/cps/web.py -O /usr/local/calibre-web/cps/web.py \
-#douban api
-#&& sed -i s/0df993c66c0c636e29ecbb5344252a4a/054022eaeae0b00e0fc068c0c0a2102a/g /usr/local/calibre-web/cps/static/js/get_meta.js   \
 #install calibre-web dep
 &&  echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
 &&  apk add --no-cache py3-lxml py3-cryptography \
