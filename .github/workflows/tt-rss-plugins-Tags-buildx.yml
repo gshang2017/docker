@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  TTRSS_VER: 21.12-97baf3e8b
+  TTRSS_VER: 22.01-b59bde7b4
 
 jobs:
   buildx:
@@ -26,14 +26,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install  git
-          #git clone https://github.com/docker-library/postgres.git
-          wget https://github.com/docker-library/postgres/archive/edce9867844e2747021fd77bf3b0e3da560b23c7.zip
-          unzip edce9867844e2747021fd77bf3b0e3da560b23c7.zip
-          mv postgres-edce9867844e2747021fd77bf3b0e3da560b23c7 postgres
-          #removed  CallSite.h
-          sed -i '/rm postgresql.tar.bz2/i\\ \ \ \ sed -i "59d" /usr/src/postgresql/src/backend/jit/llvm/llvmjit_inline.cpp; \\' postgres/12/alpine/Dockerfile
-          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 12.0/g' postgres/12/alpine/Dockerfile
-          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 cda2397215f758b793f741c86be05468257b0e6bcb1a6113882ab5d0df0855c6/g' postgres/12/alpine/Dockerfile
+          git clone https://github.com/docker-library/postgres.git
+          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine/Dockerfile
+          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -46,15 +41,15 @@ jobs:
       - name: Build and push to local-registry
         uses: docker/build-push-action@v2
         with:
-          context: ./postgres/12/alpine
-          file: ./postgres/12/alpine/Dockerfile
+          context: ./postgres/14/alpine
+          file: ./postgres/14/alpine/Dockerfile
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           push: true
-          tags: localhost:5000/postgres:12.0-alpine
+          tags: localhost:5000/postgres:14.1-alpine
 
       - name: change Dockerfile
         run: |
-          sed -i 's/postgres:12\.0-alpine/localhost:5000\/postgres:12\.0-alpine/g' tt-rss-plugins/Dockerfile
+          sed -i 's/postgres:14\.1-alpine/localhost:5000\/postgres:14\.1-alpine/g' tt-rss-plugins/Dockerfile
 
       - name: Login to DockerHub
         uses: docker/login-action@v1

@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+#启动tt-rss更新任务
+exec crond -f -L /dev/null

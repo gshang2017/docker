@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 #启动 mercury api
-exec s6-setuidgid ttrss node   /usr/local/mercury-parser-api/node_modules/mercury-parser-api/index.js
+exec s6-setuidgid ttrss node /usr/local/mercury-parser-api/node_modules/mercury-parser-api/index.js
