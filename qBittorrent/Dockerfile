@@ -5,7 +5,7 @@ ARG LIBTORRENT_VER=2.0.5
 ARG QBITTORRENT_VER=4.4.1
 ARG QBITTORRENT_EE_VER=4.4.1.10
 
-RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev py3-setuptools samurai qt5-qttools-dev libexecinfo-dev \
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
 #libtorrent-rasterbar
 && mkdir /qbbuild \
 && wget -P /qbbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
@@ -20,7 +20,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev py
 && wget -P /qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
 && unzip /qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /qbbuild \
 && cd /qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
-&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DGUI=OFF \
+&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
 && cmake --build build-nox -- -j 2 \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
@@ -29,7 +29,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev py
 && wget -P /qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
 && unzip /qbbuild/release-${QBITTORRENT_VER}.zip -d /qbbuild \
 && cd /qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
-&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DGUI=OFF \
+&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
 && cmake --build build-nox -- -j 2 \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
@@ -55,8 +55,8 @@ ENV QB_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/
 COPY root /
 COPY --from=compilingqB /qbittorrent /
 
-#install bash curl tzdata python3 shadow qt5
-RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt5-qtbase-sqlite qt5-qtbase \
+#install bash curl tzdata python3 shadow qt6
+RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbase-sqlite qt6-qtbase \
 #install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz \
