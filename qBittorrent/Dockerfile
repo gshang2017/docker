@@ -1,68 +1,90 @@
+#compiling qB
 FROM alpine:3.15 as compilingqB
 
-#compiling qB
+ARG LIBTORRENT_VER=2.0.5
+ARG QBITTORRENT_VER=4.4.1
+ARG QBITTORRENT_EE_VER=4.4.1.10
 
-ARG  LIBTORRENT_VER=2.0.5
-ARG  QBITTORRENT_VER=4.4.0
-
-
-RUN  apk add --no-cache ca-certificates cmake make g++ gcc qt5-qtsvg-dev boost-dev qt5-qttools-dev file python3-dev py3-setuptools \
-&&   mkdir /qbtorrent  \
-&&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
-#&&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/libtorrent-${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
-#&&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/libtorrent-`echo "$LIBTORRENT_VER"|sed 's#\.#_#g'`/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
-#&&   wget -P /qbtorrent https://github.com/arvidn/libtorrent/releases/download/libtorrent_`echo "$LIBTORRENT_VER"|sed 's#\.#_#g'`/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   \
-&&   tar  -zxvf  /qbtorrent/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz   -C    /qbtorrent  \
-&&   cd  /qbtorrent/libtorrent-rasterbar-${LIBTORRENT_VER} \
-&&   cmake -B build -DCMAKE_BUILD_TYPE=None -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX=/usr -Dbuild_tests=ON -Dpython-bindings=ON -Dpython-egg-info=ON \
-&&   cmake --build build \
-&&   cmake --install build \
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
+         py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
+#libtorrent-rasterbar
+&& mkdir /qbbuild \
+&& wget -P /qbbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
+&& tar -zxvf /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /qbbuild \
+&& cd /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER} \
+&& cmake -B build -DCMAKE_BUILD_TYPE=None -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE=ON \
+         -DCMAKE_INSTALL_PREFIX=/usr -Dbuild_tests=ON -Dpython-bindings=ON -Dpython-egg-info=ON \
+&& cmake --build build -- -j 2 \
+&& cmake --install build \
+&& strip /usr/lib/libtorrent-rasterbar.so.2.0 \
+#qBittorrent-Enhanced-Edition
+&& wget -P /qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
+&& unzip /qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /qbbuild \
+&& cd /qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
+&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
+         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
+&& cmake --build build-nox -- -j 2 \
+&& cmake --install build-nox \
+&& strip /usr/local/bin/qbittorrent-nox \
+&& mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee-nox \
 #qBittorrent
-&&   wget  -P /qbtorrent  https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip  \
-&&   unzip   /qbtorrent/release-${QBITTORRENT_VER}.zip  -d    /qbtorrent \
-&&   cd  /qbtorrent/qBittorrent-release-${QBITTORRENT_VER} \
-#
-&&   ./configure    --disable-gui --host=$host \
-&&   make install  -j2 \
-&&   ldd /usr/local/bin/qbittorrent-nox   |cut -d ">" -f 2|grep lib|cut -d "(" -f 1|xargs tar -chvf /qbtorrent/qbittorrent.tar  \
-&&   mkdir /qbittorrent   \
-&&   tar  -xvf /qbtorrent/qbittorrent.tar   -C  /qbittorrent   \
-&&   cp --parents /usr/local/bin/qbittorrent-nox  /qbittorrent
+&& wget -P /qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
+&& unzip /qbbuild/release-${QBITTORRENT_VER}.zip -d /qbbuild \
+&& cd /qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
+&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
+         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
+&& cmake --build build-nox -- -j 2 \
+&& cmake --install build-nox \
+&& strip /usr/local/bin/qbittorrent-nox \
+&& mkdir /qbittorrent \
+&& cp --parents /usr/local/bin/qbittorrent-nox /qbittorrent \
+&& cp --parents /usr/local/bin/qbittorrentee-nox /qbittorrent \
+&& cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent
 
-
- # docker qB
-
-
+# docker qB
 FROM alpine:3.15
 
-ARG  S6_VER=2.2.0.3
+ARG S6_VER=2.2.0.3
 
-ENV TRACKERSAUTO=YES
-ENV TZ=Asia/Shanghai
-ENV WEBUIPORT=8989
-ENV UID=0
-ENV GID=0
+ENV UID=1000
+ENV GID=1000
 ENV UMASK=022
-ENV TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
+ENV TZ=Asia/Shanghai
+ENV QB_WEBUI_PORT=8989
+ENV QB_EE_BIN=false
+ENV QB_TRACKERS_UPDATE_AUTO=true
+ENV QB_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 
 COPY root /
-COPY --from=compilingqB  /qbittorrent  /
+COPY --from=compilingqB /qbittorrent /
 
-# install bash curl caddy tzdata s6 overlay python3 shadow
-RUN  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
-&&   wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
-&&   tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
-&&   rm s6-overlay-${s6_arch}.tar.gz   \
-&&   apk add --no-cache bash curl ca-certificates  tzdata  python3 shadow qt5-qtbase-sqlite \
-&&   rm -rf /var/cache/apk/*   \
+#install bash curl tzdata python3 shadow qt6
+RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbase-sqlite qt6-qtbase libexecinfo \
+#install s6-overlay
+&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
+&& wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz \
+&& tar -xvzf s6-overlay-${s6_arch}.tar.gz \
 #create qbittorrent user
-&&  useradd -u 1000 -U -d /config -s /bin/false   qbittorrent   \
-&&  usermod -G users qbittorrent   \
-#
-&&   chmod a+x  /usr/local/qbittorrent/updatetrackers.sh  \
-&&   chmod a+x  /usr/local/bin/qbittorrent-nox
-
+&& useradd -u 1000 -U -d /config -s /bin/false qbittorrent \
+&& usermod -G users qbittorrent \
+#install Search
+&& wget -P /tmp https://github.com/qbittorrent/search-plugins/archive/refs/heads/master.zip \
+&& unzip /tmp/master.zip -d /tmp \
+&& mkdir -p /usr/local/qbittorrent/defaults/Search \
+&& cp /tmp/search-plugins-master/nova3/engines/*.py /usr/local/qbittorrent/defaults/Search \
+#conf trackers
+&& curl -so /tmp/trackers_all.txt $QB_TRACKERS_LIST_URL \
+&& Newtrackers="Session\AdditionalTrackers=$(awk '{if(!NF){next}}1' /tmp/trackers_all.txt|sed ':a;N;s/\n/\\n/g;ta' )" \
+&& echo $Newtrackers >/tmp/Newtrackers.txt \
+&& sed -i '/Session\\AdditionalTrackers=/r /tmp/Newtrackers.txt' /usr/local/qbittorrent/defaults/qBittorrent.conf \
+&& sed -i '1,/^Session\\AdditionalTrackers=.*/{//d;}' /usr/local/qbittorrent/defaults/qBittorrent.conf \
+#clear
+&& rm s6-overlay-${s6_arch}.tar.gz \
+&& rm -rf /var/cache/apk/* /tmp/* \
+&& chmod a+x /usr/local/qbittorrent/updatetrackers.sh \
+&& chmod a+x /usr/local/bin/qbittorrent-nox \
+&& chmod a+x /usr/local/bin/qbittorrentee-nox
 
 VOLUME /Downloads /config
-EXPOSE 8989  6881  6881/udp
+EXPOSE 8989 6881 6881/udp
 ENTRYPOINT [ "/init" ]

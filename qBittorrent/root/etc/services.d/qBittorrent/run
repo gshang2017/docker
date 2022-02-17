@@ -4,4 +4,8 @@
 umask "$UMASK"
 
 # 启动qBittorrent
-exec s6-setuidgid  qbittorrent qbittorrent-nox --webui-port=$WEBUIPORT   --profile=/config
+if [ "$QB_EE_BIN" == "true" ]; then
+  exec s6-setuidgid qbittorrent qbittorrentee-nox --webui-port=$QB_WEBUI_PORT --profile=/config
+else
+  exec s6-setuidgid qbittorrent qbittorrent-nox --webui-port=$QB_WEBUI_PORT --profile=/config
+fi
