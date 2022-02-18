@@ -1,8 +1,10 @@
 #! /usr/bin/with-contenv bash
 
 # 启动calibre-server
-if [ -n "$USER" ] && [ -n "$PASSWORD" ] ;  then
-  exec s6-setuidgid calibre  calibre-server /library --userdb /config/calibre-server/calibre/server-users.sqlite --enable-auth
-else
-  exec s6-setuidgid calibre  calibre-server /library
+if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
+  if [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
+    exec s6-setuidgid calibre calibre-server /library --userdb /config/calibre-server/calibre/server-users.sqlite --enable-auth
+  else
+    exec s6-setuidgid calibre calibre-server /library
+  fi
 fi
