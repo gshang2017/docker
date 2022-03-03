@@ -11,8 +11,9 @@ env:
   AriaNg_VER: 1.2.3
 
 jobs:
-  buildx:
-    runs-on: ubuntu-20.04
+  job1:
+    name: buildx amd64
+    runs-on: ubuntu-18.04
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -40,18 +41,34 @@ jobs:
         with:
           context: ./aria2
           file: ./aria2/Dockerfile
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
-          push: true
-          tags: johngong/aria2:${{ env.ARIA2_VER }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./aria2
-          file: ./aria2/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: johngong/aria2:${{ env.ARIA2_VER }}_amd64
+          tags: johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}_amd64
+
+  job2:
+    name: buildx arm64
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -60,7 +77,32 @@ jobs:
           file: ./aria2/Dockerfile
           platforms: linux/arm64
           push: true
-          tags: johngong/aria2:${{ env.ARIA2_VER }}_arm64v8
+          tags: johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}_arm64v8
+
+  job3:
+    name: buildx arm32v7
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -69,7 +111,40 @@ jobs:
           file: ./aria2/Dockerfile
           platforms: linux/arm/v7
           push: true
-          tags: johngong/aria2:${{ env.ARIA2_VER }}_arm32v7
+          tags: johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}_arm32v7
+
+  job4:
+    needs: [job1, job2, job3]
+    name: version tag
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: create version tag
+        run: |
+          docker buildx imagetools create -t johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }} \
+            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}_amd64 \
+            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}_arm64v8 \
+            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}_arm32v7
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
