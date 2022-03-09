@@ -11,20 +11,28 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.16|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.17|amd64;arm64v8;arm32v7|
 |calibre-server|5.35.0|amd64;arm64v8;arm32v7|
 |kepubify|4.0.3|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
 
-* 新版更改了变量名[USER PASSWORD WEBLANGUAGE]。新增CALIBRE_ASCII_FILENAME=false设定calibre支持中文目录。
+* 新版更改了变量名[USER PASSWORD WEBLANGUAGE(0.6.16-5.10.1及以前)]。</br>新增CALIBRE_ASCII_FILENAME=false设定calibre支持中文目录。
 * 新增自动添加图书(配置autoaddbooks文件夹，图书添加后会自动删除)。使用此功能请备份图书。
 * arm32v7版ebook-convert可能无法转换成PDF格式。
 * CN版(旧)修改了calibre，支持中文目录(非拼音)。替换前请备份书库，新版通过环境变量设置此功能。
-* 未安装新增的Google Scholar元数据搜索。
-* 豆瓣搜索需自行安装 https://hub.docker.com/r/fugary/simple-boot-douban-api ，并配置环境变量DOUBANIP。
+* 0.6.16及以前未安装新增的Google Scholar元数据搜索。
+* 豆瓣搜索 新:ENABLE_DOUBAN_SEARCH=true 0.6.16及以前:需自行安装 </br>https://hub.docker.com/r/fugary/simple-boot-douban-api ，并配置环境变量DOUBANIP。
 
 ### docker命令行设置：
+
+* 变量名变更
+
+    |版本|0.6.16-5.35.0及以后|0.6.16-5.10.1及以前|
+    |:-:|:-|:-|
+    |1|CALIBRE_SERVER_USER|USER|
+    |2|CALIBRE_SERVER_PASSWORD|PASSWORD|
+    |3|CALIBRE_SERVER_WEB_LANGUAGE|WEBLANGUAGE|
 
 1. 下载镜像
 
@@ -56,32 +64,34 @@
 
 5. 删除容器
 
-       docker rm  calibre-web
+       docker rm calibre-web
 
 6. 删除镜像
 
-       docker image rm  johngong/calibre-web:latest
+       docker image rm johngong/calibre-web:latest
 
 ### 变量:
 
 |参数|说明|
 |:-|:-|
 | `--name=calibre-web` |容器名|
-| `-p 8083:8083` |calibre-web web访问端口 [ip:8083](ip:8083),默认用户名: admin 默认密码: admin123|
-| `-p 8080:8080` |calibre-server web访问端口 [ip:8080](ip:8080)|
+| `-p 8083:8083` |calibre-web web访问端口,默认用户名: admin 默认密码: admin123|
+| `-p 8080:8080` |calibre-server web访问端口|
 | `-v /配置文件位置:/config` |calibre-web与calibre-server配置位置文件|
 | `-v /书库:/library` |calibre-web与calibre-server书库默认位置|
 | `-v /自动添加文件夹:/autoaddbooks` |calibre自动添加图书文件夹位置|
 | `-e UID=1000` |uid设置,默认为1000|
 | `-e GID=1000` |gid设置,默认为1000|
 | `-e ENABLE_CALIBRE_SERVER=true` |(true\|false)设定开启calibre-server，默认开启|
+| `-e ENABLE_CALIBRE_SERVER_OPDS=false` |(true\|false)开启calibre-server的OPDS功能，默认不开启，arm可能不可用|
 | `-e CALIBRE_SERVER_USER=用户名` |calibre-server 用户名|
 | `-e CALIBRE_SERVER_PASSWORD=用户密码` |calibre-server 用户密码|
-| `-e CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，默认中文，详见web界面其它语言|
+| `-e CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，默认中文，详见calibre-server其它语言|
 | `-e CALIBRE_ASCII_FILENAME=true` |(true\|false)设定false时calibre支持中文目录|
+| `-e CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
-| `-e DOUBANIP=http://localhost:8085` |自定义豆瓣搜索地址,需改为IP或域名加端口|
+| `-e DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
 
 ### 群晖docker设置：
 
@@ -97,8 +107,8 @@
 
 |参数|说明|
 |:-|:-|
-| `本地端口1:8083` |calibre-web web访问端口 [ip:8083](ip:8083),默认用户名: admin 默认密码: admin123|
-| `本地端口2:8080` |calibre-server web访问端口 [ip:8080](ip:8080)|
+| `本地端口1:8083` |calibre-web web访问端口,默认用户名: admin 默认密码: admin123|
+| `本地端口2:8080` |calibre-server web访问端口|
 
 3. 环境变量：
 
@@ -107,27 +117,35 @@
 | `UID=1000` |uid设置,默认为1000|
 | `GID=1000` |gid设置,默认为1000|
 | `ENABLE_CALIBRE_SERVER=true` |(true\|false)设定开启calibre-server，默认开启|
+| `ENABLE_CALIBRE_SERVER_OPDS=false` |(true\|false)开启calibre-server的OPDS功能，默认不开启，arm可能不可用|
 | `CALIBRE_SERVER_USER=` |calibre-server 用户名|
 | `CALIBRE_SERVER_PASSWORD=` |calibre-server 用户密码|
-| `CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，默认中文|
+| `CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，详见calibre-server其它语言|
 | `CALIBRE_ASCII_FILENAME=true` |(true\|false)设定false时calibre支持中文目录|
+| `CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
-| `DOUBANIP=http://localhost:8085` |自定义豆瓣搜索地址,需改为IP或域名加端口|
+| `DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
 
 #### 其它：
 
 * 配置calibre-server用户名及密码，可用其上传图书。
 * ebook-convert转换其它格式到PDF时需要语言字体。
 
-        PDF字体设置：
-        复制字体到 /config/calibre-server/calibrefonts （本地文件夹2/calibre-server/calibrefonts），重启docker。
+        PDF字体设置：复制字体到文件夹，重启docker。
+        旧：/config/calibre-server/calibrefonts（本地文件夹2/calibre-server/calibrefonts）
+        新：/config/fonts（本地文件夹2/fonts）
 
-* calibre-server web界面其它语言:
+* calibre-web其它语言:
 
-        ALLLANGUAGE=("af" "am" "ar" "ast" "az" "be" "bg" "bn" "bn_BD" "bn_IN" "br" "bs" "ca" "crh" "cs" "cy"
-        "da" "de" "el" "en_AU" "en_CA" "en_GB" "eo" "es" "es_MX" "et" "eu" "fa" "fi" "fil" "fo" "fr" "fr_CA"
-        "fur" "ga" "gl" "gu" "he" "hi" "hr" "hu" "hy" "id" "is" "it" "ja" "jv" "ka" "km" "kn" "ko" "ku" "lt"
-        "ltg" "lv" "mi" "mk" "ml" "mn" "mr" "ms" "mt" "my" "nb" "nds" "nl" "nn" "nso" "oc" "or" "pa" "pl" "ps"
-        "pt" "pt_BR" "ro" "ru" "rw" "sc" "si" "sk" "sl" "sq" "sr" "sr@latin" "sv" "ta" "te" "th" "ti" "tr" "tt"
-        "ug" "uk" "ur" "uz@Latn" "ve" "vi" "wa" "xh" "yi" "zh_CN" "zh_HK" "zh_TW" "zu")
+        CALIBRE_WEB_ALL_LANGUAGE=("en" "cs" "de" "el" "es" "fi" "fr" "hu" "it" "ja" "km" "ko" "nl" "pl"
+        "pt_BR" "ru" "sv" "tr" "uk" "zh_Hans_CN" "zh_Hant_TW")
+
+* calibre-server其它语言:
+
+        CALIBRE_SERVER_WEB_ALL_LANGUAGE=("en" "af" "am" "ar" "ast" "az" "be" "bg" "bn" "bn_BD" "bn_IN"
+        "br" "bs" "ca" "crh" "cs" "cy" "da" "de" "el" "en_AU" "en_CA" "en_GB" "eo" "es" "es_MX" "et"
+        "eu" "fa" "fi" "fil" "fo" "fr" "fr_CA" "fur" "ga" "gl" "gu" "he" "hi" "hr" "hu" "hy" "id" "is"
+        "it" "ja" "jv" "ka" "km" "kn" "ko" "ku" "lt" "ltg" "lv" "mi" "mk" "ml" "mn" "mr" "ms" "mt" "my"
+        "nb" "nds" "nl" "nn" "nso" "oc" "or" "pa" "pl" "ps" "pt" "pt_BR" "ro" "ru" "rw" "sc" "si" "sk"
+        "sl" "sq" "sr"

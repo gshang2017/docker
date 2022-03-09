@@ -2,9 +2,14 @@
 
 # 启动calibre-server
 if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
-  if [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
-    exec s6-setuidgid calibre calibre-server /library --userdb /config/calibre-server/calibre/server-users.sqlite --enable-auth
+  if [ "$ENABLE_CALIBRE_SERVER_OPDS" == "true" ]; then
+    CALIBRE_SERVER_OTHER_OPTION="--auth-mode basic"
   else
-    exec s6-setuidgid calibre calibre-server /library
+    CALIBRE_SERVER_OTHER_OPTION="--disable-use-bonjour"
+  fi
+  if [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
+    exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library --userdb $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite --enable-auth
+  else
+    exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library
   fi
 fi

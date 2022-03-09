@@ -2,55 +2,34 @@
 
 #检查metadata.db文件，并创建.
 if [ ! -f /library/metadata.db ]; then
-  cp /usr/local/calibre-web/defaults/metadata.db /library/metadata.db
+   calibredb restore_database --really-do-it --with-library /library
 fi
 
 #检查calibre-web配置文件，并创建.
-if [ ! -d /config/calibre-web ]; then
-  mkdir -p /config/calibre-web
+if [ ! -d $CALIBRE_DBPATH ]; then
+  mkdir -p $CALIBRE_DBPATH
 fi
-if [ ! -f /config/calibre-web/app.db ]; then
-  cp /usr/local/calibre-web/defaults/app.db /config/calibre-web/app.db
-fi
-if [ ! -L /usr/local/calibre-web/app/app.db ]; then
-  if [ -e /usr/local/calibre-web/app/app.db ]; then
-    rm /usr/local/calibre-web/app/app.db
+if [ ! -f $CALIBRE_DBPATH/app.db ]; then
+  python3 /usr/local/calibre-web/app/cps.py -d
+  CALIBRE_WEB_ALL_LANGUAGE=("en" "cs" "de" "el" "es" "fi" "fr" "hu" "it" "ja" "km" "ko" "nl" "pl" "pt_BR" "ru" "sv" "tr" "uk" "zh_Hans_CN" "zh_Hant_TW")
+  if [[ ${CALIBRE_WEB_ALL_LANGUAGE[@]} =~ "$CALIBRE_WEB_LANGUAGE" ]]; then
+    CALIBRE_WEB_LANGUAGE_SET=$CALIBRE_WEB_LANGUAGE
+  else
+    CALIBRE_WEB_LANGUAGE_SET=zh_Hans_CN
   fi
-  ln -s /config/calibre-web/app.db /usr/local/calibre-web/app/app.db
-fi
-if [ ! -f /config/calibre-web/calibre-web.log ]; then
-  touch /config/calibre-web/calibre-web.log
-fi
-if [ ! -L /usr/local/calibre-web/app/calibre-web.log ]; then
-  if [ -e /usr/local/calibre-web/app/calibre-web.log ]; then
-    rm /usr/local/calibre-web/app/calibre-web.log
-  fi
-  ln -s /config/calibre-web/calibre-web.log /usr/local/calibre-web/app/calibre-web.log
+  sqlite3 $CALIBRE_DBPATH/app.db  "UPDATE settings SET config_kepubifypath='/usr/local/bin/kepubify',\
+          config_converterpath='/opt/calibre/ebook-convert',config_rarfile_location='/usr/bin/unrar',\
+          config_calibre_dir='/library',config_default_locale='$CALIBRE_WEB_LANGUAGE_SET' WHERE ID = 1;"
+  sqlite3 $CALIBRE_DBPATH/app.db  "UPDATE user SET locale='$CALIBRE_WEB_LANGUAGE_SET' WHERE ID = 1;"
 fi
 
 #检查Google drive配置文件.
-if [ ! -f /config/calibre-web/client_secrets.json ]; then
-  echo "{}" > /config/calibre-web/client_secrets.json
-fi
-if [ ! -L /usr/local/calibre-web/app/client_secrets.json ]; then
-  if [ -e /usr/local/calibre-web/app/client_secrets.json ]; then
-  	rm /usr/local/calibre-web/app/client_secrets.json
-  fi
-	ln -s /config/calibre-web/client_secrets.json /usr/local/calibre-web/app/client_secrets.json
-fi
-
-if [ ! -f /config/calibre-web/gdrive.db ] && [ -f /usr/local/calibre-web/app/gdrive.db ]; then
-  cp /usr/local/calibre-web/app/gdrive.db /config/calibre-web/gdrive.db
-fi
-if [ ! -L /usr/local/calibre-web/app/gdrive.db ] && [ -f /config/calibre-web/gdrive.db ]; then
-  if [ -e /usr/local/calibre-web/app/gdrive.db ]; then
-  	rm /usr/local/calibre-web/app/gdrive.db
-  fi
-	ln -s /config/calibre-web/gdrive.db /usr/local/calibre-web/app/gdrive.db
+if [ ! -f $CALIBRE_DBPATH/client_secrets.json ]; then
+  echo "{}" > $CALIBRE_DBPATH/client_secrets.json
 fi
 
 #检查douban搜索文件
-if [ -n "$DOUBANIP" ]; then
+if [ "$ENABLE_DOUBAN_SEARCH" == "true" ]; then
   if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/douban.py ]; then
     cp /usr/local/calibre-web/defaults/douban.py /usr/local/calibre-web/app/cps/metadata_provider/douban.py
   fi
@@ -64,73 +43,56 @@ fi
 groupmod -o -g "$GID" calibre
 usermod -o -u "$UID" calibre
 
-#检查calibre-server配置文件，并创建.
-if [ ! -d /config/calibre-server/calibre ]; then
-  mkdir -p /config/calibre-server/calibre
-fi
-if [ ! -f /config/calibre-server/calibre/global.py ]; then
-  cp /usr/local/calibre-server/defaults/global.py /config/calibre-server/calibre/global.py
-fi
-if [  -f /config/calibre-server/calibre/global.pyc ]; then
-  rm /config/calibre-server/calibre/global.pyc
-fi
-if [ ! -f /config/calibre-server/calibre/tweaks.py ]; then
-  cp /usr/local/calibre-server/defaults/tweaks.py /config/calibre-server/calibre/tweaks.py
-fi
-if [ ! -f /config/calibre-server/calibre/server-users.sqlite ]; then
-  touch /config/calibre-server/calibre/server-users.sqlite
-fi
-if [ ! -d /home/calibre/.config ]; then
-  mkdir -p /home/calibre/.config
-fi
-if [ ! -L /home/calibre/.config/calibre ]; then
-  if [ -d /home/calibre/.config/calibre ]; then
-    rm -rf /home/calibre/.config/calibre
-  fi
-  ln -s /config/calibre-server/calibre /home/calibre/.config/calibre
-fi
-
 #fonts
 if [ ! -d /usr/share/fonts ]; then
   mkdir -p /usr/share/fonts
 fi
-if [ ! -d /config/calibre-server/calibrefonts ]; then
-  mkdir -p /config/calibre-server/calibrefonts
+if [ ! -d /config/fonts ]; then
+  mkdir -p /config/fonts
 fi
 if [ ! -L /usr/share/fonts/calibrefonts ]; then
-  ln -s /config/calibre-server/calibrefonts /usr/share/fonts/calibrefonts
+  ln -s /config/fonts /usr/share/fonts/calibrefonts
 fi
 fc-cache -f
 
+#检查server-users.sqlite文件，并创建.
+if [ ! -d $CALIBRE_CONFIG_DIRECTORY ]; then
+  mkdir -p $CALIBRE_CONFIG_DIRECTORY
+fi
+if [ ! -f $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite ]; then
+  touch $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite
+fi
+
+#检查global.py.json并设置语言为en
+if [ ! -f $CALIBRE_CONFIG_DIRECTORY/global.py.json ]; then
+  calibre-server --version
+fi
+sde language en $CALIBRE_CONFIG_DIRECTORY/global.py.json
+
 #添加user.
 if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
-  mv /home/calibre/.config/calibre/global.py /home/calibre/.config/calibre/global.py.bak
-  if [ -f /home/calibre/.config/calibre/global.pyc ]; then
-    rm /home/calibre/.config/calibre/global.pyc
-  fi
-  if [ -f /home/calibre/.config/calibre/global.py.json ]; then
-    mv /home/calibre/.config/calibre/global.py.json /home/calibre/.config/calibre/global.py.json.bak
-  fi
-  cp /usr/local/calibre-server/defaults/global.py /home/calibre/.config/calibre/global.py
-  expect /usr/local/calibre-server/useradd.sh $CALIBRE_SERVER_USER $CALIBRE_SERVER_PASSWORD
-  mv /home/calibre/.config/calibre/global.py.bak /home/calibre/.config/calibre/global.py
-  if [ -f /home/calibre/.config/calibre/global.py.json.bak ]; then
-    mv /home/calibre/.config/calibre/global.py.json.bak /home/calibre/.config/calibre/global.py.json
-  fi
-  if [ -f /home/calibre/.config/calibre/global.pyc ]; then
-    rm /home/calibre/.config/calibre/global.pyc
-  fi
+  /usr/bin/expect <<-EOF
+  spawn calibre-server --userdb $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite --manage-users
+  expect "What do you want to do"
+  send "1\r"
+  expect "Enter the username:"
+  send "$CALIBRE_SERVER_USER\r"
+  expect {
+  -re "already exists" { exit }
+  -re "Enter the username:" { exit }
+  -re "Enter the new password for" { exp_send "$CALIBRE_SERVER_PASSWORD\r"; exp_continue}
+  -re "to verify:" { exp_send "$CALIBRE_SERVER_PASSWORD\r"; exp_continue}
+  -re "successfully!" { exit }
+}
+  expect eof
+EOF
 fi
 
 #calibre-server语言.
 if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_WEB_LANGUAGE" ]; then
-  /usr/local/calibre-server/languagechange.sh
-fi
-
-#修复calibre-server web语言设置.
-if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -f /home/calibre/.config/calibre/global.py.json ]; then
-  if [ "$(echo `grep "language =" /config/calibre-server/calibre/global.py` | cut -d "'" -f 2)" != "$(echo `grep "language" /config/calibre-server/calibre/global.py.json` | cut -d "\"" -f 4)" ]; then
-     rm -f /home/calibre/.config/calibre/global.py.json
+  CALIBRE_SERVER_WEB_ALL_LANGUAGE=("en" "af" "am" "ar" "ast" "az" "be" "bg" "bn" "bn_BD" "bn_IN" "br" "bs" "ca" "crh" "cs" "cy" "da" "de" "el" "en_AU" "en_CA" "en_GB" "eo" "es" "es_MX" "et" "eu" "fa" "fi" "fil" "fo" "fr" "fr_CA" "fur" "ga" "gl" "gu" "he" "hi" "hr" "hu" "hy" "id" "is" "it" "ja" "jv" "ka" "km" "kn" "ko" "ku" "lt" "ltg" "lv" "mi" "mk" "ml" "mn" "mr" "ms" "mt" "my" "nb" "nds" "nl" "nn" "nso" "oc" "or" "pa" "pl" "ps" "pt" "pt_BR" "ro" "ru" "rw" "sc" "si" "sk" "sl" "sq" "sr" "sr@latin" "sv" "ta" "te" "th" "ti" "tr" "tt" "ug" "uk" "ur" "uz@Latn" "ve" "vi" "wa" "xh" "yi" "zh_CN" "zh_HK" "zh_TW" "zu")
+  if [[ ${CALIBRE_SERVER_WEB_ALL_LANGUAGE[@]} =~ "$CALIBRE_SERVER_WEB_LANGUAGE" ]]; then
+    sde language $CALIBRE_SERVER_WEB_LANGUAGE $CALIBRE_CONFIG_DIRECTORY/global.py.json
   fi
 fi
 
@@ -142,7 +104,6 @@ echo $TZ > /etc/timezone
 chown -R calibre:calibre /home/calibre
 chown -R calibre:calibre /config/
 chown -R calibre:calibre /usr/local/calibre-web/
-chown -R calibre:calibre /usr/local/calibre-server/
 chown -R calibre:calibre /library
 chown -R calibre:calibre /autoaddbooks
 

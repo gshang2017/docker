@@ -1,29 +1,35 @@
 FROM alpine:3.15
 
 ARG S6_VER=2.2.0.3
-ARG CALIBRE_WEB_VER=0.6.16
+ARG CALIBRE_WEB_VER=0.6.17
 ARG CALIBRE_VER=5.35.0
 ARG KEPUBIFY_VER=4.0.3
+ARG DOUBAN_SEARCH_URL=https://raw.githubusercontent.com/janeczku/calibre-web/97cf20764bcc5ca37a7d58791d350e962c4edbc8/cps/metadata_provider/douban.py
 
 ENV UID=1000
 ENV GID=1000
 ENV ENABLE_CALIBRE_SERVER=true
+ENV ENABLE_CALIBRE_SERVER_OPDS=false
 ENV CALIBRE_SERVER_USER=
 ENV CALIBRE_SERVER_PASSWORD=
 ENV CALIBRE_SERVER_WEB_LANGUAGE=zh_CN
 ENV CALIBRE_ASCII_FILENAME=true
-ENV LANG=C.UTF-8
+ENV CALIBRE_WEB_LANGUAGE=zh_Hans_CN
 ENV TZ=Asia/Shanghai
+ENV CALIBREDB_OTHER_OPTION=
+ENV ENABLE_DOUBAN_SEARCH=false
+ENV LANG=C.UTF-8
 ENV HOME=/home/calibre
 ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
-ENV CALIBREDB_OTHER_OPTION=
-ENV DOUBANIP=http://localhost:8085
+ENV CALIBRE_DBPATH=/config/calibre-web
+ENV CALIBRE_CONFIG_DIRECTORY=/config/calibre-server
 
 COPY root /
 
 RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect imagemagick6 libintl libstdc++ libxcb mesa-gl \
             mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst \
-            libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap \
+            libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite \
+&& pip3 install --no-cache-dir sde \
 && apk add --no-cache unrar --repository https://dl-cdn.alpinelinux.org/alpine/v3.14/main \
 && apk add --no-cache wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
@@ -45,12 +51,13 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect
 && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
 && apk add --no-cache py3-lxml py3-cryptography \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/requirements.txt \
-#del scholarly
-&& sed -i '/scholarly/d' /usr/local/calibre-web/app/optional-requirements.txt \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/optional-requirements.txt \
 #install kepubify
 && if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi \
 && wget https://github.com/geek1011/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify \
+#install douban.py
+&& mkdir -p /usr/local/calibre-web/defaults \
+&& wget -O /usr/local/calibre-web/defaults/douban.py ${DOUBAN_SEARCH_URL} \
 #create calibre user
 && mkdir -p /home/calibre \
 && useradd -u 1000 -U -d /home/calibre -s /bin/false calibre \
@@ -59,8 +66,6 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect
 && apk del calibrewebdep \
 && rm s6-overlay-${s6_arch}.tar.gz \
 && rm -rf /var/cache/apk/* /tmp/* /home/calibre/.c* \
-&& chmod a+x /usr/local/calibre-server/useradd.sh \
-&& chmod a+x /usr/local/calibre-server/languagechange.sh \
 && chmod a+x /usr/local/bin/kepubify
 
 VOLUME /library /config /autoaddbooks
