@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-22.01-b59bde7b4|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-22.02-a39557451|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 
@@ -81,18 +81,18 @@
 
 5. 删除容器
 
-       docker rm  ttrss
+       docker rm ttrss
 
 6. 删除镜像
 
-       docker image rm  johngong/tt-rss:latest
+       docker image rm johngong/tt-rss:latest
 
 ### 变量:
 
 |参数|说明|
 |:-|:-|
 | `--name=ttrss` |容器名|
-| `-p 80:80` |tt-rss服务器web端口 [IP:80](IP:80); 默认用户名:admin,默认密码:password|
+| `-p 80:80` |tt-rss服务器web端口; 默认用户名:admin,默认密码:password|
 | `-p 5432:5432` |PostgreSQL服务器端口|
 | `-p 3000:3000` |mercury-parser-api 服务端口|
 | ` -v /配置文件位置:/config` |tt-rss配置文件位置|
@@ -131,7 +131,7 @@
 
 |参数|说明|
 |:-|:-|
-| `本地端口1:80` |tt-rss服务器web端口 [IP:80](IP:80); 默认用户名:admin,默认密码:password|
+| `本地端口1:80` |tt-rss服务器web端口; 默认用户名:admin,默认密码:password|
 | `本地端口2:3000` |mercury-parser-api 服务端口|
 | `本地端口3:5432` |postgres数据库服务端口|
 
@@ -179,10 +179,10 @@
 
 |标题|命令|举例|
 |:-|:-|:-|
-|添加zhparser扩展|psql -U PostgreSQL用户名 -d  PostgreSQL数据库名称 -a -f  /docker-entrypoint-initdb.d/install_extension.sql| psql -U ttrss -d  ttrss -a -f  /docker-entrypoint-initdb.d/install_extension.sql|
-|更新旧数据库(可选)|psql -U PostgreSQL用户名 -d  PostgreSQL数据库名称 -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"| psql -U ttrss -d  ttrss -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"|
+|添加zhparser扩展|psql -U PostgreSQL用户名 -d PostgreSQL数据库名称 -a -f /docker-entrypoint-initdb.d/install_extension.sql| psql -U ttrss -d ttrss -a -f /docker-entrypoint-initdb.d/install_extension.sql|
+|更新旧数据库(可选)|psql -U PostgreSQL用户名 -d PostgreSQL数据库名称 -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"| psql -U ttrss -d ttrss -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"|
 
-### 客服端软件：
+### 客户端软件：
 
 |平台|软件|
 |:-|:-|

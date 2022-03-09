@@ -1,4 +1,4 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:22.01-b59bde7b4 as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:22.02-a39557451 as ttrss-src
 FROM postgres:14.1-alpine
 
 ARG S6_VER=2.2.0.3
@@ -76,7 +76,7 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy c
 # install themes
 # install tt-rss-feedly-theme
 && git clone --depth 1 https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
-#clean
+#clear
 && apk del clang llvm12 build-base \
 && rm -rf /var/cache/apk/* \
 && rm /s6-overlay-${s6_arch}.tar.gz \
