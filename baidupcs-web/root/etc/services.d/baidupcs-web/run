@@ -1,4 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-# 启动BaiduPCS-Go
-exec BaiduPCS-Go

@@ -1,9 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-# 启动calibre-server
-
-if [ -n "$USER" ] && [ -n "$PASSWORD" ] ;  then
-exec  calibre-server --userdb /srv/calibre/users.sqlite --enable-auth  
-else
-exec  calibre-server 
-fi

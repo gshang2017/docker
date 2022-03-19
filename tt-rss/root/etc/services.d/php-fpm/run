@@ -1,4 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-#启动 php-fpm
-s6-setuidgid ttrss  php-fpm7 -F
