@@ -1,0 +1,6 @@
+#! /usr/bin/with-contenv bash
+
+#启动darkhttpd
+if [ "$KMS_README_WEB" == "true" ]; then
+  exec darkhttpd /home/www
+fi
