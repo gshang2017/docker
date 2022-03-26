@@ -2,8 +2,8 @@
 FROM alpine:3.15 as compilingqB
 
 ARG LIBTORRENT_VER=2.0.5
-ARG QBITTORRENT_VER=4.4.1
-ARG QBITTORRENT_EE_VER=4.4.1.10
+ARG QBITTORRENT_VER=4.4.2
+ARG QBITTORRENT_EE_VER=4.4.2.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
          py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \

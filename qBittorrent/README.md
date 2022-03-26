@@ -10,13 +10,21 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent-qBittorrentEE|4.4.1-4.4.1.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent-qBittorrentEE|4.4.2-4.4.2.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 #### 版本升级注意：
 
-* 新版更改了变量名[TRACKERSAUTO WEBUIPORT TRACKERS_LIST_URL]，新增QB_EE_BIN=true设定使用qBittorrent-EE。
+* 新版更改了变量名[TRACKERSAUTO WEBUIPORT TRACKERS_LIST_URL(4.4.0、4.4.0.10及以前)]，</br>新增QB_EE_BIN=true设定使用qBittorrent-EE。
 
 ### docker命令行设置：
+
+* 变量名变更
+
+    |版本|4.4.1-4.4.1.10及以后|4.4.0、4.4.0.10及以前|
+    |:-:|:-|:-|
+    |1|QB_TRACKERS_UPDATE_AUTO=true|TRACKERSAUTO=YES|
+    |2|QB_WEBUI_PORT|WEBUIPORT|
+    |3|QB_TRACKERS_LIST_URL|TRACKERS_LIST_URL|
 
 1. 下载镜像
 
@@ -60,7 +68,7 @@
 |参数|说明|
 |-|:-|
 | `--name=qbittorrent` |容器名|
-| `-p 8989:8989` |web访问端口 [IP:8989](IP:8989);(默认用户名:admin;默认密码:adminadmin);此端口需与容器端口和环境变量保持一致，否则无法访问|
+| `-p 8989:8989` |web访问端口 [IP:8989](IP:8989);(默认用户名:admin;默认密码:adminadmin);</br>此端口需与容器端口和环境变量保持一致，否则无法访问|
 | `-p 6881:6881` |BT下载监听端口|
 | `-p 6881:6881/udp` |BT下载DHT监听端口
 | `-v /配置文件位置:/config` |qBittorrent配置文件位置|
@@ -72,7 +80,7 @@
 | `-e QB_WEBUI_PORT=8989` |web访问端口环境变量|
 | `-e QB_EE_BIN=false` |(true\|false)设置使用qBittorrent-EE,默认不使用|
 | `-e QB_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新qBittorrent的trackers,默认开启|
-| `-e QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
+| `-e QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 
 ### 群晖docker设置：
 
@@ -89,7 +97,7 @@
 |-|:-|
 | `本地端口1:6881` |BT下载监听端口|
 | `本地端口2:6881/udp` |BT下载DHT监听端口|
-| `本地端口3:8989` |web访问端口 [IP:8989](IP:8989);(默认用户名:admin;默认密码:adminadmin);此端口需与容器端口和环境变量保持一致，否则无法访问|
+| `本地端口3:8989` |web访问端口 [IP:8989](IP:8989);(默认用户名:admin;默认密码:adminadmin);</br>此端口需与容器端口和环境变量保持一致，否则无法访问|
 
 3. 环境变量：
 
@@ -102,7 +110,7 @@
 | `QB_WEBUI_PORT=8989` |web访问端口环境变量|
 | `QB_EE_BIN=false` |(true\|false)设置使用qBittorrent-EE,默认不使用|
 | `QB_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新qBittorrent的trackers,默认开启|
-| `QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
+| `QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 
 ### 搜索：
 
@@ -112,8 +120,8 @@
 1. 自带 [https://github.com/qbittorrent/search-plugins/tree/master/nova3/engines](https://github.com/qbittorrent/search-plugins/tree/master/nova3/engines) 搜索插件
 2. 其它搜索插件下载地址 [https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins](https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins)
 3. 一些搜索插件网站需过墙才能用
-4. jackett搜索插件需配置jackett.json(位置config/qBittorrent/data/nova3/engines)，插件需配合jackett服务的api_key。可自行搭建docker版jackett(例如linuxserver/jackett)。
+4. jackett搜索插件需配置jackett.json(位置config/qBittorrent/data/nova3/engines)，插件需配合jackett服务的api_key。</br>可自行搭建docker版jackett(例如linuxserver/jackett)。
 
 ### 其它:
 
-1. Trackers只有一个工作,新增的Trackers显示还未联系，需在qBittorrent.conf里 旧：[Preferences]下增加Advanced\AnnounceToAllTrackers=true，新：[BitTorrent]下增加Session\AnnounceToAllTrackers=true。
+1. Trackers只有一个工作,新增的Trackers显示还未联系，需在qBittorrent.conf里 </br>旧：[Preferences]下增加Advanced\AnnounceToAllTrackers=true，</br>新：[BitTorrent]下增加Session\AnnounceToAllTrackers=true。
