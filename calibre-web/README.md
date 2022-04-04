@@ -11,9 +11,9 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.17|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.18|amd64;arm64v8;arm32v7|
 |calibre-server|5.35.0|amd64;arm64v8;arm32v7|
-|kepubify|4.0.3|amd64;arm64v8;arm32v7|
+|kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
 
@@ -91,7 +91,9 @@
 | `-e CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
-| `-e DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
+| `-e ENABLE_DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
+| `-e DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
+| `-e DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
 
 ### 群晖docker设置：
 
@@ -125,7 +127,9 @@
 | `CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
-| `DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
+| `ENABLE_DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
+| `DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
+| `DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
 
 #### 其它：
 

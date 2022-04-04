@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CALIBRE_WEB_VER: 0.6.17
+  CALIBRE_WEB_VER: 0.6.18
   CALIBRE_VER: 5.35.0
 
 jobs:

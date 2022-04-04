@@ -28,7 +28,12 @@ if [ ! -f $CALIBRE_DBPATH/client_secrets.json ]; then
   echo "{}" > $CALIBRE_DBPATH/client_secrets.json
 fi
 
-#检查douban搜索文件
+#检查calibre-web.log文件.
+if [ -f $CALIBRE_DBPATH/calibre-web.log.1 ]; then
+   rm $CALIBRE_DBPATH/calibre-web.log.*
+fi
+
+#检查搜索文件
 if [ "$ENABLE_DOUBAN_SEARCH" == "true" ]; then
   if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/douban.py ]; then
     cp /usr/local/calibre-web/defaults/douban.py /usr/local/calibre-web/app/cps/metadata_provider/douban.py
@@ -36,6 +41,24 @@ if [ "$ENABLE_DOUBAN_SEARCH" == "true" ]; then
 else
   if [ -f /usr/local/calibre-web/app/cps/metadata_provider/douban.py ]; then
     rm /usr/local/calibre-web/app/cps/metadata_provider/douban.py
+  fi
+fi
+if [ "$DISABLE_GOOGLE_SEARCH" == "true" ]; then
+  if [ -f /usr/local/calibre-web/app/cps/metadata_provider/google.py ]; then
+    mv /usr/local/calibre-web/app/cps/metadata_provider/google.py /usr/local/calibre-web/defaults/
+  fi
+else
+  if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/google.py ]; then
+    mv /usr/local/calibre-web/defaults/google.py /usr/local/calibre-web/app/cps/metadata_provider/
+  fi
+fi
+if [ "$DISABLE_SCHOLAR_SEARCH" == "true" ]; then
+  if [ -f /usr/local/calibre-web/app/cps/metadata_provider/scholar.py ]; then
+    mv /usr/local/calibre-web/app/cps/metadata_provider/scholar.py /usr/local/calibre-web/defaults/
+  fi
+else
+  if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/scholar.py ]; then
+    mv /usr/local/calibre-web/defaults/scholar.py /usr/local/calibre-web/app/cps/metadata_provider/
   fi
 fi
 
