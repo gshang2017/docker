@@ -8,7 +8,7 @@ on:
 
 env:
   ARIA2_VER: 1.36.0
-  AriaNg_VER: 1.2.3
+  AriaNg_VER: 1.2.4
 
 jobs:
   job1:

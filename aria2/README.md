@@ -11,16 +11,18 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |Aria2|1.36.0|amd64;arm64v8;arm32v7,修改线程数至128，默认32，集成Trackers自动更新。|
-|AriaNg|1.2.3|Aria2的web管理界面|
+|AriaNg|1.2.4|Aria2的web管理界面|
 
 ### docker命令行设置：
 
 * 变量名变更
 
-    |版本|1|2|3|4|
-    |:-|:-|:-|:-|:-|
-    |1.36.0-1.2.3|ARIA2_RPC_SECRET|ARIANG_RPC_SECRET_AUTO|ARIA2_TRACKERS_UPDATE_AUTO|ARIA2_TRACKERS_LIST_URL|
-    |1.36.0及以前|RPC_SECRET|SECRETAUTO|TRACKERSAUTO|TRACKERS_LIST_URL|
+    |版本|1.36.0-1.2.3及以后|1.36.0及以前|
+    |:-:|:-|:-|
+    |1|ARIA2_RPC_SECRET|RPC_SECRET|
+    |2|ARIANG_RPC_SECRET_AUTO|SECRETAUTO|
+    |3|ARIA2_TRACKERS_UPDATE_AUTO|TRACKERSAUTO|
+    |4|ARIA2_TRACKERS_LIST_URL|TRACKERS_LIST_URL|
 
 1. 下载镜像
 
@@ -80,7 +82,7 @@
 | `-e ARIA2_RPC_LISTEN_PORT=6800` |Aria2 RPC 默认端口|
 | `-e ARIA2_LISTEN_PORT=6881` |BT下载及DHT监听端口|
 | `-e ARIA2_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新Aria2的trackers,默认开启|
-| `-e ARIA2_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
+| `-e ARIA2_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为  </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `-e ARIA2_CONF_LANGUAGE=zh_Hans` |(zh_Hans\|zh_Hant\|en)Aria2配置文件注释语言|
 | `-e ARIANG_RPC_SECRET_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中token值,默认开启|
 | `-e ARIANG_RPC_LISTEN_PORT_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中port值(本地与容器端口需一致),默认开启|
@@ -115,7 +117,7 @@
 | `ARIA2_RPC_LISTEN_PORT=6800` |Aria2 RPC 默认端口|
 | `ARIA2_LISTEN_PORT=6881` |BT下载及DHT监听端口|
 | `ARIA2_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新Aria2的trackers,默认开启|
-| `ARIA2_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
+| `ARIA2_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为  </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `ARIA2_CONF_LANGUAGE=zh_Hans` |(zh_Hans\|zh_Hant\|en)Aria2配置文件注释语言|
 | `ARIANG_RPC_SECRET_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中token值,默认开启|
 | `ARIANG_RPC_LISTEN_PORT_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中port值(本地与容器端口需一致),默认开启|
