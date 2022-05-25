@@ -13,7 +13,9 @@ if [ "$QB_TRACKERS_UPDATE_AUTO" == "true" ]; then
       sed -i '1,/^Session\\AdditionalTrackers=.*/{//d;}' /config/qBittorrent/config/qBittorrent.conf
       chown qbittorrent:qbittorrent /config/qBittorrent/config/qBittorrent.conf
       #kill qBittorrent
-      ps -ef |grep profile |grep -v grep|awk '{print $1}'|xargs kill -9
+      if [ `ps -ef |grep profile |grep -v grep |wc -l` -ne 0 ]; then
+        ps -ef |grep profile |grep -v grep |awk '{print $1}'|xargs kill -9
+      fi
       echo 已更新trackers。
     fi
     rm /tmp/trackers_all.txt /tmp/Newtrackers.txt

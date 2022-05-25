@@ -1,16 +1,18 @@
 #compiling qB
 FROM alpine:3.15 as compilingqB
 
-ARG LIBTORRENT_VER=2.0.5
-ARG QBITTORRENT_VER=4.4.2
-ARG QBITTORRENT_EE_VER=4.4.2.10
+ARG LIBTORRENT_VER=2.0.6
+ARG QBITTORRENT_VER=4.4.3
+ARG QBITTORRENT_EE_VER=4.4.3.11
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
          py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
 #libtorrent-rasterbar
 && mkdir /qbbuild \
 && wget -P /qbbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
-&& tar -zxvf /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /qbbuild \
+&& tar -zxf /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /qbbuild \
+# fix armv7 build
+&& wget -O /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}/test/test_copy_file.cpp https://raw.githubusercontent.com/arvidn/libtorrent/fac8d18e72cdd16a56a34dd805df9fefe46d8f0a/test/test_copy_file.cpp \
 && cd /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER} \
 && cmake -B build -DCMAKE_BUILD_TYPE=None -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE=ON \
          -DCMAKE_INSTALL_PREFIX=/usr -Dbuild_tests=ON -Dpython-bindings=ON -Dpython-egg-info=ON \
