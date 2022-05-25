@@ -28,7 +28,7 @@ COPY root /
 COPY --from=ttrss-src /src/tt-rss /usr/local/tt-rss/app
 
 # install php tt-rss caddy git [npm nodejs]-mercury-parser-api
-RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy clang llvm12 build-base dumb-init postgresql-client \
+RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy clang llvm13 build-base dumb-init postgresql-client \
 	          php8 php8-fpm php8-pdo php8-gd php8-pgsql php8-pdo_pgsql php8-mbstring php8-intl php8-xml php8-curl php8-session \
 						php8-tokenizer php8-dom php8-fileinfo php8-json php8-iconv php8-pcntl php8-posix php8-zip php8-exif php8-openssl php8-pecl-xdebug \
 #gd-png: libpng warning
@@ -76,8 +76,14 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy c
 # install themes
 # install tt-rss-feedly-theme
 && git clone --depth 1 https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
+# add safe.directory
+&& git config --global --add safe.directory /usr/local/tt-rss/app \
+&& git config --global --add safe.directory /config/plugins.local/mercury_fulltext \
+&& git config --global --add safe.directory /config/plugins.local/feediron \
+&& git config --global --add safe.directory /config/plugins.local/fever \
+&& git config --global --add safe.directory /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
 #clear
-&& apk del clang llvm12 build-base \
+&& apk del clang llvm13 build-base \
 && rm -rf /var/cache/apk/* \
 && rm /s6-overlay-${s6_arch}.tar.gz \
 && rm -rf /scws* \
