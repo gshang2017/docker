@@ -1,8 +1,8 @@
 #compiling qB
-FROM alpine:3.15 as compilingqB
+FROM alpine:3.16 as compilingqB
 
 ARG LIBTORRENT_VER=2.0.6
-ARG QBITTORRENT_VER=4.4.3
+ARG QBITTORRENT_VER=4.4.3.1
 ARG QBITTORRENT_EE_VER=4.4.3.11
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
@@ -44,7 +44,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
 && cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent
 
 # docker qB
-FROM alpine:3.15
+FROM alpine:3.16
 
 ARG S6_VER=2.2.0.3
 
