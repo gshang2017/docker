@@ -3,7 +3,7 @@ FROM alpine:3.16 as compilingqB
 
 ARG LIBTORRENT_VER=2.0.6
 ARG QBITTORRENT_VER=4.4.3.1
-ARG QBITTORRENT_EE_VER=4.4.3.11
+ARG QBITTORRENT_EE_VER=4.4.3.12
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
          py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
@@ -33,6 +33,8 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
 && wget -P /qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
 && unzip /qbbuild/release-${QBITTORRENT_VER}.zip -d /qbbuild \
 && cd /qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
+# fix Qt 6.3
+&& wget -O /qbbuild/qBittorrent-release-${QBITTORRENT_VER}/src/base/net/downloadhandlerimpl.cpp https://raw.githubusercontent.com/qbittorrent/qBittorrent/af07a987849de7180226596f878203c6ea3070b2/src/base/net/downloadhandlerimpl.cpp \
 && cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
          -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
 && cmake --build build-nox -- -j 2 \
