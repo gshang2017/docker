@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-22.04-b17b4a4b9|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-22.05-d391a01de|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 
@@ -175,12 +175,20 @@
 
 #### 注意：
 
-* 升级安装需手动添加zhparser扩展：
+* 手动添加zhparser扩展：
 
 |标题|命令|举例|
 |:-|:-|:-|
 |添加zhparser扩展|psql -U PostgreSQL用户名 -d PostgreSQL数据库名称 -a -f /docker-entrypoint-initdb.d/install_extension.sql| psql -U ttrss -d ttrss -a -f /docker-entrypoint-initdb.d/install_extension.sql|
 |更新旧数据库(可选)|psql -U PostgreSQL用户名 -d PostgreSQL数据库名称 -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"| psql -U ttrss -d ttrss -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"|
+
+### 常见问题:
+
+* https反代：
+
+|问题|解决方法|
+|:-|:-|
+|Please set SELF_URL_PATH to the correct value detected for your server: http://domain.com (you're using: https://domain.com)|config.php 配置文件里添加 $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';|
 
 ### 客户端软件：
 

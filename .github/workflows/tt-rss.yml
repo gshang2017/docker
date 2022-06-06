@@ -1,4 +1,4 @@
-name: Build tt-rss-plugins-latest Image
+name: tt-rss
 
 on:
   push:
@@ -6,6 +6,9 @@ on:
     - 'tt-rss-plugins/Dockerfile'
     - 'tt-rss-plugins/root/**'
   workflow_dispatch:
+
+env:
+  TTRSS_VER: 22.05-d391a01de
 
 jobs:
   job1:
@@ -19,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: download postgres src
         run: |
@@ -30,10 +33,10 @@ jobs:
           sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           driver-opts: network=host
 
@@ -63,7 +66,7 @@ jobs:
           file: ./tt-rss-plugins/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: johngong/tt-rss:amd64-latest
+          tags: johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
 
   job2:
     name: buildx arm64
@@ -76,7 +79,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: download postgres src
         run: |
@@ -87,10 +90,10 @@ jobs:
           sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           driver-opts: network=host
 
@@ -120,7 +123,7 @@ jobs:
           file: ./tt-rss-plugins/Dockerfile
           platforms: linux/arm64
           push: true
-          tags: johngong/tt-rss:arm64v8-latest
+          tags: johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
 
   job3:
     name: buildx arm32v7
@@ -133,7 +136,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: download postgres src
         run: |
@@ -144,10 +147,10 @@ jobs:
           sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           driver-opts: network=host
 
@@ -177,7 +180,7 @@ jobs:
           file: ./tt-rss-plugins/Dockerfile
           platforms: linux/arm/v7
           push: true
-          tags: johngong/tt-rss:arm32v7-latest
+          tags: johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
 
   job4:
     needs: [job1, job2, job3]
@@ -185,17 +188,17 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Set up QEMU
         id: qemu
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: all
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           version: latest
 
@@ -207,7 +210,64 @@ jobs:
 
       - name: create version tag
         run: |
+          docker buildx imagetools create -t johngong/tt-rss:plugins-${{ env.TTRSS_VER }} \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+
+  job5:
+    needs: [job1, job2, job3, job4]
+    name: version latest
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          version: latest
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: create version tag
+        run: |
+          docker buildx imagetools create -t johngong/tt-rss:amd64-latest \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
+
+      - name: create version tag
+        run: |
+          docker buildx imagetools create -t johngong/tt-rss:arm64v8-latest \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
+
+      - name: create version tag
+        run: |
+          docker buildx imagetools create -t johngong/tt-rss:arm32v7-latest \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+
+      - name: create version tag
+        run: |
           docker buildx imagetools create -t johngong/tt-rss:latest \
             johngong/tt-rss:amd64-latest \
             johngong/tt-rss:arm64v8-latest \
             johngong/tt-rss:arm32v7-latest
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: johngong/tt-rss
+          short-description: Tiny Tiny RSS:plugins-${{ env.TTRSS_VER }},集成postgres数据库,mercury-parser-api及一些常用插件
+          readme-filepath: ./tt-rss-plugins/README.md
