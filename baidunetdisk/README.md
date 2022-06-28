@@ -8,7 +8,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|baidunetdisk|4.3.0|amd64|
+|baidunetdisk|4.10.5|amd64|
 
 #### 注意：
 
@@ -20,17 +20,17 @@
 
 1. 下载镜像
 
-       docker pull  johngong/baidunetdisk:latest
+       docker pull johngong/baidunetdisk:latest
 
-2. 创建 baidunetdisk容器
+2. 创建baidunetdisk容器
 
-        docker create  \
-           --name=baidunetdisk  \
-           -p 5800:5800  \
-           -p 5900:5900  \
-           -v /配置文件位置:/config  \
-           -v /下载位置:/config/baidunetdiskdownload  \
-           --restart unless-stopped  \
+        docker create \
+           --name=baidunetdisk \
+           -p 5800:5800 \
+           -p 5900:5900 \
+           -v /配置文件位置:/config \
+           -v /下载位置:/config/baidunetdiskdownload \
+           --restart unless-stopped \
            johngong/baidunetdisk:latest
 
 3. 运行
@@ -43,7 +43,7 @@
 
 5. 删除容器
 
-       docker rm  baidunetdisk
+       docker rm baidunetdisk
 
 6. 删除镜像
 
