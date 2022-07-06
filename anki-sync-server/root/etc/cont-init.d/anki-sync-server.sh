@@ -34,12 +34,16 @@ python3 /usr/local/anki-sync-server/src/ankisyncd_cli/migrate_user_tables.py
 
 #添加user.
 if [ -n "$ANKI_SYNC_SERVER_USER" ] && [ -n "$ANKI_SYNC_SERVER_PASSWORD" ]; then
-  if [ ! -d /config/collections/$ANKI_SYNC_SERVER_USER ]; then
+  if [ ! -f /config/auth.db ]; then
     /usr/bin/expect <<-EOF
     spawn python3 /usr/local/anki-sync-server/src/ankisyncd_cli/ankisyncctl.py adduser $ANKI_SYNC_SERVER_USER
     expect "Enter password for $ANKI_SYNC_SERVER_USER:" {send "$ANKI_SYNC_SERVER_PASSWORD\r"}
     expect eof
 EOF
+  else
+    if [ ! -d /config/collections/$ANKI_SYNC_SERVER_USER ]; then
+      mkdir -p /config/collections/$ANKI_SYNC_SERVER_USER
+    fi
   fi
 fi
 

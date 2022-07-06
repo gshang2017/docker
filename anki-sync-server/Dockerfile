@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ARG ANKI_SYNC_SERVER=develop
+ARG ANKI_SYNC_SERVER=2.4.0
 ARG S6_VER=2.2.0.3
 ARG ANKI_VER=2.1.49
 
@@ -9,6 +9,7 @@ ENV ANKI_SYNC_SERVER_PASSWORD=
 ENV ENABLE_NGINX_PROXY_SERVER=true
 ENV UID=1000
 ENV GID=1000
+ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
 COPY root /
 
@@ -44,12 +45,12 @@ RUN apt-get update -q -y \
 #ankisyncd路径
 && echo "/usr/local/anki-sync-server/src/" > /usr/local/lib/python3.8/dist-packages/ankisyncd.pth \
 #create ankisync user
+&& mkdir /config \
 && useradd -u 1000 -U -d /config -s /bin/false ankisync \
 && usermod -G users ankisync \
 #
 && apt-get clean \
 && rm -rf /tmp/* \
 
-VOLUME /config
 EXPOSE 27701
 ENTRYPOINT [ "/init" ]

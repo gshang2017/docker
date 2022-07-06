@@ -3,15 +3,13 @@
 ### 感谢以下项目:
 
 [https://github.com/dae/anki](https://github.com/dae/anki "https://github.com/dae/anki")    
-[https://github.com/ankicommunity/anki-sync-server](https://github.com/ankicommunity/anki-sync-server "https://github.com/ankicommunity/anki-sync-server")   
-[https://github.com/tsudoko/anki-sync-server](https://github.com/tsudoko/anki-sync-server "https://github.com/tsudoko/anki-sync-server")
+[https://github.com/ankicommunity/anki-sync-server](https://github.com/ankicommunity/anki-sync-server "https://github.com/ankicommunity/anki-sync-server")
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|Anki-sync-server|develop(ankicommunity)|amd64;arm64v8;arm32v7,支持(Anki:2.1.49、AnkiDroid:2.15.6)|
-|Anki-sync-server|2.1.0(tsudoko)|amd64;arm64v8;arm32v7,支持(Anki:2.1.15、AnkiDroid:2.14.6)|
+|Anki-sync-server|2.4.0(ankicommunity)|amd64;arm64v8;arm32v7,支持(Anki:2.1.49、AnkiDroid:2.15.6)|
 
 ### 注意:
 
@@ -22,7 +20,7 @@
 
 * 变量名变更
 
-    |版本|develop|2.3.0及以前|
+    |版本|2.3.0及以后|2.3.0及以前|
     |:-:|:-|:-|
     |1|ANKI_SYNC_SERVER_USER|USER|
     |2|ANKI_SYNC_SERVER_PASSWORD|PASSWORD|
