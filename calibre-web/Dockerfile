@@ -1,10 +1,9 @@
-FROM alpine:3.15
+FROM alpine:3.16
 
 ARG S6_VER=2.2.0.3
-ARG CALIBRE_WEB_VER=0.6.18
+ARG CALIBRE_WEB_VER=0.6.19
 ARG CALIBRE_VER=5.35.0
 ARG KEPUBIFY_VER=4.0.4
-ARG DOUBAN_SEARCH_URL=https://raw.githubusercontent.com/janeczku/calibre-web/97cf20764bcc5ca37a7d58791d350e962c4edbc8/cps/metadata_provider/douban.py
 
 ENV UID=1000
 ENV GID=1000
@@ -17,7 +16,6 @@ ENV CALIBRE_ASCII_FILENAME=true
 ENV CALIBRE_WEB_LANGUAGE=zh_Hans_CN
 ENV TZ=Asia/Shanghai
 ENV CALIBREDB_OTHER_OPTION=
-ENV ENABLE_DOUBAN_SEARCH=false
 ENV DISABLE_GOOGLE_SEARCH=false
 ENV DISABLE_SCHOLAR_SEARCH=false
 ENV LANG=C.UTF-8
@@ -57,9 +55,6 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect
 #install kepubify
 && if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi \
 && wget https://github.com/geek1011/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify \
-#install douban.py
-&& mkdir -p /usr/local/calibre-web/defaults \
-&& wget -O /usr/local/calibre-web/defaults/douban.py ${DOUBAN_SEARCH_URL} \
 #create calibre user
 && mkdir -p /home/calibre \
 && useradd -u 1000 -U -d /home/calibre -s /bin/false calibre \

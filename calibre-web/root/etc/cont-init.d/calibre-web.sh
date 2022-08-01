@@ -34,14 +34,8 @@ if [ -f $CALIBRE_DBPATH/calibre-web.log.1 ]; then
 fi
 
 #检查搜索文件
-if [ "$ENABLE_DOUBAN_SEARCH" == "true" ]; then
-  if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/douban.py ]; then
-    cp /usr/local/calibre-web/defaults/douban.py /usr/local/calibre-web/app/cps/metadata_provider/douban.py
-  fi
-else
-  if [ -f /usr/local/calibre-web/app/cps/metadata_provider/douban.py ]; then
-    rm /usr/local/calibre-web/app/cps/metadata_provider/douban.py
-  fi
+if [ ! -d /usr/local/calibre-web/defaults ]; then
+  mkdir -p /usr/local/calibre-web/defaults
 fi
 if [ "$DISABLE_GOOGLE_SEARCH" == "true" ]; then
   if [ -f /usr/local/calibre-web/app/cps/metadata_provider/google.py ]; then

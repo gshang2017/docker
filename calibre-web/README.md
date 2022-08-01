@@ -11,7 +11,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.18|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.19|amd64;arm64v8;arm32v7|
 |calibre-server|5.35.0|amd64;arm64v8;arm32v7|
 |kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
@@ -22,7 +22,7 @@
 * arm32v7版ebook-convert可能无法转换成PDF格式。
 * CN版(旧)修改了calibre，支持中文目录(非拼音)。替换前请备份书库，新版通过环境变量设置此功能。
 * 0.6.16及以前未安装新增的Google Scholar元数据搜索。
-* 豆瓣搜索 新:ENABLE_DOUBAN_SEARCH=true 0.6.16及以前:需自行安装 </br>https://hub.docker.com/r/fugary/simple-boot-douban-api ，并配置环境变量DOUBANIP。
+* 豆瓣搜索 0.6.18及以前:ENABLE_DOUBAN_SEARCH=true 0.6.16及以前:需自行安装 </br>https://hub.docker.com/r/fugary/simple-boot-douban-api ，并配置环境变量DOUBANIP。
 
 ### docker命令行设置：
 
@@ -91,7 +91,6 @@
 | `-e CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
-| `-e ENABLE_DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
 | `-e DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `-e DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
 
@@ -127,7 +126,6 @@
 | `CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
-| `ENABLE_DOUBAN_SEARCH=false` |(true\|false)设定开启豆瓣搜索，默认不开启|
 | `DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
 
