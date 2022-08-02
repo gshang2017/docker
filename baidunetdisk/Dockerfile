@@ -1,6 +1,6 @@
 FROM jlesage/baseimage-gui:debian-10
 
-ARG BAIDUNETDISK_VER=4.10.5
+ARG BAIDUNETDISK_VER=4.11.5
 
 ENV APP_NAME="Baidunetdisk"
 ENV DISPLAY_WIDTH="1100"
