@@ -1,5 +1,9 @@
 ## 群晖nas自用：
 
+### GitHub:
+
+[https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
 [https://github.com/qbittorrent/qBittorrent](https://github.com/qbittorrent/qBittorrent)   
@@ -10,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent-qBittorrentEE|4.4.3.1-4.4.3.12|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent-qBittorrentEE|4.4.4-4.4.4.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 #### 版本升级注意：
 

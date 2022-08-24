@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  QBITTORRENT_VER: 4.4.3.1
-  QBITTORRENT_EE_VER: 4.4.3.12
+  QBITTORRENT_VER: 4.4.4
+  QBITTORRENT_EE_VER: 4.4.4.10
 
 jobs:
   job1:

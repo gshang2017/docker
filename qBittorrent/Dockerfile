@@ -1,9 +1,9 @@
 #compiling qB
 FROM alpine:3.16 as compilingqB
 
-ARG LIBTORRENT_VER=2.0.6
-ARG QBITTORRENT_VER=4.4.3.1
-ARG QBITTORRENT_EE_VER=4.4.3.12
+ARG LIBTORRENT_VER=2.0.7
+ARG QBITTORRENT_VER=4.4.4
+ARG QBITTORRENT_EE_VER=4.4.4.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
          py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
@@ -48,7 +48,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
 # docker qB
 FROM alpine:3.16
 
-ARG S6_VER=2.2.0.3
+ARG S6_VER=3.1.1.2
 
 ENV UID=1000
 ENV GID=1000
@@ -58,16 +58,23 @@ ENV QB_WEBUI_PORT=8989
 ENV QB_EE_BIN=false
 ENV QB_TRACKERS_UPDATE_AUTO=true
 ENV QB_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
+ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
-COPY root /
-COPY --from=compilingqB /qbittorrent /
+COPY --chmod=755 root /
+COPY --from=compilingqB --chmod=755 /qbittorrent /
 
 #install bash curl tzdata python3 shadow qt6
 RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbase-sqlite qt6-qtbase libexecinfo \
 #install s6-overlay
-&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
-&& wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz \
-&& tar -xvzf s6-overlay-${s6_arch}.tar.gz \
+&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-${s6_arch}.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
 #create qbittorrent user
 && useradd -u 1000 -U -d /config -s /bin/false qbittorrent \
 && usermod -G users qbittorrent \
@@ -83,11 +90,7 @@ RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbas
 && sed -i '/Session\\AdditionalTrackers=/r /tmp/Newtrackers.txt' /usr/local/qbittorrent/defaults/qBittorrent.conf \
 && sed -i '1,/^Session\\AdditionalTrackers=.*/{//d;}' /usr/local/qbittorrent/defaults/qBittorrent.conf \
 #clear
-&& rm s6-overlay-${s6_arch}.tar.gz \
-&& rm -rf /var/cache/apk/* /tmp/* \
-&& chmod a+x /usr/local/qbittorrent/updatetrackers.sh \
-&& chmod a+x /usr/local/bin/qbittorrent-nox \
-&& chmod a+x /usr/local/bin/qbittorrentee-nox
+&& rm -rf /var/cache/apk/* /tmp/*
 
 VOLUME /Downloads /config
 EXPOSE 8989 6881 6881/udp
