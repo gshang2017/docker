@@ -1,5 +1,9 @@
 ## 群晖nas自用：
 
+### GitHub:
+
+[https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
 [https://github.com/jlesage/docker-baseimage-gui](https://github.com/jlesage/docker-baseimage-gui "https://github.com/jlesage/docker-baseimage-gui")                                       
@@ -8,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|baidunetdisk|4.11.5|amd64|
+|baidunetdisk|4.12.5|amd64|
 
 #### 注意：
 
@@ -61,8 +65,8 @@
 | `-e VNC_PASSWORD=VNC密码` |VNC密码|
 | `-e USER_ID=1000` |uid设置,默认为1000|
 | `-e GROUP_ID=1000` |gid设置,默认为1000|
-| `-e DISPLAY_WIDTH=1100` |显示宽度,默认为1100|
-| `-e DISPLAY_HEIGHT=800` |显示高度,默认为800|
+| `-e NOVNC_LANGUAGE="zh_Hans"` |(zh_Hans\|en)设定novnc语言,默认为中文|
+
 
 更多参数设置详见:[https://registry.hub.docker.com/r/jlesage/baseimage-gui](https://registry.hub.docker.com/r/jlesage/baseimage-gui "https://registry.hub.docker.com/r/jlesage/baseimage-gui")                                     
 
@@ -90,9 +94,4 @@
 | `VNC_PASSWORD=VNC密码` |VNC密码|
 | `USER_ID=1000` |uid设置,默认为1000|
 | `GROUP_ID=1000` |gid设置,默认为1000|
-| `DISPLAY_WIDTH=1100` |显示宽度,默认为1100|
-| `DISPLAY_HEIGHT=800` |显示高度,默认为800|
-
-### 注意：
-
-1. 剪贴板无法使用中文
+| `NOVNC_LANGUAGE="zh_Hans"` |(zh_Hans\|en)设定novnc语言,默认为中文|

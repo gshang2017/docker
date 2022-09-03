@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  BAIDUNETDISK_VER: 4.11.5
+  BAIDUNETDISK_VER: 4.12.5
 
 jobs:
   job1:
