@@ -2,8 +2,8 @@
 FROM alpine:3.16 as compilingqB
 
 ARG LIBTORRENT_VER=2.0.7
-ARG QBITTORRENT_VER=4.4.4
-ARG QBITTORRENT_EE_VER=4.4.4.10
+ARG QBITTORRENT_VER=4.4.5
+ARG QBITTORRENT_EE_VER=4.4.5.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
          py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
@@ -48,7 +48,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
 # docker qB
 FROM alpine:3.16
 
-ARG S6_VER=3.1.1.2
+ARG S6_VER=3.1.2.1
 
 ENV UID=1000
 ENV GID=1000
