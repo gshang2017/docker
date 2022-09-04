@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  TTRSS_VER: 22.07-26c67dba7
+  TTRSS_VER: 22.08-5fea1a7ea
 
 jobs:
   job1:
