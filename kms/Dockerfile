@@ -1,5 +1,5 @@
 #compiling vlmcsd
-FROM alpine:3.15 as compilingvlmcsd
+FROM alpine:3.16 as compilingvlmcsd
 
 ARG VLMCSD_VER=1113
 
@@ -10,23 +10,27 @@ RUN apk add --no-cache git build-base \
 && make
 
 # docker vlmcsd
-FROM alpine:3.15
+FROM alpine:3.16
 
-ARG S6_VER=2.2.0.3
+ARG S6_VER=3.1.2.1
 ARG VLMCSD_VER=1113
 
 ENV KMS_README_WEB=true
 
-COPY root /
-COPY --from=compilingvlmcsd /vlmcsd-svn${VLMCSD_VER}/bin/vlmcsd /usr/bin/vlmcsd
+COPY --chmod=755 root /
+COPY --from=compilingvlmcsd --chmod=755 /vlmcsd-svn${VLMCSD_VER}/bin/vlmcsd /usr/bin/vlmcsd
 
 RUN apk add --no-cache darkhttpd ca-certificates bash \
-&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
-&& wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz \
-&& tar -xvzf s6-overlay-${s6_arch}.tar.gz \
-&& rm s6-overlay-${s6_arch}.tar.gz \
-&& rm -rf /var/cache/apk/* \
-&& chmod a+x /usr/bin/vlmcsd
+&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-${s6_arch}.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
+&& rm -rf /var/cache/apk/* /tmp/*
 
 EXPOSE 1688 80
 ENTRYPOINT [ "/init" ]
