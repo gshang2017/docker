@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 ARG ANKI_SYNC_SERVER=2.4.0
-ARG S6_VER=2.2.0.3
+ARG S6_VER=3.1.2.1
 ARG ANKI_VER=2.1.49
 
 ENV ANKI_SYNC_SERVER_USER=
@@ -10,13 +10,17 @@ ENV ENABLE_NGINX_PROXY_SERVER=true
 ENV UID=1000
 ENV GID=1000
 ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
-COPY root /
+COPY --chmod=755 root /
 
 RUN apt-get update -q -y \
 && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 && echo Asia/Shanghai > /etc/timezone \
 && apt-get install -q -y expect python3 python3-pip wget unzip nginx git \
+#arm/v7 platform wget
+&& if [ "$(uname -m)" = "armv7l" ]; then for i in /etc/ssl/certs/*.pem; do HASH=$(openssl x509 -hash -noout -in $i); ln -s $(basename $i) /etc/ssl/certs/$HASH.0; done; fi \
+#install anki
 && if [ "$(uname -m)" = "x86_64" ];then anki_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then anki_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then anki_arch=armv7l; fi \
 && wget -P /tmp https://github.com/gshang2017/anki-build/releases/download/v${ANKI_VER}/anki-${ANKI_VER}-${anki_arch}.tar.gz --no-check-certificate \
 && tar xzf /tmp/anki-${ANKI_VER}-${anki_arch}.tar.gz -C /tmp \
@@ -29,10 +33,15 @@ RUN apt-get update -q -y \
 && sed -i 's/anki==*.*.*;/anki;/g' /usr/local/anki-sync-server/src/requirements.txt \
 && pip install --no-cache-dir -r /usr/local/anki-sync-server/src/requirements.txt \
 #install s6-overlay
-&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
-&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}-installer --no-check-certificate \
-&& chmod +x /tmp/s6-overlay-${s6_arch}-installer \
-&& /tmp/s6-overlay-${s6_arch}-installer / \
+&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-${s6_arch}.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
 #defaults ankisyncd.conf
 && mkdir -p /usr/local/anki-sync-server/defaults \
 && mv /usr/local/anki-sync-server/src/ankisyncd.conf /usr/local/anki-sync-server/defaults/ankisyncd.conf \
@@ -50,7 +59,7 @@ RUN apt-get update -q -y \
 && usermod -G users ankisync \
 #
 && apt-get clean \
-&& rm -rf /tmp/* \
+&& rm -rf /tmp/*
 
 EXPOSE 27701
 ENTRYPOINT [ "/init" ]

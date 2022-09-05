@@ -1,5 +1,9 @@
 ## 群晖nas自用
 
+### GitHub:
+
+[https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
 [https://github.com/dae/anki](https://github.com/dae/anki "https://github.com/dae/anki")    
@@ -27,7 +31,10 @@
 
 1. 下载镜像
 
-       docker pull johngong/anki-sync-server:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/anki-sync-server:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/anki-sync-server:latest|
 
 2. 创建anki容器
 
