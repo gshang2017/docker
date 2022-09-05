@@ -1,5 +1,9 @@
 ## 群晖nas自用
 
+### GitHub:
+
+[https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
 [https://github.com/syncthing](https://github.com/syncthing "https://github.com/syncthing")
@@ -8,14 +12,17 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|relaysrv|1.18.6|amd64;arm64v8;arm32v7|
-|discosrv|1.18.6|amd64;arm64v8;arm32v7|
+|strelaysrv|1.18.6|amd64;arm64v8;arm32v7|
+|stdiscosrv|1.18.6|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
 1. 下载镜像
 
-       docker pull  johngong/syncthing-relay-discosrv:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/syncthing-relay-discosrv:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/syncthing-relay-discosrv:latest|
 
 2. 创建syncthing-relay-discosrv容器
 
