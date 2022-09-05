@@ -1,5 +1,5 @@
 #compiling aria2c
-FROM alpine:3.15 as compilingaria2c
+FROM alpine:3.16 as compilingaria2c
 
 ARG ARIA2_VER=1.36.0
 
@@ -18,10 +18,10 @@ RUN apk add --no-cache build-base ca-certificates gnutls-dev expat-dev sqlite-de
 && cp --parents /usr/local/bin/aria2c /aria2
 
 # docker aria2
-FROM alpine:3.15
+FROM alpine:3.16
 
 ARG AriaNg_VER=1.2.4
-ARG S6_VER=2.2.0.3
+ARG S6_VER=3.1.2.1
 
 ENV UID=1000
 ENV GID=1000
@@ -35,22 +35,29 @@ ENV ARIA2_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackersli
 ENV ARIA2_CONF_LANGUAGE=zh_Hans
 ENV ARIANG_RPC_SECRET_AUTO=true
 ENV ARIANG_RPC_LISTEN_PORT_AUTO=true
+ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
-COPY root /
-COPY --from=compilingaria2c /aria2 /
+COPY --chmod=755 root /
+COPY --from=compilingaria2c --chmod=755 /aria2 /
 
 # install bash darkhttpd tzdata s6 overlay AriaNg aria2 shadow
 RUN apk add --no-cache bash curl ca-certificates darkhttpd tzdata shadow c-ares expat gmp gnutls sqlite-libs libstdc++ libssh2 \
-&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
-&& wget --no-check-certificate https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz \
-&& tar -xvzf s6-overlay-${s6_arch}.tar.gz \
+&& if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-${s6_arch}.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-noarch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
+&& wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
+&& tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
 #create aria2 user
 && useradd -u 1000 -U -d /config -s /bin/false aria2 \
 && usermod -G users aria2 \
 # install AriaNg
-&& wget https://github.com/mayswind/AriaNg/releases/download/${AriaNg_VER}/AriaNg-${AriaNg_VER}.zip \
+&& wget -P /tmp https://github.com/mayswind/AriaNg/releases/download/${AriaNg_VER}/AriaNg-${AriaNg_VER}.zip \
 && mkdir -p /usr/local/aria2/AriaNg/js/defaultsjs \
-&& unzip -d /usr/local/aria2/AriaNg AriaNg-${AriaNg_VER}.zip \
+&& unzip -d /usr/local/aria2/AriaNg /tmp/AriaNg-${AriaNg_VER}.zip \
 #modify js
 #max-connection-per-server
 && sed -i 's/max:16/max:128/g' /usr/local/aria2/AriaNg/js/aria-ng* \
@@ -65,11 +72,7 @@ RUN apk add --no-cache bash curl ca-certificates darkhttpd tzdata shadow c-ares 
 && Newtrackers="bt-tracker=`awk NF /tmp/trackers_all.txt|sed ":a;N;s/\n/,/g;ta"`" \
 && sed -i 's@bt-tracker=@'"$Newtrackers"'@g' /usr/local/aria2/defaults/aria2.conf \
 #
-&& rm s6-overlay-${s6_arch}.tar.gz AriaNg-${AriaNg_VER}.zip \
-&& rm -rf /var/cache/apk/* \
-#
-&& chmod a+x /usr/local/bin/aria2c \
-&& chmod a+x /usr/local/aria2/updatetrackers.sh
+&& rm -rf /var/cache/apk/* /tmp/*
 
 VOLUME /Downloads /config
 EXPOSE 6800 8080 6881 6881/udp

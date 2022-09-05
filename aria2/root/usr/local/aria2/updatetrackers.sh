@@ -11,7 +11,9 @@ if [ "$ARIA2_TRACKERS_UPDATE_AUTO" == "true" ]; then
       sed -i 's@'"$Oldtrackers"'@'"$Newtrackers"'@g' /config/aria2.conf
       chown aria2:aria2 /config/aria2.conf
       #kill aria2
-      ps -ef |grep aria2.conf |grep -v grep|awk '{print $1}'|xargs kill -9
+      if [ `  ps -ef |grep aria2.conf |grep -v grep |wc -l` -ne 0 ]; then
+        ps -ef |grep aria2.conf |grep -v grep |awk '{print $1}'|xargs kill -9
+      fi
       echo 已更新trackers。
     fi
     rm /tmp/trackers_all.txt
