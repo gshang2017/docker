@@ -5,6 +5,10 @@
    自动更新sogou网络流行新词 <https://pinyin.sogou.com/dict/detail/index/4> ,生成rime输入法(拼音)使用文件luna_pinyin.sogou.dict.yaml(默认名称)。
 
 
+### GitHub:
+
+   [https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
 [https://github.com/studyzy/imewlconverter](https://github.com/studyzy/imewlconverter)   
@@ -19,7 +23,10 @@
 
 1. 下载镜像
 
-        docker pull johngong/rime-sogou:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/rime-sogou:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/rime-sogou:latest|
 
 2. 创建qbittorrent容器
 

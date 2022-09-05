@@ -56,7 +56,7 @@ if dict_name is None:
 elif len(dict_name) == 0:
    dict_name = 'luna_pinyin.sogou'
 scel_output_file = '{name}.dict.yaml'.format(name=dict_name)
-command='''dotnet /usr/local/bin/ImeWlConverterCmd.dll -i:scel %s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),scel_output_file)
+command='''dotnet /usr/local/imewlconverter/ImeWlConverterCmd.dll -i:scel %s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),scel_output_file)
 os.system(command)
 
 #完善yaml文件输出格式
