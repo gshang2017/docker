@@ -2,6 +2,10 @@
 
 * calibre-web电子书管理带ebook-convert转换，并集成calibre的calibre-server服务。
 
+### GitHub:
+
+[https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
 [https://github.com/janeczku/calibre-web](https://github.com/janeczku/calibre-web)                                   
@@ -36,7 +40,10 @@
 
 1. 下载镜像
 
-       docker pull johngong/calibre-web:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/calibre-web:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/calibre-web:latest|
 
 2. 创建calibre-web容器
 
@@ -93,6 +100,7 @@
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
 | `-e DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `-e DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
+| `-e ENABLE_CHOWN_LIBRARY=true` |(true\|false)设定修复library文件夹拥有者，默认开启|
 
 ### 群晖docker设置：
 
@@ -128,6 +136,7 @@
 | `CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
 | `DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
+| `ENABLE_CHOWN_LIBRARY=true` |(true\|false)设定修复library文件夹拥有者，默认开启|
 
 #### 其它：
 

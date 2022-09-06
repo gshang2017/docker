@@ -121,7 +121,9 @@ echo $TZ > /etc/timezone
 chown -R calibre:calibre /home/calibre
 chown -R calibre:calibre /config/
 chown -R calibre:calibre /usr/local/calibre-web/
-chown -R calibre:calibre /library
+if [ "$ENABLE_CHOWN_LIBRARY" == "true" ]; then
+  chown -R calibre:calibre /library
+fi
 chown -R calibre:calibre /autoaddbooks
 
 #自动添加图书.
