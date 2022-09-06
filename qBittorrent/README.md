@@ -32,7 +32,10 @@
 
 1. 下载镜像
 
-       docker pull johngong/qbittorrent:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/qbittorrent:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/qbittorrent:latest|
 
 2. 创建qbittorrent容器
 
