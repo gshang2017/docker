@@ -52,7 +52,10 @@
 
 1. 下载镜像
 
-       docker pull johngong/tt-rss:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/tt-rss:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/tt-rss:latest|
 
 2. 创建ttrss容器
 

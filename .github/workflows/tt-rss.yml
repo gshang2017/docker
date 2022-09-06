@@ -59,6 +59,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -66,7 +73,9 @@ jobs:
           file: ./tt-rss-plugins/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
+          tags: |
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
 
   job2:
     name: buildx arm64
@@ -116,6 +125,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -123,7 +139,9 @@ jobs:
           file: ./tt-rss-plugins/Dockerfile
           platforms: linux/arm64
           push: true
-          tags: johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
+          tags: |
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
 
   job3:
     name: buildx arm32v7
@@ -173,6 +191,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -180,44 +205,13 @@ jobs:
           file: ./tt-rss-plugins/Dockerfile
           platforms: linux/arm/v7
           push: true
-          tags: johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+          tags: |
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
 
   job4:
     needs: [job1, job2, job3]
-    name: version tag
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: all
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/tt-rss:plugins-${{ env.TTRSS_VER }} \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-
-  job5:
-    needs: [job1, job2, job3, job4]
-    name: version latest
+    name: create tags
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
@@ -241,6 +235,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: create version tag
+        run: |
+          docker buildx imagetools create -t johngong/tt-rss:plugins-${{ env.TTRSS_VER }} \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+
       - name: create version tag
         run: |
           docker buildx imagetools create -t johngong/tt-rss:amd64-latest \
@@ -262,6 +270,35 @@ jobs:
             johngong/tt-rss:amd64-latest \
             johngong/tt-rss:arm64v8-latest \
             johngong/tt-rss:arm32v7-latest
+
+      - name: create version tag(ghcr.io)
+        run: |
+          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:amd64-latest \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
+
+      - name: create version tag(ghcr.io)
+        run: |
+          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:arm64v8-latest \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
+
+      - name: create version tag(ghcr.io)
+        run: |
+          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:arm32v7-latest \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+
+      - name: create version tag(ghcr.io)
+        run: |
+          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }} \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+
+      - name: create version tag(ghcr.io)
+        run: |
+          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:latest \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
