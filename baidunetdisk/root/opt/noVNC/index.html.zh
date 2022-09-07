@@ -58,7 +58,7 @@
                 <!-- Control bar header -->
                 <div class="card-header d-flex align-items-center">
                     <img class="pe-2" style="height: 25px;" src="app/images/icons/master_icon.png?v=UNIQUE_VERSION" id="noVNC_app_logo">
-                    <h5 class="m-0" name="noVNC_app_name">百度网盘</h5>
+                    <h5 class="m-0" name="noVNC_app_name">DockerApp</h5>
                     <div class="ms-auto"><!--<i class="fa fa-unlock-alt fs-4"></i>--></div>
                 </div>
                 <!-- Control bar body -->
@@ -141,7 +141,7 @@
     <div class="noVNC_center noVNC_connect_layer">
         <div id="noVNC_credentials_dlg">
             <div class="card">
-                <div class="card-header" name="noVNC_app_name">百度网盘</div>
+                <div class="card-header" name="noVNC_app_name">DockerApp</div>
                     <div class="card-body">
                         <h5 class="card-title">需要密码</h5>
                         <p class="card-text">请输入密码以进行连接.</p>

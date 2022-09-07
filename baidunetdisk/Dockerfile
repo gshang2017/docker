@@ -4,6 +4,7 @@ ARG BAIDUNETDISK_VER=4.12.5
 
 ENV APP_NAME="Baidunetdisk"
 ENV NOVNC_LANGUAGE="zh_Hans"
+ENV TZ=Asia/Shanghai
 
 COPY --chmod=755 root /
 COPY --chmod=755 startapp.sh /startapp.sh
@@ -19,6 +20,8 @@ RUN apt-get update \
 && sed -i 's/normal/desktop/g' /etc/jwm/main-window-group.sh \
 #fix vncpasswd not found
 && ln -s /usr/tigervnc/bin/vncpasswd /opt/tigervnc/bin/vncpasswd \
+#fix dash echo -ne
+&& sed -i s/"echo -ne"/"echo"/g /etc/cont-init.d/10-web-data.sh \
 #novnc_language
 && mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
 #fix dpkg
