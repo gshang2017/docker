@@ -1,52 +1,63 @@
 ## 群晖nas自用。
 
+### GitHub:
+
+[https://github.com/gshang2017/docker](https://github.com/gshang2017/docker)
+
 ### 感谢以下项目:
 
-[https://github.com/binux/qiandao](https://github.com/binux/qiandao)
+[https://github.com/qiandao-today/qiandao](https://github.com/qiandao-today/qiandao)
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qiandao|v_380e25e|amd64;arm64v8;arm32v7|
+|qiandao|20220901|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
+* 变量名变更
+
+    |版本|20220901及以后|v_380e25e及以前|
+    |:-:|:-|:-|
+    |1|MAIL_SMTP|MAIL_STMP|
+    |2|ADMIN_MAIL|ADMINEMAIL|
+
 1. 下载镜像
 
-       docker pull johngong/qiandao:latest
+    |镜像源|命令|
+    |:-|:-|
+    |DockerHub|docker pull johngong/qiandao:latest|
+    |GitHub|docker pull ghcr.io/gshang2017/qiandao:latest|
 
 2. 创建qiandao容器
 
 * 不配置MAIL
 
-        docker create  \
-           --name=qiandao  \
+        docker create \
+           --name=qiandao \
            -p 8923:8923 \
-           -v /数据库位置:/dbpath  \
-           -e UID=1000  \
-           -e GID=1000  \
-           -e ADMINEMAIL=**@qq.com  \
-           --restart unless-stopped  \
+           -v /数据库位置:/config \
+           -e UID=1000 \
+           -e GID=1000 \
+           --restart unless-stopped \
            johngong/qiandao:latest
 
 * 配置MAIL
 
-        docker create  \
-           --name=qiandao  \
+        docker create \
+           --name=qiandao \
            -p 8923:8923 \
-           -v /数据库位置:/dbpath  \
-           -e UID=1000  \
-           -e GID=1000  \
+           -v /数据库位置:/config \
+           -e UID=1000 \
+           -e GID=1000 \
            -e DOMAIN=域名或ip:端口 \
-           -e MAIL_STMP=smtp-mail.outlook.com \
-           -e MAIL_PORT=587  \
-           -e MAIL_SSL=True  \
-           -e MAIL_STARTTLS=True  \
-           -e MAIL_USER=**@hotmail.com \
-           -e MAIL_PASSWORD=**  \
-           -e ADMINEMAIL=**@qq.com  \
-           --restart unless-stopped  \
+           -e MAIL_SMTP=smtp.qq.com \
+           -e MAIL_PORT=465 \
+           -e MAIL_SSL=True \
+           -e MAIL_USER=**@qq.com \
+           -e MAIL_PASSWORD=** \
+           --restart unless-stopped \
            johngong/qiandao:latest
 
 3. 运行
@@ -59,32 +70,34 @@
 
 5. 删除容器
 
-       docker rm  qiandao
+       docker rm qiandao
 
 6. 删除镜像
 
-       docker image rm  johngong/qiandao:latest
+       docker image rm johngong/qiandao:latest
 
 ### 变量:
 
 |参数|说明|
 |:-|:-|
 | `--name=qiandao` |容器名|
-| `-p 8923:8923` |qiandao程序web访问端口  [IP:8923](IP:8923)|
-| `-v /数据库位置:/dbpath ` |qiandao程序数据库database.db存储位置，设置后重装只要备份database.db即可，数据不会丢失|
+| `-p 8923:8923` |web访问端口|
+| `-v /数据库位置:/config ` |数据库database.db存储位置(旧版为/dbpath)|
 | `-e UID=1000` |uid设置,默认为1000|
 | `-e GID=1000` |gid设置,默认为1000|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e DOMAIN=` |站点域名，可不设置，设置后可发送验证mail，需同时设置MAIL值，本地可设置为[IP:端口](ip:端口]);例:[192.168.1.111:8923](192.168.1.111:8923)|
-| `-e MAIL_STMP=` |邮件smtp地址-可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
+| `-e MAIL_SMTP=` |邮件smtp地址，可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
 | `-e MAIL_PORT=` |邮件端口值，ssl端口465 starttls端口587 非ssl端口25|
-| `-e MAIL_SSL=` |邮件ssl开关，空值或者MAIL_SSL=True |
-| `-e MAIL_STARTTLS=` |邮件starttls开关，空值或者MAIL_STARTTLS=True|
+| `-e MAIL_SSL=True` |邮件ssl开关，(True\|False),默认开启此功能|
+| `-e MAIL_STARTTLS=False` |邮件starttls开关，(True\|False),默认关闭此功能|
 | `-e MAIL_USER=` |邮件账户|
 | `-e MAIL_PASSWORD=` |邮件密码|
+| `-e MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
 | `-e MAIL_DOMAIN=` |邮件域名|
-| `-e MAILGUN_KEY=` |mailgun key|
-| `-e ADMINEMAIL=` |设置管理员账户，第一次不会生效，只有注册用户才生效，用管理员账户邮箱注册后重启容器后生效|
+| `-e ADMIN_MAIL=` |设置管理员账户，可不设置，系统默认第一个注册用户为管理员|
+| `-e QIANDAO_UPDATE_AUTO=true` |自动更新qiandao(true\|false),默认开启此功能|
+| `-e ENABLE_MAIL_STARTTLS=false` |支持STARTTLS邮件发送(true\|false),默认关闭此功能|
 
 ### 群晖docker设置：
 
@@ -92,13 +105,13 @@
 
 |参数|说明|
 |:-|:-|
-| `本地文件夹1:/dbpath` |qiandao程序数据库database.db存储位置，设置后重装只要备份database.db即可，数据不会丢失|
+| `本地文件夹1:/config` |数据库database.db存储位置(旧版为/dbpath)|
 
 2. 端口
 
 |参数|说明|
 |:-|:-|
-| `本地端口1:8923` |qiandao程序web访问端口 [IP:8923](IP:8923)|
+| `本地端口1:8923` |web访问端口|
 
 3. 环境变量：
 
@@ -108,40 +121,42 @@
 | `GID=1000` |gid设置,默认为1000|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `DOMAIN=` |站点域名，可不设置，设置后可发送验证mail，需同时设置MAIL值，本地可设置为[IP:端口](ip:端口]);例:[192.168.1.111:8923](192.168.1.111:8923)|
-| `MAIL_STMP=` |邮件smtp地址-可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
+| `MAIL_SMTP=` |邮件smtp地址，可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
 | `MAIL_PORT=` |邮件端口值，ssl端口465 starttls端口587 非ssl端口25|
-| `MAIL_SSL=` |邮件ssl开关，空值或者MAIL_SSL=True |
-| `MAIL_STARTTLS=` |邮件starttls开关，空值或者MAIL_STARTTLS=True|
+| `MAIL_SSL=True` |邮件ssl开关，(True\|False),默认开启此功能|
+| `MAIL_STARTTLS=False` |邮件starttls开关，(True\|False),默认关闭此功能|
 | `MAIL_USER=` |邮件账户|
 | `MAIL_PASSWORD=` |邮件密码|
+| `MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
 | `MAIL_DOMAIN=` |邮件域名|
-| `MAILGUN_KEY=` |mailgun key|
-| `ADMINEMAIL=` |设置管理员账户，第一次不会生效，只有注册用户才生效，用管理员账户邮箱注册后重启容器后生效|
+| `ADMIN_MAIL=` |设置管理员账户，可不设置，系统默认第一个注册用户为管理员|
+| `QIANDAO_UPDATE_AUTO=true` |自动更新qiandao(true\|false),默认开启此功能|
+| `ENABLE_MAIL_STARTTLS=false` |支持STARTTLS邮件发送(true\|false),默认关闭此功能|
 
-* 公开模板：https://qiandao.today/
+* 公开模板：
+
+1. https://qiandao.today/tpls/public
+2. https://github.com/qiandao-today/templates
 
 ### MAIL配置说明：
-
-* 原程序并没有MAIL_STARTTLS这项值，只有MAIL_STARTTLS有值时才会开启此mail功能，否则调用原程序mail功能。
 
 1. 以hotmail邮箱配置为例：
 
        MAIL_STMP=smtp-mail.outlook.com
        MAIL_PORT=587
-       MAIL_SSL=True
        MAIL_STARTTLS=True
        MAIL_USER=**@hotmail.com
        MAIL_PASSWORD=**
+       ENABLE_MAIL_STARTTLS=true
 
 2. 以qq邮箱配置为例：
 
        MAIL_STMP=smtp.qq.com
-       MAIL_PORT=465
+       MAIL_PORT=465       
        MAIL_SSL=True
-       MAIL_STARTTLS=
        MAIL_USER=**@qq.com
        MAIL_PASSWORD=** （此值需入qq邮箱设置,开启POP3/SMTP服务并生成授权码）
 
 ### 其它设置
 
-* 详见[https://github.com/binux/qiandao](https://github.com/binux/qiandao)
+* 详见[https://github.com/qiandao-today/qiandao](https://github.com/qiandao-today/qiandao)

@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 # 启动qiandao程序
-exec s6-setuidgid qiandao /usr/local/qiandao/run.py
+exec s6-setuidgid qiandao python3 /usr/local/qiandao/app/run.py
