@@ -1,7 +1,7 @@
 #compiling qB
 FROM alpine:3.16 as compilingqB
 
-ARG LIBTORRENT_VER=2.0.7
+ARG LIBTORRENT_VER=1.2.17
 ARG QBITTORRENT_VER=4.4.5
 ARG QBITTORRENT_EE_VER=4.4.5.10
 
@@ -11,21 +11,19 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
 && mkdir /qbbuild \
 && wget -P /qbbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
 && tar -zxf /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /qbbuild \
-# fix armv7 build
-&& wget -O /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}/test/test_copy_file.cpp https://raw.githubusercontent.com/arvidn/libtorrent/fac8d18e72cdd16a56a34dd805df9fefe46d8f0a/test/test_copy_file.cpp \
 && cd /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER} \
 && cmake -B build -DCMAKE_BUILD_TYPE=None -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE=ON \
          -DCMAKE_INSTALL_PREFIX=/usr -Dbuild_tests=ON -Dpython-bindings=ON -Dpython-egg-info=ON \
-&& cmake --build build -- -j 2 \
+&& cmake --build build -- -j $(nproc) \
 && cmake --install build \
-&& strip /usr/lib/libtorrent-rasterbar.so.2.0 \
+&& strip /usr/lib/libtorrent-rasterbar.so.* \
 #qBittorrent-Enhanced-Edition
 && wget -P /qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
 && unzip /qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /qbbuild \
 && cd /qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
 && cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
          -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
-&& cmake --build build-nox -- -j 2 \
+&& cmake --build build-nox -- -j $(nproc) \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
 && mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee-nox \
@@ -33,17 +31,15 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
 && wget -P /qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
 && unzip /qbbuild/release-${QBITTORRENT_VER}.zip -d /qbbuild \
 && cd /qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
-# fix Qt 6.3
-&& wget -O /qbbuild/qBittorrent-release-${QBITTORRENT_VER}/src/base/net/downloadhandlerimpl.cpp https://raw.githubusercontent.com/qbittorrent/qBittorrent/af07a987849de7180226596f878203c6ea3070b2/src/base/net/downloadhandlerimpl.cpp \
 && cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
          -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
-&& cmake --build build-nox -- -j 2 \
+&& cmake --build build-nox -- -j $(nproc) \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
 && mkdir /qbittorrent \
 && cp --parents /usr/local/bin/qbittorrent-nox /qbittorrent \
 && cp --parents /usr/local/bin/qbittorrentee-nox /qbittorrent \
-&& cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent
+&& cp --parents /usr/lib/libtorrent-rasterbar.so.* /qbittorrent
 
 # docker qB
 FROM alpine:3.16
