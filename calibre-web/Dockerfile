@@ -57,7 +57,7 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect
 && cp -rf /tmp/calibre-web-${CALIBRE_WEB_VER}/* /usr/local/calibre-web/app \
 #install calibre-web dep
 && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
-&& apk add --no-cache py3-lxml py3-cryptography \
+&& apk add --no-cache py3-lxml py3-cryptography poppler-data \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/requirements.txt \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/optional-requirements.txt \
 #install kepubify
