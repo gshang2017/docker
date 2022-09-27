@@ -12,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qiandao|20220901|amd64;arm64v8;arm32v7|
+|qiandao|20220911|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -142,7 +142,7 @@
 
 1. 以hotmail邮箱配置为例：
 
-       MAIL_STMP=smtp-mail.outlook.com
+       MAIL_SMTP=smtp-mail.outlook.com
        MAIL_PORT=587
        MAIL_STARTTLS=True
        MAIL_USER=**@hotmail.com
@@ -151,7 +151,7 @@
 
 2. 以qq邮箱配置为例：
 
-       MAIL_STMP=smtp.qq.com
+       MAIL_SMTP=smtp.qq.com
        MAIL_PORT=465       
        MAIL_SSL=True
        MAIL_USER=**@qq.com
