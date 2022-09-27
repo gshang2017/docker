@@ -1,6 +1,6 @@
 FROM jlesage/baseimage-gui:debian-10-v4.0.0-pre.6
 
-ARG BAIDUNETDISK_VER=4.12.5
+ARG BAIDUNETDISK_VER=4.14.5
 
 ENV APP_NAME="Baidunetdisk"
 ENV NOVNC_LANGUAGE="zh_Hans"

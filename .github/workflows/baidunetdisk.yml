@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
 
 env:
-  BAIDUNETDISK_VER: 4.12.5
+  BAIDUNETDISK_VER: 4.14.5
 
 jobs:
   job1:
     name: buildx tag
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -53,39 +53,6 @@ jobs:
           tags: |
             johngong/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
             ghcr.io/gshang2017/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
-
-  job2:
-    needs: job1
-    name: tag latest
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: all
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: create tag latest
         run: |
