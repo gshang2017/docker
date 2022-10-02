@@ -1,5 +1,5 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:22.08-5fea1a7ea as ttrss-src
-FROM postgres:14.1-alpine
+FROM cthulhoo/ttrss-fpm-pgsql-static:22.09-42bc1620b as ttrss-src
+FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.1.2.1
 
@@ -29,9 +29,10 @@ COPY --chmod=755 root /
 COPY --from=ttrss-src --chmod=755 /src/tt-rss /usr/local/tt-rss/app
 
 # install php tt-rss caddy git [npm nodejs]-mercury-parser-api
-RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy clang llvm13 build-base dumb-init postgresql-client musl-locales \
+RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy dumb-init postgresql-client musl-locales \
 	          php81 php81-fpm php81-pdo php81-gd php81-pgsql php81-pdo_pgsql php81-mbstring php81-intl php81-xml php81-curl php81-session php81-tokenizer \
 						php81-dom php81-fileinfo php81-ctype php81-json php81-iconv php81-pcntl php81-posix php81-zip php81-exif php81-openssl php81-pecl-xdebug \
+&& apk add --no-cache --virtual ttrssdep clang llvm13 build-base \
 # install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
@@ -91,7 +92,7 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy c
 && git config --global --add safe.directory /config/plugins.local/fever \
 && git config --global --add safe.directory /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
 #clear
-&& apk del clang llvm13 build-base \
+&& apk del ttrssdep \
 && rm -rf /var/cache/apk/* /tmp/* /scws*
 
 VOLUME /config

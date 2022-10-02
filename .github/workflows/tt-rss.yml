@@ -8,211 +8,12 @@ on:
   workflow_dispatch:
 
 env:
-  TTRSS_VER: 22.08-5fea1a7ea
+  TTRSS_VER: 22.09-42bc1620b
 
 jobs:
   job1:
-    name: buildx amd64
-    runs-on: ubuntu-20.04
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: download postgres src
-        run: |
-          sudo apt-get update
-          sudo apt-get install  git
-          git clone https://github.com/docker-library/postgres.git
-          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine/Dockerfile
-          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          driver-opts: network=host
-
-      - name: Build and push to local-registry
-        uses: docker/build-push-action@v2
-        with:
-          context: ./postgres/14/alpine
-          file: ./postgres/14/alpine/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: localhost:5000/postgres:14.1-alpine
-
-      - name: change Dockerfile
-        run: |
-          sed -i 's/postgres:14\.1-alpine/localhost:5000\/postgres:14\.1-alpine/g' tt-rss-plugins/Dockerfile
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./tt-rss-plugins
-          file: ./tt-rss-plugins/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: |
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
-
-  job2:
-    name: buildx arm64
-    runs-on: ubuntu-20.04
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: download postgres src
-        run: |
-          sudo apt-get update
-          sudo apt-get install  git
-          git clone https://github.com/docker-library/postgres.git
-          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine/Dockerfile
-          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          driver-opts: network=host
-
-      - name: Build and push to local-registry
-        uses: docker/build-push-action@v2
-        with:
-          context: ./postgres/14/alpine
-          file: ./postgres/14/alpine/Dockerfile
-          platforms: linux/arm64
-          push: true
-          tags: localhost:5000/postgres:14.1-alpine
-
-      - name: change Dockerfile
-        run: |
-          sed -i 's/postgres:14\.1-alpine/localhost:5000\/postgres:14\.1-alpine/g' tt-rss-plugins/Dockerfile
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./tt-rss-plugins
-          file: ./tt-rss-plugins/Dockerfile
-          platforms: linux/arm64
-          push: true
-          tags: |
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
-
-  job3:
-    name: buildx arm32v7
-    runs-on: ubuntu-20.04
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: download postgres src
-        run: |
-          sudo apt-get update
-          sudo apt-get install  git
-          git clone https://github.com/docker-library/postgres.git
-          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine/Dockerfile
-          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          driver-opts: network=host
-
-      - name: Build and push to local-registry
-        uses: docker/build-push-action@v2
-        with:
-          context: ./postgres/14/alpine
-          file: ./postgres/14/alpine/Dockerfile
-          platforms: linux/arm/v7
-          push: true
-          tags: localhost:5000/postgres:14.1-alpine
-
-      - name: change Dockerfile
-        run: |
-          sed -i 's/postgres:14\.1-alpine/localhost:5000\/postgres:14\.1-alpine/g' tt-rss-plugins/Dockerfile
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./tt-rss-plugins
-          file: ./tt-rss-plugins/Dockerfile
-          platforms: linux/arm/v7
-          push: true
-          tags: |
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-
-  job4:
-    needs: [job1, job2, job3]
-    name: create tags
-    runs-on: ubuntu-18.04
+    name:  buildx tag
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -242,63 +43,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/tt-rss:plugins-${{ env.TTRSS_VER }} \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/tt-rss:amd64-latest \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/tt-rss:arm64v8-latest \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/tt-rss:arm32v7-latest \
-            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/tt-rss:latest \
-            johngong/tt-rss:amd64-latest \
-            johngong/tt-rss:arm64v8-latest \
-            johngong/tt-rss:arm32v7-latest
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:amd64-latest \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:arm64v8-latest \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:arm32v7-latest \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }} \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/tt-rss:latest \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_amd64 \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm64v8 \
-            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}_arm32v7
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./tt-rss-plugins
+          file: ./tt-rss-plugins/Dockerfile
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            johngong/tt-rss:latest
+            johngong/tt-rss:plugins-${{ env.TTRSS_VER }}
+            ghcr.io/gshang2017/tt-rss:latest
+            ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
