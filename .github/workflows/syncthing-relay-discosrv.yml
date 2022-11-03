@@ -8,13 +8,13 @@ on:
   workflow_dispatch:
 
 env:
-  R_SRV_VER: 1.18.6
+  R_SRV_VER: 1.22.1
   D_SRV_VER: 1.18.6
 
 jobs:
   job1:
-    name: buildx amd64
-    runs-on: ubuntu-18.04
+    name: buildx tag
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -49,188 +49,13 @@ jobs:
         with:
           context: ./syncthing-relay-discosrv
           file: ./syncthing-relay-discosrv/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64
-
-  job2:
-    name: buildx arm64
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: all
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./syncthing-relay-discosrv
-          file: ./syncthing-relay-discosrv/Dockerfile
-          platforms: linux/arm64
-          push: true
-          tags: |
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8
-
-  job3:
-    name: buildx arm32v7
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: all
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./syncthing-relay-discosrv
-          file: ./syncthing-relay-discosrv/Dockerfile
-          platforms: linux/arm/v7
-          push: true
-          tags: |
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
-
-  job4:
-    needs: [job1, job2, job3]
-    name: create tags
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: all
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }} \
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64 \
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8 \
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/syncthing-relay-discosrv:amd64-latest \
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/syncthing-relay-discosrv:arm64v8-latest \
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/syncthing-relay-discosrv:arm32v7-latest \
-            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
-
-      - name: create version tag
-        run: |
-          docker buildx imagetools create -t johngong/syncthing-relay-discosrv:latest \
-            johngong/syncthing-relay-discosrv:amd64-latest \
-            johngong/syncthing-relay-discosrv:arm64v8-latest \
-            johngong/syncthing-relay-discosrv:arm32v7-latest
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/syncthing-relay-discosrv:amd64-latest \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/syncthing-relay-discosrv:arm64v8-latest \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/syncthing-relay-discosrv:arm32v7-latest \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }} \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64 \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8 \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
-
-      - name: create version tag(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/syncthing-relay-discosrv:latest \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_amd64 \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm64v8 \
-            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}_arm32v7
+            johngong/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}
+            johngong/syncthing-relay-discosrv:latest
+            ghcr.io/gshang2017/syncthing-relay-discosrv:${{ env.R_SRV_VER }}-${{ env.D_SRV_VER }}
+            ghcr.io/gshang2017/syncthing-relay-discosrv:latest
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
