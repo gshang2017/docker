@@ -20,7 +20,7 @@ RUN apk add --no-cache build-base ca-certificates gnutls-dev expat-dev sqlite-de
 # docker aria2
 FROM alpine:3.16
 
-ARG AriaNg_VER=1.2.5
+ARG AriaNg_VER=1.3.0
 ARG S6_VER=3.1.2.1
 
 ENV UID=1000
