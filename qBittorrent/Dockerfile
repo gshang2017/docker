@@ -1,45 +1,36 @@
 #compiling qB
-FROM alpine:3.16 as compilingqB
+FROM ghcr.io/gshang2017/libtorrent:latest as compilingqB
 
-ARG LIBTORRENT_VER=1.2.17
 ARG QBITTORRENT_VER=4.4.5
 ARG QBITTORRENT_EE_VER=4.4.5.10
 
-RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev \
-         py3-setuptools samurai qt6-qttools-dev libexecinfo-dev \
-#libtorrent-rasterbar
-&& mkdir /qbbuild \
-&& wget -P /qbbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
-&& tar -zxf /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /qbbuild \
-&& cd /qbbuild/libtorrent-rasterbar-${LIBTORRENT_VER} \
-&& cmake -B build -DCMAKE_BUILD_TYPE=None -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE=ON \
-         -DCMAKE_INSTALL_PREFIX=/usr -Dbuild_tests=ON -Dpython-bindings=ON -Dpython-egg-info=ON \
-&& cmake --build build -- -j $(nproc) \
-&& cmake --install build \
-&& strip /usr/lib/libtorrent-rasterbar.so.* \
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev wget \
+         py3-setuptools samurai qt5-qttools-dev libexecinfo-dev \
 #qBittorrent-Enhanced-Edition
-&& wget -P /qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
-&& unzip /qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /qbbuild \
-&& cd /qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
+&& mkdir -p /tmp/qbbuild \
+&& wget -P /tmp/qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
+&& unzip /tmp/qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /tmp/qbbuild \
+&& cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
 && cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
-         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
+         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=OFF -DGUI=OFF \
 && cmake --build build-nox -- -j $(nproc) \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
 && mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee-nox \
 #qBittorrent
-&& wget -P /qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
-&& unzip /qbbuild/release-${QBITTORRENT_VER}.zip -d /qbbuild \
-&& cd /qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
+&& wget -P /tmp/qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
+&& unzip /tmp/qbbuild/release-${QBITTORRENT_VER}.zip -d /tmp/qbbuild \
+&& cd /tmp/qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
 && cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
-         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=ON -DGUI=OFF \
+         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=OFF -DGUI=OFF \
 && cmake --build build-nox -- -j $(nproc) \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
 && mkdir /qbittorrent \
 && cp --parents /usr/local/bin/qbittorrent-nox /qbittorrent \
 && cp --parents /usr/local/bin/qbittorrentee-nox /qbittorrent \
-&& cp --parents /usr/lib/libtorrent-rasterbar.so.* /qbittorrent
+&& if [ -e /usr/lib/libtorrent-rasterbar.so.2.0 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent; fi \
+&& if [ -e /usr/lib/libtorrent-rasterbar.so.10 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.10 /qbittorrent; fi
 
 # docker qB
 FROM alpine:3.16
@@ -59,8 +50,8 @@ ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 COPY --chmod=755 root /
 COPY --from=compilingqB --chmod=755 /qbittorrent /
 
-#install bash curl tzdata python3 shadow qt6
-RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbase-sqlite qt6-qtbase libexecinfo \
+#install bash curl tzdata python3 shadow qt5
+RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt5-qtbase-sqlite qt5-qtbase libexecinfo wget \
 #install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
