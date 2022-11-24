@@ -9,7 +9,7 @@ on:
 
 env:
   ARIA2_VER: 1.36.0
-  AriaNg_VER: 1.3.0
+  AriaNg_VER: 1.3.2
 
 jobs:
   job1:
@@ -52,10 +52,10 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
-            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}
             johngong/aria2:latest
-            ghcr.io/gshang2017/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}
+            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}
             ghcr.io/gshang2017/aria2:latest
+            ghcr.io/gshang2017/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
