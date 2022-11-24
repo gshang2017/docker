@@ -1,10 +1,12 @@
-FROM jlesage/baseimage-gui:debian-10-v4.0.0-pre.6
+FROM jlesage/baseimage-gui:debian-10-v4.1.5
 
-ARG BAIDUNETDISK_VER=4.14.5
+ARG BAIDUNETDISK_VER=4.15.5
 
 ENV APP_NAME="Baidunetdisk"
 ENV NOVNC_LANGUAGE="zh_Hans"
 ENV TZ=Asia/Shanghai
+ENV HOME=/config
+ENV LC_ALL=C
 
 COPY --chmod=755 root /
 COPY --chmod=755 startapp.sh /startapp.sh
@@ -18,10 +20,6 @@ RUN apt-get update \
 && install_app_icon.sh https://raw.githubusercontent.com/gshang2017/docker/master/baidunetdisk/icon/baidunetdisk.png \
 #fix window decorations
 && sed -i 's/normal/desktop/g' /etc/jwm/main-window-group.sh \
-#fix vncpasswd not found
-&& ln -s /usr/tigervnc/bin/vncpasswd /opt/tigervnc/bin/vncpasswd \
-#fix dash echo -ne
-&& sed -i s/"echo -ne"/"echo"/g /etc/cont-init.d/10-web-data.sh \
 #novnc_language
 && mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
 #fix dpkg

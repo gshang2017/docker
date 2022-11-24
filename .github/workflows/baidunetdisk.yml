@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  BAIDUNETDISK_VER: 4.14.5
+  BAIDUNETDISK_VER: 4.15.5
 
 jobs:
   job1:
@@ -51,17 +51,9 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
+            johngong/baidunetdisk:latest
             johngong/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
-            ghcr.io/gshang2017/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
-
-      - name: create tag latest
-        run: |
-          docker buildx imagetools create -t johngong/baidunetdisk:latest \
-            johngong/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
-
-      - name: create tag latest(ghcr.io)
-        run: |
-          docker buildx imagetools create -t ghcr.io/gshang2017/baidunetdisk:latest \
+            ghcr.io/gshang2017/baidunetdisk:latest
             ghcr.io/gshang2017/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
 
       - name: Docker Hub Description
