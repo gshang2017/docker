@@ -2,7 +2,7 @@ FROM alpine:3.16
 
 ARG LIBTORRENT_VER=1.2.17
 
-RUN apk add --no-cache --virtual libtorrentdep ca-certificates cmake build-base boost-dev python3-dev wget \
+RUN apk add --no-cache --virtual libtorrentdep ca-certificates cmake build-base boost-dev python3-dev wget openssl-dev \
          py3-setuptools samurai \
 #libtorrent-rasterbar
 && mkdir -p /tmp/libtorrentbuild \
