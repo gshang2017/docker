@@ -7,16 +7,17 @@ on:
     - 'baidunetdisk/root/**'
   workflow_dispatch:
 
-env:
-  BAIDUNETDISK_VER: 4.15.5
-
 jobs:
   job1:
     name: buildx tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: 'Set env'
+        run: |
+          echo "BAIDUNETDISK_VER=$(echo `grep -n "BAIDUNETDISK_VER=" baidunetdisk/Dockerfile`|awk -F: '{print $2}'|cut -d "=" -f 2)" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -57,7 +58,7 @@ jobs:
             ghcr.io/gshang2017/baidunetdisk:v_${{ env.BAIDUNETDISK_VER }}
 
       - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}

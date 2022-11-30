@@ -1,6 +1,6 @@
-FROM jlesage/baseimage-gui:debian-10-v4.1.5
+FROM jlesage/baseimage-gui:debian-10-v4.2.0
 
-ARG BAIDUNETDISK_VER=4.15.5
+ARG BAIDUNETDISK_VER=4.15.6
 
 ENV APP_NAME="Baidunetdisk"
 ENV NOVNC_LANGUAGE="zh_Hans"
@@ -19,7 +19,7 @@ RUN apt-get update \
 && rm  baidunetdisk_${BAIDUNETDISK_VER}_amd64.deb \
 && install_app_icon.sh https://raw.githubusercontent.com/gshang2017/docker/master/baidunetdisk/icon/baidunetdisk.png \
 #fix window decorations
-&& sed -i 's/normal/desktop/g' /etc/jwm/main-window-group.sh \
+&& sed -i 's/normal/desktop/g' /opt/base/etc/jwm/main-window-group.sh \
 #novnc_language
 && mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
 #fix dpkg
