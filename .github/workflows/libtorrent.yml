@@ -6,16 +6,17 @@ on:
     - 'qBittorrent/Dockerfile.libtorrent'
   workflow_dispatch:
 
-env:
-  LIBTORRENT_VER: 1.2.17
-
 jobs:
   job1:
     name: buildx tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: 'Set env'
+        run: |
+          echo "LIBTORRENT_VER=$(echo `grep -n "LIBTORRENT_VER=" qBittorrent/Dockerfile.libtorrent`|awk -F: '{print $2}'|cut -d "=" -f 2)" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -37,7 +38,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: ./qBittorrent
           file: ./qBittorrent/Dockerfile.libtorrent
@@ -45,4 +46,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/gshang2017/libtorrent:latest
+            ghcr.io/gshang2017/libtorrent:1
             ghcr.io/gshang2017/libtorrent:${{ env.LIBTORRENT_VER }}

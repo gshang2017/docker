@@ -1,17 +1,15 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
-ARG LIBTORRENT_VER=1.2.17
+ARG LIBTORRENT_VER=1.2.18
 
-RUN apk add --no-cache --virtual libtorrentdep ca-certificates cmake build-base boost-dev python3-dev wget openssl-dev \
-         py3-setuptools samurai \
+RUN apk add --no-cache --virtual libtorrentdep ca-certificates cmake build-base boost-dev wget openssl-dev samurai \
 #libtorrent-rasterbar
 && mkdir -p /tmp/libtorrentbuild \
 && wget -P /tmp/libtorrentbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
 && tar -zxf /tmp/libtorrentbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /tmp/libtorrentbuild \
 && cd /tmp/libtorrentbuild/libtorrent-rasterbar-${LIBTORRENT_VER} \
-&& cmake -B build -DCMAKE_BUILD_TYPE=None -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE=ON \
-         -DCMAKE_INSTALL_PREFIX=/usr -Dbuild_tests=ON -Dpython-bindings=ON -Dpython-egg-info=ON \
-&& cmake --build build -- -j $(nproc) \
+&& cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=/usr \
+&& cmake --build build -j $(nproc) \
 && cmake --install build \
 && strip /usr/lib/libtorrent-rasterbar.so.* \
 && apk del libtorrentdep \
