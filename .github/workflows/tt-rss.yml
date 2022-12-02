@@ -7,16 +7,17 @@ on:
     - 'tt-rss-plugins/root/**'
   workflow_dispatch:
 
-env:
-  TTRSS_VER: 22.10-602e86842
-
 jobs:
   job1:
     name:  buildx tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: 'Set env'
+        run: |
+          echo "TTRSS_VER=$(echo `grep -n "ttrss-fpm-pgsql-static" tt-rss-plugins/Dockerfile`|awk -F: '{print $3}'|cut -d " " -f 1)" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -44,7 +45,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: ./tt-rss-plugins
           file: ./tt-rss-plugins/Dockerfile
@@ -57,7 +58,7 @@ jobs:
             ghcr.io/gshang2017/tt-rss:plugins-${{ env.TTRSS_VER }}
 
       - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
