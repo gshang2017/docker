@@ -1,29 +1,30 @@
 #compiling qB
-FROM ghcr.io/gshang2017/libtorrent:latest as compilingqB
+FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
-ARG QBITTORRENT_VER=4.4.5
-ARG QBITTORRENT_EE_VER=4.4.5.10
+ARG QBITTORRENT_VER=4.5.0
+ARG QBITTORRENT_EE_VER=4.5.0.10
 
-RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev wget \
-         py3-setuptools samurai qt5-qttools-dev libexecinfo-dev \
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt5-qttools-dev \
 #qBittorrent-Enhanced-Edition
 && mkdir -p /tmp/qbbuild \
 && wget -P /tmp/qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
-&& unzip /tmp/qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /tmp/qbbuild \
+&& unzip -q /tmp/qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
-&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
-         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=OFF -DGUI=OFF \
-&& cmake --build build-nox -- -j $(nproc) \
+&& wget https://patch-diff.githubusercontent.com/raw/qbittorrent/qBittorrent/pull/17994.patch \
+&& patch -p1 <17994.patch \
+&& cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=OFF -DGUI=OFF \
+&& cmake --build build-nox -j $(nproc) \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
 && mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee-nox \
 #qBittorrent
 && wget -P /tmp/qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
-&& unzip /tmp/qbbuild/release-${QBITTORRENT_VER}.zip -d /tmp/qbbuild \
+&& unzip -q /tmp/qbbuild/release-${QBITTORRENT_VER}.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
-&& cmake -B build-nox -G Ninja -D CMAKE_CXX_STANDARD_LIBRARIES="/usr/lib/libexecinfo.so" \
-         -D CMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DQT6=OFF -DGUI=OFF \
-&& cmake --build build-nox -- -j $(nproc) \
+&& wget https://patch-diff.githubusercontent.com/raw/qbittorrent/qBittorrent/pull/17994.patch \
+&& patch -p1 <17994.patch \
+&& cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=OFF -DGUI=OFF \
+&& cmake --build build-nox -j $(nproc) \
 && cmake --install build-nox \
 && strip /usr/local/bin/qbittorrent-nox \
 && mkdir /qbittorrent \
@@ -33,7 +34,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev python3-dev wg
 && if [ -e /usr/lib/libtorrent-rasterbar.so.10 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.10 /qbittorrent; fi
 
 # docker qB
-FROM alpine:3.16
+FROM alpine:3.17
 
 ARG S6_VER=3.1.2.1
 
@@ -51,7 +52,7 @@ COPY --chmod=755 root /
 COPY --from=compilingqB --chmod=755 /qbittorrent /
 
 #install bash curl tzdata python3 shadow qt5
-RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt5-qtbase-sqlite qt5-qtbase libexecinfo wget \
+RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt5-qtbase-sqlite qt5-qtbase wget \
 #install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
