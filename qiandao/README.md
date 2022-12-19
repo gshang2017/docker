@@ -12,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qiandao|20220911|amd64;arm64v8;arm32v7|
+|qiandao|20221218|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
