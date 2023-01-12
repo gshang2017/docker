@@ -31,4 +31,12 @@ if [ "$QIANDAO_UPDATE_AUTO" == "true" ]; then
   fi
   chown -R qiandao:qiandao /usr/local/qiandao
   chown -R qiandao:qiandao /config
+  if [ -n "$lastver" ] && [ "$lastver" != "$oldver" ]; then
+    sed -i '/redis/d' /usr/local/qiandao/app/requirements.txt
+    sed -i '/ddddocr/d' /usr/local/qiandao/app/requirements.txt
+    sed -i '/cryptography/d' /usr/local/qiandao/app/requirements.txt
+    sed -i '/pycryptodome/d' /usr/local/qiandao/app/requirements.txt
+    chown qiandao:qiandao /usr/local/qiandao/app/requirements.txt
+    pip3 install --no-cache-dir -r /usr/local/qiandao/app/requirements.txt
+  fi
 fi

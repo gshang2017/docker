@@ -12,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qiandao|20221218|amd64;arm64v8;arm32v7|
+|qiandao|20230111|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -130,7 +130,7 @@
 | `MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
 | `MAIL_DOMAIN=` |邮件域名|
 | `ADMIN_MAIL=` |设置管理员账户，可不设置，系统默认第一个注册用户为管理员|
-| `QIANDAO_UPDATE_AUTO=true` |自动更新qiandao(true\|false),默认开启此功能|
+| `QIANDAO_UPDATE_AUTO=false` |自动更新qiandao(true\|false),默认关闭此功能|
 | `ENABLE_MAIL_STARTTLS=false` |支持STARTTLS邮件发送(true\|false),默认关闭此功能|
 
 * 公开模板：
