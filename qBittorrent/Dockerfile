@@ -1,8 +1,8 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
-ARG QBITTORRENT_VER=4.5.0
-ARG QBITTORRENT_EE_VER=4.5.0.10
+ARG QBITTORRENT_VER=4.5.1
+ARG QBITTORRENT_EE_VER=4.5.1.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt5-qttools-dev \
 #qBittorrent-Enhanced-Edition
@@ -10,8 +10,6 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 && wget -P /tmp/qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
 && unzip -q /tmp/qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
-&& wget https://patch-diff.githubusercontent.com/raw/qbittorrent/qBittorrent/pull/17994.patch \
-&& patch -p1 <17994.patch \
 && cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=OFF -DGUI=OFF \
 && cmake --build build-nox -j $(nproc) \
 && cmake --install build-nox \
@@ -21,8 +19,6 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 && wget -P /tmp/qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
 && unzip -q /tmp/qbbuild/release-${QBITTORRENT_VER}.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
-&& wget https://patch-diff.githubusercontent.com/raw/qbittorrent/qBittorrent/pull/17994.patch \
-&& patch -p1 <17994.patch \
 && cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=OFF -DGUI=OFF \
 && cmake --build build-nox -j $(nproc) \
 && cmake --install build-nox \
@@ -36,7 +32,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 # docker qB
 FROM alpine:3.17
 
-ARG S6_VER=3.1.2.1
+ARG S6_VER=3.1.3.0
 
 ENV UID=1000
 ENV GID=1000
