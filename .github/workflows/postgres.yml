@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ALPINE_VER: 3.16
+  ALPINE_VER: 3.17
 
 jobs:
   job1:
@@ -22,8 +22,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install  git
           git clone https://github.com/docker-library/postgres.git
+          sed -i '/ENV PG_MAJOR 14/i\ENV LLVM_CONFIG=/usr/lib/llvm14/bin/llvm-config' postgres/14/alpine/Dockerfile
+          sed -i 's/llvm-dev/llvm14-dev/g' postgres/14/alpine/Dockerfile
+          sed -i 's/clang/clang14/g' postgres/14/alpine/Dockerfile
+          sed -i 's/coreutils/coreutils patch/g' postgres/14/alpine/Dockerfile
           sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine/Dockerfile
           sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < llvm14-support.patch; \\ '  postgres/14/alpine/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/llvm14-support.patch; \\ '  postgres/14/alpine/Dockerfile
 
       - name: Set up QEMU
         id: qemu
