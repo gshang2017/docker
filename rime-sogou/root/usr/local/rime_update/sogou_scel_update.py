@@ -13,7 +13,8 @@ import datetime
 #创建目录
 if not os.path.exists('/output'):
     os.mkdir('/output')
-
+if not os.path.exists('/usr/local/sogouscelupdate'):
+    os.mkdir('/usr/local/sogouscelupdate')
 #指定工作目录
 os.chdir('/usr/local/sogouscelupdate')
 
@@ -52,9 +53,9 @@ for root, dirs, files in os.walk('./'):
 scel_md5_file = glob("*.scel")
 dict_name = os.getenv('SOGOU_DICT_NAME')
 if dict_name is None:
-   dict_name = 'luna_pinyin.sogou'
+   dict_name = 'luna_pinyin_simp.sogou_pop'
 elif len(dict_name) == 0:
-   dict_name = 'luna_pinyin.sogou'
+   dict_name = 'luna_pinyin_simp.sogou_pop'
 scel_output_file = '{name}.dict.yaml'.format(name=dict_name)
 command='''dotnet /usr/local/imewlconverter/ImeWlConverterCmd.dll -i:scel %s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),scel_output_file)
 os.system(command)
@@ -68,7 +69,8 @@ data1 = '''
 #https://pinyin.sogou.com/dict/detail/index/4
 
 # 部署位置：
-# ~/.config/ibus/rime  (Linux)
+# ~/.config/ibus/rime  (Linux ibus)
+# ~/.config/fcitx/rime  (Linux fcitx)
 # ~/Library/Rime  (Mac OS)
 # %APPDATA%\Rime  (Windows)
 #
