@@ -15,8 +15,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.19|amd64;arm64v8;arm32v7|
-|calibre-server|5.35.0|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.20|amd64;arm64v8;arm32v7|
+|calibre-server|5.44.0|amd64;arm64v8;arm32v7|
 |kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
@@ -101,6 +101,7 @@
 | `-e DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `-e DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
 | `-e ENABLE_CHOWN_LIBRARY=true` |(true\|false)设定修复library文件夹拥有者，默认开启|
+| `-e CALIBRE_LOCALHOST=true` |(true\|false)设定从本地主机和本地网络加载封面，默认开启|
 
 ### 群晖docker设置：
 
@@ -137,6 +138,7 @@
 | `DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
 | `ENABLE_CHOWN_LIBRARY=true` |(true\|false)设定修复library文件夹拥有者，默认开启|
+| `CALIBRE_LOCALHOST=true` |(true\|false)设定从本地主机和本地网络加载封面，默认开启|
 
 #### 其它：
 

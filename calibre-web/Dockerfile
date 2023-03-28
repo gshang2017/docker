@@ -1,8 +1,8 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
-ARG S6_VER=3.1.2.1
-ARG CALIBRE_WEB_VER=0.6.19
-ARG CALIBRE_VER=5.35.0
+ARG S6_VER=3.1.4.1
+ARG CALIBRE_WEB_VER=0.6.20
+ARG CALIBRE_VER=5.44.0
 ARG KEPUBIFY_VER=4.0.4
 
 ENV UID=1000
@@ -24,18 +24,19 @@ ENV HOME=/home/calibre
 ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 ENV CALIBRE_DBPATH=/config/calibre-web
 ENV CALIBRE_CONFIG_DIRECTORY=/config/calibre-server
+ENV CALIBRE_LOCALHOST=true
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
 
-RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect imagemagick6 libintl libstdc++ libxcb mesa-gl \
+RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wheel expect imagemagick libintl libstdc++ libxcb mesa-gl \
             mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst \
-            libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite \
-&& pip3 install --no-cache-dir sde \
+            libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite xdg-utils \
+&& pip3 install --no-cache-dir sde rapidfuzz \
 && apk add --no-cache unrar --repository https://dl-cdn.alpinelinux.org/alpine/v3.14/main \
 && apk add --no-cache wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
-            libxslt-dev libjpeg-turbo-dev libevent-dev file cython \
+            libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake \
 #install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
@@ -57,7 +58,7 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip expect
 && cp -rf /tmp/calibre-web-${CALIBRE_WEB_VER}/* /usr/local/calibre-web/app \
 #install calibre-web dep
 && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
-&& apk add --no-cache py3-lxml py3-cryptography poppler-data \
+&& apk add --no-cache py3-lxml py3-cryptography poppler-data py3-gevent \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/requirements.txt \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/optional-requirements.txt \
 #install kepubify
