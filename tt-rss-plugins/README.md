@@ -18,7 +18,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-23.02-04c2fa9f1|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-23.03-3ca3e54|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 

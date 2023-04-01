@@ -1,4 +1,4 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:23.02-04c2fa9f1 as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:23.03-3ca3e54 as ttrss-src
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.1.4.1
@@ -32,7 +32,7 @@ COPY --from=ttrss-src --chmod=755 /src/tt-rss /usr/local/tt-rss/app
 RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy dumb-init postgresql-client musl-locales \
 	          php81 php81-fpm php81-pdo php81-gd php81-pgsql php81-pdo_pgsql php81-mbstring php81-intl php81-xml php81-curl php81-session php81-tokenizer \
 						php81-dom php81-fileinfo php81-ctype php81-json php81-iconv php81-pcntl php81-posix php81-zip php81-exif php81-openssl php81-pecl-xdebug \
-&& apk add --no-cache --virtual ttrssdep clang llvm13 build-base \
+&& apk add --no-cache --virtual ttrssdep clang14 llvm14 build-base \
 # install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
@@ -65,6 +65,8 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php81/php-fpm.d/www.conf \
 # reset ttrss
 && cd /usr/local/tt-rss/app \
+&& git config --unset http.https://dev.tt-rss.org/.extraheader \
+&& git config remote.origin.fetch +refs/heads/master:refs/remotes/origin/master \
 && git reset --hard HEAD \
 # install  plugins
 && mkdir -p /usr/local/tt-rss/defaults \
@@ -84,7 +86,7 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && git clone --depth 1 https://github.com/DigitalDJ/tinytinyrss-fever-plugin /usr/local/tt-rss/defaults/plugins.local/fever \
 # install themes
 # install tt-rss-feedly-theme
-&& git clone --depth 1 https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
+&& git clone -b dist --depth 1 https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
 # add safe.directory
 && git config --global --add safe.directory /usr/local/tt-rss/app \
 && git config --global --add safe.directory /config/plugins.local/mercury_fulltext \
