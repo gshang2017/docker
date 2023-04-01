@@ -73,6 +73,9 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 && apk del calibrewebdep \
 && rm -rf /var/cache/apk/* /tmp/* /home/calibre/.c*
 
+# adding new douban.py file 
+ADD https://raw.githubusercontent.com/janeczku/calibre-web/73567db4fb01b934604f3d17f7d025d9b4e61f6f/cps/metadata_provider/douban.py /usr/local/calibre-web/app/cps/metadata_provider/douban.py
+
 VOLUME /library /config /autoaddbooks
 EXPOSE 8080 8083
 ENTRYPOINT [ "/init" ]
