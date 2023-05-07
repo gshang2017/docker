@@ -1,7 +1,8 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:23.03-3ca3e54 as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:0578bf80 as ttrss-src
 FROM ghcr.io/gshang2017/postgres:latest
 
-ARG S6_VER=3.1.4.1
+ARG S6_VER=3.1.5.0
+ARG TTRSS_VER=23.04-0578bf80
 
 ENV UID=1000
 ENV GID=1000
@@ -65,7 +66,6 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php81/php-fpm.d/www.conf \
 # reset ttrss
 && cd /usr/local/tt-rss/app \
-&& git config --unset http.https://dev.tt-rss.org/.extraheader \
 && git config remote.origin.fetch +refs/heads/master:refs/remotes/origin/master \
 && git reset --hard HEAD \
 # install  plugins

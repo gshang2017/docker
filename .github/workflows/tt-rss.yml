@@ -17,7 +17,7 @@ jobs:
 
       - name: 'Set env'
         run: |
-          echo "TTRSS_VER=$(echo `grep -n "ttrss-fpm-pgsql-static" tt-rss-plugins/Dockerfile`|awk -F: '{print $3}'|cut -d " " -f 1)" >> $GITHUB_ENV
+          echo "TTRSS_VER=$(echo `grep -n "TTRSS_VER=" tt-rss-plugins/Dockerfile`|awk -F: '{print $2}'|cut -d "=" -f 2)" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
