@@ -1,5 +1,5 @@
 #compiling aria2c
-FROM alpine:3.17 as compilingaria2c
+FROM alpine:3.18 as compilingaria2c
 
 ARG ARIA2_VER=1.36.0
 
@@ -18,10 +18,10 @@ RUN apk add --no-cache build-base ca-certificates gnutls-dev expat-dev sqlite-de
 && cp --parents /usr/local/bin/aria2c /aria2
 
 # docker aria2
-FROM alpine:3.17
+FROM alpine:3.18
 
-ARG AriaNg_VER=1.3.4
-ARG S6_VER=3.1.4.2
+ARG AriaNg_VER=1.3.5
+ARG S6_VER=3.1.5.0
 
 ENV UID=1000
 ENV GID=1000
