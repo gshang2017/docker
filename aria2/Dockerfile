@@ -1,26 +1,11 @@
 #compiling aria2c
-FROM alpine:3.18 as compilingaria2c
-
-ARG ARIA2_VER=1.36.0
-
-RUN apk add --no-cache build-base ca-certificates gnutls-dev expat-dev sqlite-dev c-ares-dev cppunit-dev zlib-dev libssh2-dev \
-&& mkdir /aria2build \
-&& wget -P /aria2build https://github.com/aria2/aria2/releases/download/release-${ARIA2_VER}/aria2-${ARIA2_VER}.tar.gz \
-&& tar -zxvf /aria2build/aria2-${ARIA2_VER}.tar.gz -C /aria2build \
-&& cd /aria2build/aria2-${ARIA2_VER} \
-&& sed -i 's/"1", 1, 16/"32", 1, 128/g' src/OptionHandlerFactory.cc \
-&& sed -i 's/"20M", 1_m, 1_g/"2M", 1_k, 1_g/g' src/OptionHandlerFactory.cc \
-&& sed -i 's/"1M", 1_m, 1_g/"1M", 1_k, 1_g/g' src/OptionHandlerFactory.cc \
-&& if [ "$(uname -m)" = "x86_64" ];then host=x86_64-alpine-linux-musl;elif [ "$(uname -m)" = "aarch64" ];then host=aarch64-alpine-linux-musl;elif [ "$(uname -m)" = "armv7l" ];then host=armv7-alpine-linux-musleabihf; fi \
-&& ./configure --disable-nls --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt --host=$host \
-&& make -j2 install-strip \
-&& mkdir /aria2 \
-&& cp --parents /usr/local/bin/aria2c /aria2
+FROM ghcr.io/gshang2017/aria2c:latest as compilingaria2c
 
 # docker aria2
 FROM alpine:3.18
 
-ARG AriaNg_VER=1.3.5
+ARG ARIA2_VER=1.36.0
+ARG AriaNg_VER=1.3.6
 ARG S6_VER=3.1.5.0
 
 ENV UID=1000
@@ -38,7 +23,7 @@ ENV ARIANG_RPC_LISTEN_PORT_AUTO=true
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
-COPY --from=compilingaria2c --chmod=755 /aria2 /
+COPY --from=compilingaria2c --chmod=755 /usr/local/bin/aria2c /usr/local/bin/aria2c
 
 # install bash darkhttpd tzdata s6 overlay AriaNg aria2 shadow
 RUN apk add --no-cache bash curl ca-certificates darkhttpd tzdata shadow c-ares expat gmp gnutls sqlite-libs libstdc++ libssh2 \
