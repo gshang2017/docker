@@ -1,7 +1,7 @@
-FROM alpine:3.17
+FROM alpine:3.18
 
-ARG S6_VER=3.1.4.2
-ARG QIANDAO_VER=20230430
+ARG S6_VER=3.1.5.0
+ARG QIANDAO_VER=20230518
 
 ENV UID=1000
 ENV GID=1000
@@ -37,7 +37,7 @@ RUN  apk add --no-cache shadow bash ca-certificates tzdata python3 py3-pip py3-w
 # install qiandao
 && mkdir -p /usr/local/qiandao/app \
 && git config --global advice.detachedHead false \
-&& git clone --depth 1 -b ${QIANDAO_VER} https://github.com/qiandao-today/qiandao.git /usr/local/qiandao/app \
+&& git clone --depth 1 -b ${QIANDAO_VER} https://github.com/qd-today/qd.git /usr/local/qiandao/app \
 # add safe.directory
 && git config --global --add safe.directory /usr/local/qiandao/app \
 #del ddddocr redis

@@ -6,7 +6,7 @@ if [ "$QIANDAO_UPDATE_AUTO" == "true" ]; then
   git checkout -- /usr/local/qiandao/app/libs/utils.py
   git checkout -- /usr/local/qiandao/app/requirements.txt
   oldver=$(git describe --abbrev=0 --tags)
-  lastver=$(curl --silent https://api.github.com/repos/qiandao-today/qiandao/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+  lastver=$(curl --silent https://api.github.com/repos/qd-today/qd/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
   if [ -n "$lastver" ] && [ "$lastver" != "$oldver" ]; then
     git fetch origin tag $lastver --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
     git merge $lastver
