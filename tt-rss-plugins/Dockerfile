@@ -1,8 +1,8 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:0578bf80 as ttrss-src
+FROM cthulhoo/ttrss-fpm-pgsql-static:a28d9582 as ttrss-src
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.1.5.0
-ARG TTRSS_VER=23.04-0578bf80
+ARG TTRSS_VER=23.05-a28d9582
 
 ENV UID=1000
 ENV GID=1000
