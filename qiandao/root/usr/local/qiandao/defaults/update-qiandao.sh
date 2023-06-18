@@ -12,22 +12,14 @@ if [ "$QIANDAO_UPDATE_AUTO" == "true" ]; then
     git merge $lastver
   fi
   if [ "$ENABLE_MAIL_STARTTLS" == "true" ]; then
-     if [ "$(grep -wn "mail_starttls" /usr/local/qiandao/app/config.py |awk -F: '{print $1}'|wc -l)" -eq 0 ]; then
-       h1=$(grep -wn "mail_ssl" /usr/local/qiandao/app/config.py |awk -F: '{print $1}')
-       sed -i "${h1} a mail_starttls = bool\(strtobool(os.getenv\('MAIL_STARTTLS','False'\)\)\)" /usr/local/qiandao/app/config.py
-     fi
-     if [ "$(grep -wn "starttls" /usr/local/qiandao/app/libs/utils.py |awk -F: '{print $1}'|wc -l)" -eq 0 ]; then
-       h2=$(grep -wn "smtplib.SMTP_SSL(config.mail_smtp)" /usr/local/qiandao/app/libs/utils.py |awk -F: '{print $1}')
-       sed -i "${h2} a \ \ \ \ \ \ \ \ if not config.mail_starttls:" /usr/local/qiandao/app/libs/utils.py
-       sed -i "`expr ${h2} + 1` a \ \ \ \ \ \ \ \ \ \ s = config.mail_ssl and smtplib.SMTP_SSL\(config.mail_smtp\) or smtplib.SMTP\(config.mail_smtp\)" /usr/local/qiandao/app/libs/utils.py
-       sed -i "`expr ${h2} + 2` a \ \ \ \ \ \ \ \ \ \ s.connect\(config.mail_smtp\)" /usr/local/qiandao/app/libs/utils.py
-       sed -i "`expr ${h2} + 3` a \ \ \ \ \ \ \ \ else:" /usr/local/qiandao/app/libs/utils.py
-       sed -i "`expr ${h2} + 4` a \ \ \ \ \ \ \ \ \ \ s = smtplib.SMTP\(config.mail_smtp\)" /usr/local/qiandao/app/libs/utils.py
-       sed -i "`expr ${h2} + 5` a \ \ \ \ \ \ \ \ \ \ s.connect\(config.mail_smtp, config.mail_port\)" /usr/local/qiandao/app/libs/utils.py
-       sed -i "`expr ${h2} + 6` a \ \ \ \ \ \ \ \ \ \ s.starttls\(\)" /usr/local/qiandao/app/libs/utils.py
-       sed -i ${h2}d /usr/local/qiandao/app/libs/utils.py
-       sed -i `expr ${h2} + 7`d /usr/local/qiandao/app/libs/utils.py
-     fi
+    sh_oldver=$(cat /usr/local/qiandao/defaults/mail_starttls.sh|grep "version"|cut -d "=" -f2)
+    sh_lastver=$(curl --silent https://raw.githubusercontent.com/gshang2017/docker/master/qiandao/root/usr/local/qiandao/defaults/mail_starttls.sh|grep "version"|cut -d "=" -f2)
+    if [ -n "$sh_lastver" ] && [ "$sh_lastver" != "$sh_oldver" ]; then
+      curl  --retry 2  -o /usr/local/qiandao/defaults/mail_starttls.sh -L  https://raw.githubusercontent.com/gshang2017/docker/master/qiandao/root/usr/local/qiandao/defaults/mail_starttls.sh
+      chown qiandao:qiandao /usr/local/qiandao/defaults/mail_starttls.sh
+      chmod +x /usr/local/qiandao/defaults/mail_starttls.sh
+    fi
+    /usr/local/qiandao/defaults/mail_starttls.sh
   fi
   chown -R qiandao:qiandao /usr/local/qiandao
   chown -R qiandao:qiandao /config
