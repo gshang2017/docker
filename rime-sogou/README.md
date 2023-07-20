@@ -18,7 +18,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|rime-sogou|2.0|amd64;arm64v8;arm32v7|
+|rime-sogou|2.1|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -65,6 +65,7 @@
 | `-e SOGOU_SCEL_UPDATE_AUTO=true` |(true\|false)自动更新搜狗流行词库,默认开启|
 | `-e RIME_DICT_UPDATE_AUTO=true` |(true\|false)自动更新rime词库,默认开启|
 | `-e SOGOU_DICT_NAME=luna_pinyin_simp.sogou_pop` |词库名称,默认为luna_pinyin_simp.sogou_pop|
+| `-e RIME_FREQ=2000001` |词库词频,默认为2000001|
 | `-e ENGLISH_DICT_SET=True` |英语词库|
 | `-e BASIC_DICT_SET=True` |基础词库|
 | `-e SOGOU_TOTAL_OFFICIAL_DICT_SET=True` |搜狗官方推荐所有类别词库|
@@ -107,6 +108,7 @@
 | `SOGOU_SCEL_UPDATE_AUTO=true` |(true\|false)自动更新搜狗流行词库,默认开启|
 | `RIME_DICT_UPDATE_AUTO=true` |(true\|false)自动更新rime词库,默认开启|
 | `SOGOU_DICT_NAME=luna_pinyin_simp.sogou_pop` |词库名称,默认为luna_pinyin_simp.sogou_pop|
+| `RIME_FREQ=2000001` |词库词频,默认为2000001|
 | `ENGLISH_DICT_SET=True` |英语词库|
 | `BASIC_DICT_SET=True` |基础词库|
 | `SOGOU_TOTAL_OFFICIAL_DICT_SET=True` |搜狗官方推荐所有类别词库|
