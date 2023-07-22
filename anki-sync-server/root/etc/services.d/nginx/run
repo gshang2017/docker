@@ -1,6 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-# 启动nginx
-if [ "$ENABLE_NGINX_PROXY_SERVER" == "true" ]; then
-  exec nginx -g "daemon off;"
-fi
