@@ -63,5 +63,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: johngong/anki-sync-server
-          short-description: anki-sync-server:${{ env.ANKI_VER }}(official),anki内置同步服务器)
+          short-description: anki-sync-server:${{ env.ANKI_VER }}(official),anki内置同步服务器
           readme-filepath: ./anki-sync-server/README.md

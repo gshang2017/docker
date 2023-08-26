@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 ARG S6_VER=3.1.5.0
-ARG ANKI_VER=2.1.65
+ARG ANKI_VER=2.1.66
 
 ENV TZ=Asia/Shanghai
 ENV SYNC_USER1=user:pass
