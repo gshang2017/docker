@@ -1,5 +1,5 @@
 #compiling vlmcsd
-FROM alpine:3.16 as compilingvlmcsd
+FROM alpine:3.18 as compilingvlmcsd
 
 ARG VLMCSD_VER=1113
 
@@ -10,12 +10,13 @@ RUN apk add --no-cache git build-base \
 && make
 
 # docker vlmcsd
-FROM alpine:3.16
+FROM alpine:3.18
 
-ARG S6_VER=3.1.2.1
+ARG S6_VER=3.1.5.0
 ARG VLMCSD_VER=1113
 
 ENV KMS_README_WEB=true
+ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
 COPY --from=compilingvlmcsd --chmod=755 /vlmcsd-svn${VLMCSD_VER}/bin/vlmcsd /usr/bin/vlmcsd
