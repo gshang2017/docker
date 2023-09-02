@@ -6,7 +6,7 @@
 
 ### 感谢以下项目:
 
-[https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static](https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static "https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static")  
+[https://git.tt-rss.org/fox/tt-rss.git](https://git.tt-rss.org/fox/tt-rss.git "https://git.tt-rss.org/fox/tt-rss.git")  
 [https://github.com/docker-library/postgres](https://github.com/docker-library/postgres "https://github.com/docker-library/postgres")   
 [https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api "https://github.com/HenryQW/mercury-parser-api")  
 [https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
@@ -18,7 +18,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-23.07-3d255d86|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-23.08-afd04d14|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 

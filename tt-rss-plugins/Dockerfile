@@ -1,8 +1,8 @@
-FROM cthulhoo/ttrss-fpm-pgsql-static:3d255d86 as ttrss-src
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.1.5.0
-ARG TTRSS_VER=23.07-3d255d86
+ARG TTRSS_VER=23.08-afd04d14
+ARG GIT_COMMIT_SHA=afd04d141c7bd8a1d6732a2a6a4c91c0a9b4cd6b
 
 ENV UID=1000
 ENV GID=1000
@@ -27,7 +27,6 @@ ENV POSTGRES_DB_RESTORE=false
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
-COPY --from=ttrss-src --chmod=755 /src/tt-rss /usr/local/tt-rss/app
 
 # install php tt-rss caddy git [npm nodejs]-mercury-parser-api
 RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy dumb-init postgresql-client musl-locales \
@@ -65,9 +64,9 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && sed -i -e 's/;\(php_admin_value\[error_log\]\) = .*/\1 = \/var\/log\/php81\/error.log/' /etc/php81/php-fpm.d/www.conf \
 && sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php81/php-fpm.d/www.conf \
 # reset ttrss
+&& git clone --depth 50 https://git.tt-rss.org/fox/tt-rss.git /usr/local/tt-rss/app \
 && cd /usr/local/tt-rss/app \
-&& git config remote.origin.fetch +refs/heads/master:refs/remotes/origin/master \
-&& git reset --hard HEAD \
+&& git reset --hard ${GIT_COMMIT_SHA} \
 # install  plugins
 && mkdir -p /usr/local/tt-rss/defaults \
 && mv /usr/local/tt-rss/app/cache /usr/local/tt-rss/defaults/cache \
