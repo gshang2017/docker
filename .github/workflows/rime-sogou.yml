@@ -63,5 +63,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: johngong/rime-sogou
-          short-description: 自动更新sogou网络流行新词及rime词库(包含英语，基础，搜狗词库) [rime输入法(拼音)]
+          short-description: 自动更新sogou流行词及rime词库(包含英语，基础，搜狗词库)[拼音]
           readme-filepath: ./rime-sogou/README.md

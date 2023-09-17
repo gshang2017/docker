@@ -36,6 +36,10 @@ if [ -n "$SOGOU_DICT_NAME" ] && [ ! -e /usr/local/sogouscelupdate/$SOGOU_DICT_NA
     cd /usr/local/sogouscelupdate
     rm *.scel
   fi
+  if [ -n "`find /usr/local/sogouscelupdate -maxdepth 1 -name '*.qcel'`" ]; then
+    cd /usr/local/sogouscelupdate
+    rm *.qcel
+  fi
 fi
 
 #启动时更新sogou_scel_update。

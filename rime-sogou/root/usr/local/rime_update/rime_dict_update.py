@@ -122,12 +122,21 @@ def update(latest_version):
         for name in files:
                 os.remove(os.path.join(root, name))
     #下载文件
-    url_2 = github_proxy+'https://github.com/gshang2017/rime-dict/releases/download/'+latest_version+'/rime-dict.yaml.tar.gz'
+    if rime_dict_non_tengxun_del_set:
+        url_2 = github_proxy+'https://github.com/gshang2017/rime-dict/releases/download/'+latest_version+'/rime-dict-non-tengxun-del.yaml.tar.gz'
+    else:
+        url_2 = github_proxy+'https://github.com/gshang2017/rime-dict/releases/download/'+latest_version+'/rime-dict.yaml.tar.gz'
     r = requests.get(url_2)
-    scel_file = open("rime-dict.yaml.tar.gz", "wb+")
+    if rime_dict_non_tengxun_del_set:
+        scel_file = open("rime-dict-non-tengxun-del.yaml.tar.gz", "wb+")
+    else:
+        scel_file = open("rime-dict.yaml.tar.gz", "wb+")
     scel_file.write(r.content)
     scel_file.close()
-    filename = "rime-dict.yaml.tar.gz"
+    if rime_dict_non_tengxun_del_set:
+        filename = "rime-dict-non-tengxun-del.yaml.tar.gz"
+    else:
+        filename = "rime-dict.yaml.tar.gz"
     tf = tarfile.open(filename)
     tf.extractall('/usr/local/rimedictupdate')
     #英语词库
@@ -149,6 +158,46 @@ def update(latest_version):
             os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(prefix_dict_name+"basic_dict.dict.yaml",prefix_dict_name+"basic_dict.dict.yaml",rime_opencc_config))
         os.chmod(prefix_dict_name+"basic_dict.dict.yaml", 0o0777)
         shutil.copy(prefix_dict_name+"basic_dict.dict.yaml","/output")
+
+    #维基词库
+    if wiki_dict_set:
+        file_name = "luna_pinyin_simp.wiki_dict.dict.yaml"
+        alter(file_name, "luna_pinyin_simp.", prefix_dict_name)
+        os.rename(file_name,prefix_dict_name+"wiki_dict.dict.yaml")
+        #词库长度
+        if int(len_num_set) > 0:
+            len_num(prefix_dict_name+"wiki_dict.dict.yaml")
+        #opencc转换
+        if rime_opencc:
+            os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(prefix_dict_name+"wiki_dict.dict.yaml",prefix_dict_name+"basic_dict.dict.yaml",rime_opencc_config))
+        os.chmod(prefix_dict_name+"wiki_dict.dict.yaml", 0o0777)
+        shutil.copy(prefix_dict_name+"wiki_dict.dict.yaml","/output")
+
+    #字母词词库
+    if lettered_word_dict_set:
+        file_name = "luna_pinyin_simp.lettered_word_dict.dict.yaml"
+        alter(file_name, "luna_pinyin_simp.", prefix_dict_name)
+        os.rename(file_name,prefix_dict_name+"lettered_word_dict.dict.yaml")
+        #词库长度
+        if int(len_num_set) > 0:
+            len_num(prefix_dict_name+"lettered_word_dict.dict.yaml")
+        #opencc转换
+        if rime_opencc:
+            os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(prefix_dict_name+"lettered_word_dict.dict.yaml",prefix_dict_name+"basic_dict.dict.yaml",rime_opencc_config))
+        os.chmod(prefix_dict_name+"lettered_word_dict.dict.yaml", 0o0777)
+        shutil.copy(prefix_dict_name+"lettered_word_dict.dict.yaml","/output")
+
+    #拆字词库
+    if chaizi_dict_set:
+        file_name = "luna_pinyin_simp.chaizi_dict.dict.yaml"
+        alter(file_name, "luna_pinyin_simp.", prefix_dict_name)
+        os.rename(file_name,prefix_dict_name+"chaizi_dict.dict.yaml")
+        #词库长度
+        if int(len_num_set) > 0:
+            len_num(prefix_dict_name+"chaizi_dict.dict.yaml")
+        os.chmod(prefix_dict_name+"chaizi_dict.dict.yaml", 0o0777)
+        shutil.copy(prefix_dict_name+"chaizi_dict.dict.yaml","/output")
+
     #搜狗官方推荐词库
     if sogou_total_official_dict_set:
         file_name = "luna_pinyin_simp.sogou_total_dict.official.dict.yaml"
@@ -163,98 +212,110 @@ def update(latest_version):
         os.chmod(prefix_dict_name+"sogou_total_dict.official.dict.yaml", 0o0777)
         shutil.copy(prefix_dict_name+"sogou_total_dict.official.dict.yaml","/output")
     #非搜狗官方推荐词库
-    if sogou_unofficial_dict_set:
-        #合并输出非搜狗官方推荐词库为单文件
-        if sogou_single_file:
-            for i in sogou_dict_name_list:
-                sogou_dict_name_env_set = os.getenv(i.upper(), default = 'True') == 'True'
-                if sogou_dict_name_env_set:
-                    file_name = "luna_pinyin_simp."+i+".unofficial.dict.yaml"
-                    delete_lines(file_name, 23)
-                    merge_file(sogou_total_unofficial_file_name,file_name)
-            #限制词频长度
-            if not order_set and int(len_num_set) > 0:
-                f1 = open(sogou_total_unofficial_file_name, 'r',encoding='UTF-8')
-                f2 = open('tmp.txt','a+',encoding='utf-8')
-                for line in f1.readlines():
-                    tmp_data = line.replace("\n","").split("\t", 2)
-                    if len(tmp_data[0]) <= int(len_num_set):
-                        f2.write(line)
-                f1.close()
-                f2.close()
-                os.remove(sogou_total_unofficial_file_name)
-                os.rename("tmp.txt",sogou_total_unofficial_file_name)
-            #去重 Deduplication
-            if deduplication_set:
-                lines = set()
-                outfile = open('order.txt', 'w',encoding='UTF-8')
-                with open(sogou_total_unofficial_file_name, 'r', encoding='utf-8') as f:
-                    for line in f:
-                        if line not in lines:
-                            outfile.write(line)
-                            lines.add(line)
-                outfile.close()
-                f.close()
-            #排序
-            if order_set:
-                n=0
-                if int(len_num_set) > 0:
-                    for n in range(int(len_num_set)+1):
-                        if deduplication_set:
-                            f1 = open('order.txt', 'r',encoding='UTF-8')
-                        else:
-                            f1 = open(sogou_total_unofficial_file_name, 'r',encoding='UTF-8')
-                        f2 = open('order2.txt','a+',encoding='utf-8')
-                        for line in f1.readlines():
-                            tmp_data = line.replace("\n","").split("\t", 2)
-                            if len(tmp_data[0]) == n:
-                                f2.write(line)
-                        n += 1
-                        f1.close()
-                        f2.close()
-                else:
-                    for n in range(8):
-                        if deduplication_set:
-                            f1 = open('order.txt', 'r',encoding='UTF-8')
-                        else:
-                            f1 = open(sogou_total_unofficial_file_name, 'r',encoding='UTF-8')
-                        f2 = open('order2.txt','a+',encoding='utf-8')
-                        for line in f1.readlines():
-                            tmp_data = line.replace("\n","").split("\t", 2)
-                            if len(tmp_data[0]) == n:
-                                f2.write(line)
-                        n += 1
-                        f1.close()
-                        f2.close()
-            #输出文件
-            if deduplication_set and not order_set:
-                shutil.copy('order.txt',sogou_total_unofficial_file_name)
-            if order_set:
-                shutil.copy('order2.txt',sogou_total_unofficial_file_name)
-            filename_1 = prefix_dict_name+'sogou_total_dict.unofficial'
-            filename_2 = '非官方全部词汇'
-            rime_yaml_output(filename_1,filename_2)
-            #复制yaml文件到指定目录
-            os.chmod(sogou_total_unofficial_file_name, 0o0777)
-            shutil.copy(sogou_total_unofficial_file_name,"/output")
-        else:
-            #输出非搜狗官方推荐词库为多文件
-            for i in sogou_dict_name_list:
-                sogou_dict_name_env_set = os.getenv(i.upper(), default = 'True') == 'True'
-                if sogou_dict_name_env_set:
-                    file_name = "luna_pinyin_simp."+i+".unofficial.dict.yaml"
-                    alter(file_name, "luna_pinyin_simp.", prefix_dict_name)
-                    os.rename(file_name,prefix_dict_name+i+".unofficial.dict.yaml")
-                    #词库长度
+    if rime_dict_non_tengxun_del_set:
+        if sogou_total_unofficial_dict_set:
+            file_name = "luna_pinyin_simp.sogou_total_dict.unofficial.dict.yaml"
+            alter(file_name, "luna_pinyin_simp.", prefix_dict_name)
+            os.rename(file_name,prefix_dict_name+"sogou_total_dict.unofficial.dict.yaml")
+            #词库长度
+            if int(len_num_set) > 0:
+                len_num(prefix_dict_name+"sogou_total_dict.unofficial.dict.yaml")
+            #opencc转换
+            if rime_opencc:
+                os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(prefix_dict_name+"sogou_total_dict.unofficial.dict.yaml",prefix_dict_name+"sogou_total_dict.unofficial.dict.yaml",rime_opencc_config))
+            os.chmod(prefix_dict_name+"sogou_total_dict.unofficial.dict.yaml", 0o0777)
+            shutil.copy(prefix_dict_name+"sogou_total_dict.unofficial.dict.yaml","/output")
+    else:
+        if sogou_unofficial_dict_set:
+            #合并输出非搜狗官方推荐词库为单文件
+            if sogou_single_file:
+                for i in sogou_dict_name_list:
+                    sogou_dict_name_env_set = os.getenv(i.upper(), default = 'True') == 'True'
+                    if sogou_dict_name_env_set:
+                        file_name = "luna_pinyin_simp."+i+".unofficial.dict.yaml"
+                        delete_lines(file_name, 23)
+                        merge_file(sogou_total_unofficial_file_name,file_name)
+                #限制词频长度
+                if not order_set and int(len_num_set) > 0:
+                    f1 = open(sogou_total_unofficial_file_name, 'r',encoding='UTF-8')
+                    f2 = open('tmp.txt','a+',encoding='utf-8')
+                    for line in f1.readlines():
+                        tmp_data = line.replace("\n","").split("\t", 2)
+                        if len(tmp_data[0]) <= int(len_num_set):
+                            f2.write(line)
+                    f1.close()
+                    f2.close()
+                    os.remove(sogou_total_unofficial_file_name)
+                    os.rename("tmp.txt",sogou_total_unofficial_file_name)
+                #去重 Deduplication
+                if deduplication_set:
+                    lines = set()
+                    outfile = open('order.txt', 'w',encoding='UTF-8')
+                    with open(sogou_total_unofficial_file_name, 'r', encoding='utf-8') as f:
+                        for line in f:
+                            if line not in lines:
+                                outfile.write(line)
+                                lines.add(line)
+                    outfile.close()
+                    f.close()
+                #排序
+                if order_set:
+                    n=0
                     if int(len_num_set) > 0:
-                        len_num(prefix_dict_name+i+".unofficial.dict.yaml")
-                    #opencc转换
-                    if rime_opencc:
-                        os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(prefix_dict_name+i+".unofficial.dict.yaml",prefix_dict_name+i+".unofficial.dict.yaml",rime_opencc_config))
-                    os.chmod(prefix_dict_name+i+".unofficial.dict.yaml", 0o0777)
-                    shutil.copy(prefix_dict_name+i+".unofficial.dict.yaml","/output")
-
-
+                        for n in range(int(len_num_set)+1):
+                            if deduplication_set:
+                                f1 = open('order.txt', 'r',encoding='UTF-8')
+                            else:
+                                f1 = open(sogou_total_unofficial_file_name, 'r',encoding='UTF-8')
+                            f2 = open('order2.txt','a+',encoding='utf-8')
+                            for line in f1.readlines():
+                                tmp_data = line.replace("\n","").split("\t", 2)
+                                if len(tmp_data[0]) == n:
+                                    f2.write(line)
+                            n += 1
+                            f1.close()
+                            f2.close()
+                    else:
+                        for n in range(8):
+                            if deduplication_set:
+                                f1 = open('order.txt', 'r',encoding='UTF-8')
+                            else:
+                                f1 = open(sogou_total_unofficial_file_name, 'r',encoding='UTF-8')
+                            f2 = open('order2.txt','a+',encoding='utf-8')
+                            for line in f1.readlines():
+                                tmp_data = line.replace("\n","").split("\t", 2)
+                                if len(tmp_data[0]) == n:
+                                    f2.write(line)
+                            n += 1
+                            f1.close()
+                            f2.close()
+                #输出文件
+                if deduplication_set and not order_set:
+                    shutil.copy('order.txt',sogou_total_unofficial_file_name)
+                if order_set:
+                    shutil.copy('order2.txt',sogou_total_unofficial_file_name)
+                filename_1 = prefix_dict_name+'sogou_total_dict.unofficial'
+                filename_2 = '非官方全部词汇'
+                rime_yaml_output(filename_1,filename_2)
+                #复制yaml文件到指定目录
+                os.chmod(sogou_total_unofficial_file_name, 0o0777)
+                shutil.copy(sogou_total_unofficial_file_name,"/output")
+            else:
+                #输出非搜狗官方推荐词库为多文件
+                for i in sogou_dict_name_list:
+                    sogou_dict_name_env_set = os.getenv(i.upper(), default = 'True') == 'True'
+                    if sogou_dict_name_env_set:
+                        file_name = "luna_pinyin_simp."+i+".unofficial.dict.yaml"
+                        alter(file_name, "luna_pinyin_simp.", prefix_dict_name)
+                        os.rename(file_name,prefix_dict_name+i+".unofficial.dict.yaml")
+                        #词库长度
+                        if int(len_num_set) > 0:
+                            len_num(prefix_dict_name+i+".unofficial.dict.yaml")
+                        #opencc转换
+                        if rime_opencc:
+                            os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(prefix_dict_name+i+".unofficial.dict.yaml",prefix_dict_name+i+".unofficial.dict.yaml",rime_opencc_config))
+                        os.chmod(prefix_dict_name+i+".unofficial.dict.yaml", 0o0777)
+                        shutil.copy(prefix_dict_name+i+".unofficial.dict.yaml","/output")
 
 #创建目录
 if not os.path.exists('/output'):
@@ -268,7 +329,11 @@ os.chdir('/usr/local/rimedictupdate')
 #环境变量设定
 english_dict_set = os.getenv('ENGLISH_DICT_SET',default = 'True') == 'True'
 basic_dict_set = os.getenv('BASIC_DICT_SET',default = 'True') == 'True'
+wiki_dict_set = os.getenv('WIKI_DICT_SET',default = 'True') == 'True'
+lettered_word_dict_set = os.getenv('LETTERED_WORD_DICT_SET',default = 'True') == 'True'
+chaizi_dict_set = os.getenv('CHAIZI_DICT_SET',default = 'True') == 'True'
 sogou_total_official_dict_set = os.getenv('SOGOU_TOTAL_OFFICIAL_DICT_SET',default = 'True') == 'True'
+sogou_total_unofficial_dict_set = os.getenv('SOGOU_TOTAL_UNOFFICIAL_DICT_SET',default = 'True') == 'True'
 sogou_unofficial_dict_set = os.getenv('SOGOU_UNOFFICIAL_DICT_SET',default = 'True') == 'True'
 order_set = os.getenv('ORDER',default = 'True') == 'True'
 deduplication_set = os.getenv('DEDUPLICATION',default = 'True') == 'True'
@@ -279,6 +344,7 @@ prefix_dict_name = os.getenv('PREFIX_DICT_NAME',default = 'luna_pinyin_simp.')
 sogou_nav_url = 'https://pinyin.sogou.com/dict/cate/index'
 sogou_total_unofficial_file_name = prefix_dict_name+'sogou_total_dict.unofficial.dict.yaml'
 sogou_single_file = os.getenv('SOGOU_SINGLE_FILE',default = 'True') == 'True'
+rime_dict_non_tengxun_del_set = os.getenv('RIME_DICT_NON_TENGXUN_DEL_SET',default = 'False') == 'True'
 github_proxy = os.getenv('GITHUB_PROXY',default = '')
 #提取版本号
 url='https://github.com/gshang2017/rime-dict/releases.atom'

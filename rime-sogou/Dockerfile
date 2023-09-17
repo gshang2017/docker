@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/runtime:6.0-alpine
 
 ARG S6_VER=3.1.5.0
 ARG IMEWLCONVERTER_VER=3.0.0
-ARG RIME_SOGOU_VER=2.1
+ARG RIME_SOGOU_VER=2.2
 
 ENV TZ=Asia/Shanghai
 ENV SOGOU_SCEL_UPDATE_AUTO=true
@@ -11,7 +11,11 @@ ENV SOGOU_DICT_NAME=luna_pinyin_simp.sogou_pop
 ENV RIME_FREQ=2000001
 ENV ENGLISH_DICT_SET=True
 ENV BASIC_DICT_SET=True
+ENV WIKI_DICT_SET=True
+ENV LETTERED_WORD_DICT_SET=True
+ENV CHAIZI_DICT_SET=True
 ENV SOGOU_TOTAL_OFFICIAL_DICT_SET=True
+ENV SOGOU_TOTAL_UNOFFICIAL_DICT_SET=True
 ENV SOGOU_UNOFFICIAL_DICT_SET=True
 ENV SOGOU_SINGLE_FILE=True
 ENV ORDER=True
@@ -32,13 +36,15 @@ ENV SOGOU_LIFE_ENCYCLOPEDIA=True
 ENV SOGOU_ART_DESIGN=True
 ENV SOGOU_VIDEO_GAMES=True
 ENV SOGOU_MEDICINE_AND_MEDICINE=True
+ENV RIME_DICT_NON_TENGXUN_DEL_SET=False
+ENV QQ_URL_SET=False
 ENV GITHUB_PROXY=
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
 
 RUN apk add --no-cache bash ca-certificates tzdata py3-requests py3-feedparser curl \
-&& apk add --no-cache wqy-zenhei opencc --repository http://dl-2.alpinelinux.org/alpine/edge/testing \
+&& apk add --no-cache font-wqy-zenhei opencc --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
 # install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \

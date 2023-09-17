@@ -3,7 +3,7 @@
 ### 简介
 
 * 自动更新sogou网络流行新词 <https://pinyin.sogou.com/dict/detail/index/4> ,生成rime输入法(拼音)使用文件luna_pinyin_simp.sogou_pop.dict.yaml(默认名称)。
-* 自动更新带词频(腾讯AI向量词库逆序)rime词库(包含英语，基础，搜狗词库) <https://github.com/gshang2017/rime-dict> ,生成rime输入法(拼音)使用文件。
+* 自动更新带词频(腾讯AI向量词库逆序)rime词库(包含英语，基础，维基，搜狗等词库) <https://github.com/gshang2017/rime-dict> ,生成rime输入法(拼音)使用文件。
 
 ### GitHub:
 
@@ -18,7 +18,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|rime-sogou|2.1|amd64;arm64v8;arm32v7|
+|rime-sogou|2.2|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -68,7 +68,11 @@
 | `-e RIME_FREQ=2000001` |词库词频,默认为2000001|
 | `-e ENGLISH_DICT_SET=True` |英语词库|
 | `-e BASIC_DICT_SET=True` |基础词库|
+| `-e WIKI_DICT_SET` |维基词库|
+| `-e LETTERED_WORD_DICT_SET` |字母词词库|
+| `-e CHAIZI_DICT_SET` |拆字词库|
 | `-e SOGOU_TOTAL_OFFICIAL_DICT_SET=True` |搜狗官方推荐所有类别词库|
+| `-e SOGOU_TOTAL_UNOFFICIAL_DICT_SET=True` |搜狗非官方推荐所有类别词库(需开启自用词库)|
 | `-e SOGOU_UNOFFICIAL_DICT_SET=True` |非搜狗官方推荐词库|
 | `-e SOGOU_SINGLE_FILE=True` |合并非搜狗官方推荐词库|
 | `-e ORDER=True` |对合并的非搜狗官方推荐词库排序|
@@ -89,6 +93,8 @@
 | `-e SOGOU_ART_DESIGN=True` |非搜狗官方推荐艺术设计词库|
 | `-e SOGOU_VIDEO_GAMES=True` |非搜狗官方推荐电子游戏词库|
 | `-e SOGOU_MEDICINE_AND_MEDICINE=True` |非搜狗官方推荐医学医药词库|
+| `-e RIME_DICT_NON_TENGXUN_DEL_SET=False` |自用词库仅含有腾讯词频的词(搜狗推荐词库除外)|
+| `-e QQ_URL_SET=False` |用qq拼音输入法流行词网址替代下载|
 | `-e GITHUB_PROXY` |github代理|
 
 ### 群晖docker设置：
@@ -111,7 +117,11 @@
 | `RIME_FREQ=2000001` |词库词频,默认为2000001|
 | `ENGLISH_DICT_SET=True` |英语词库|
 | `BASIC_DICT_SET=True` |基础词库|
+| `WIKI_DICT_SET` |维基词库|
+| `LETTERED_WORD_DICT_SET` |字母词词库|
+| `CHAIZI_DICT_SET` |拆字词库|
 | `SOGOU_TOTAL_OFFICIAL_DICT_SET=True` |搜狗官方推荐所有类别词库|
+| `SOGOU_TOTAL_UNOFFICIAL_DICT_SET=True` |搜狗非官方推荐所有类别词库(需开启自用词库)|
 | `SOGOU_UNOFFICIAL_DICT_SET=True` |非搜狗官方推荐词库|
 | `SOGOU_SINGLE_FILE=True` |合并非搜狗官方推荐词库|
 | `ORDER=True` |对合并的非搜狗官方推荐词库排序|
@@ -132,4 +142,6 @@
 | `SOGOU_ART_DESIGN=True` |非搜狗官方推荐艺术设计词库|
 | `SOGOU_VIDEO_GAMES=True` |非搜狗官方推荐电子游戏词库|
 | `SOGOU_MEDICINE_AND_MEDICINE=True` |非搜狗官方推荐医学医药词库|
+| `RIME_DICT_NON_TENGXUN_DEL_SET=False` |自用词库仅含有腾讯词频的词(搜狗推荐词库除外)|
+| `QQ_URL_SET=False` |用qq拼音输入法流行词网址替代下载|
 | `GITHUB_PROXY` |github代理|
