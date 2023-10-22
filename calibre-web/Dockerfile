@@ -1,9 +1,10 @@
-FROM alpine:3.17
+FROM alpine:3.18
 
-ARG S6_VER=3.1.4.1
-ARG CALIBRE_WEB_VER=0.6.20
+ARG S6_VER=3.1.5.0
+ARG CALIBRE_WEB_VER=0.6.21
 ARG CALIBRE_VER=5.44.0
 ARG KEPUBIFY_VER=4.0.4
+ARG UNRAR_VERSION=6.2.12
 
 ENV UID=1000
 ENV GID=1000
@@ -33,10 +34,17 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
             mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst \
             libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite xdg-utils \
 && pip3 install --no-cache-dir sde rapidfuzz \
-&& apk add --no-cache unrar --repository https://dl-cdn.alpinelinux.org/alpine/v3.14/main \
-&& apk add --no-cache wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+&& apk add --no-cache font-wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
             libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake \
+#install unrar
+&& mkdir /tmp/unrar \
+&& wget -P /tmp https://www.rarlab.com/rar/unrarsrc-${UNRAR_VERSION}.tar.gz \
+&& tar xf /tmp/unrarsrc-${UNRAR_VERSION}.tar.gz -C /tmp/unrar --strip-components=1 \
+&& cd /tmp/unrar \
+&& sed -i 's|LDFLAGS=-pthread|LDFLAGS=-pthread -static|' makefile \
+&& make \
+&& install -v -m755 unrar /usr/bin \
 #install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
