@@ -1,8 +1,8 @@
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.1.5.0
-ARG TTRSS_VER=23.09-b15f185e
-ARG GIT_COMMIT_SHA=b15f185e3de0b35bb9a16701d295505f266dfa67
+ARG TTRSS_VER=23.10-2af5f734
+ARG GIT_COMMIT_SHA=2af5f7348024d91d866f64202f8290dda5177583
 
 ENV UID=1000
 ENV GID=1000
@@ -75,8 +75,6 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && mv /usr/local/tt-rss/app/plugins.local /usr/local/tt-rss/defaults/plugins.local \
 && mv /usr/local/tt-rss/app/templates.local /usr/local/tt-rss/defaults/templates.local \
 && mv /usr/local/tt-rss/app/themes.local /usr/local/tt-rss/defaults/themes.local \
-# del nginx_xaccel
-&& if [ -d "/usr/local/tt-rss/defaults/plugins.local/nginx_xaccel" ];then rm -rf /usr/local/tt-rss/defaults/plugins.local/nginx_xaccel; fi \
 # install mercury_fulltext
 && git clone --depth 1 https://github.com/HenryQW/mercury_fulltext.git /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext \
 # install feediron

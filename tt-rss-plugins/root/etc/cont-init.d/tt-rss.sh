@@ -127,10 +127,10 @@ fi
 
 #添加其它订阅端口。
 cd /usr/local/tt-rss/app
-git checkout -- /usr/local/tt-rss/app/classes/urlhelper.php
+git checkout -- /usr/local/tt-rss/app/classes/UrlHelper.php
 if [ "$TTRSS_UPDATE_AUTO" != "true" ] && [ -n "$TTRSS_ALLOW_PORTS" ] && [ "$TTRSS_ALLOW_PORTS" != "80,443" ]; then
-    sed -i "s/\[80, 443, ''\]/\[80, 443, $TTRSS_ALLOW_PORTS, ''\]/" /usr/local/tt-rss/app/classes/urlhelper.php
-    sed -i "/if (isset(\$parts\['path'\]))/i\ \t \tif (isset(\$parts['port'])) \$tmp .= ':' . \$parts['port'];" /usr/local/tt-rss/app/classes/urlhelper.php
+    sed -i "s/\[80, 443, ''\]/\[80, 443, $TTRSS_ALLOW_PORTS, ''\]/" /usr/local/tt-rss/app/classes/UrlHelper.php
+    sed -i "/if (isset(\$parts\['path'\]))/i\ \t \tif (isset(\$parts['port'])) \$tmp .= ':' . \$parts['port'];" /usr/local/tt-rss/app/classes/UrlHelper.php
 fi
 
 #启动更新ttrss。
