@@ -1,7 +1,7 @@
-FROM ubuntu:22.04
+FROM python:3.11-slim
 
 ARG S6_VER=3.1.5.0
-ARG ANKI_VER=2.1.66
+ARG ANKI_VER=23.10
 
 ENV TZ=Asia/Shanghai
 ENV SYNC_USER1=user:pass
@@ -18,7 +18,7 @@ COPY --chmod=755 root /
 RUN apt-get update -q -y \
 && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 && echo Asia/Shanghai > /etc/timezone \
-&& apt-get install -q -y python3 python3-pip wget \
+&& apt-get install -q -y wget xz-utils \
 #install anki
 && pip install --no-cache-dir anki==${ANKI_VER} \
 #install s6-overlay
