@@ -12,7 +12,7 @@ RUN apk add --no-cache git build-base \
 # docker vlmcsd
 FROM alpine:3.18
 
-ARG S6_VER=3.1.5.0
+ARG S6_VER=3.1.6.0
 ARG VLMCSD_VER=1113
 
 ENV KMS_README_WEB=true
