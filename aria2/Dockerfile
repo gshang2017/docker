@@ -4,9 +4,9 @@ FROM ghcr.io/gshang2017/aria2c:latest as compilingaria2c
 # docker aria2
 FROM alpine:3.18
 
-ARG ARIA2_VER=1.36.0
+ARG ARIA2_VER=1.37.0
 ARG AriaNg_VER=1.3.6
-ARG S6_VER=3.1.5.0
+ARG S6_VER=3.1.6.0
 
 ENV UID=1000
 ENV GID=1000
@@ -18,7 +18,7 @@ ENV ARIA2_LISTEN_PORT=6881
 ENV ARIA2_TRACKERS_UPDATE_AUTO=true
 ENV ARIA2_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 ENV ARIA2_CONF_LANGUAGE=zh_Hans
-ENV ARIANG_RPC_SECRET_AUTO=true
+ENV ARIANG_RPC_SECRET_AUTO=false
 ENV ARIANG_RPC_LISTEN_PORT_AUTO=true
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
@@ -46,10 +46,6 @@ RUN apk add --no-cache bash curl ca-certificates darkhttpd tzdata shadow c-ares 
 #modify js
 #max-connection-per-server
 && sed -i 's/max:16/max:128/g' /usr/local/aria2/AriaNg/js/aria-ng* \
-#min-split-size
-&& sed -i 's/defaultValue:"20M"/defaultValue:"2M"/g' /usr/local/aria2/AriaNg/js/aria-ng* \
-#piece-length
-&& sed -i 's/'\(M\|m\)'/'\(K\|k\|M\|m\)'/g' /usr/local/aria2/AriaNg/js/aria-ng* \
 #cp aria-ng* to defaultsjs
 && cp /usr/local/aria2/AriaNg/js/aria-ng* /usr/local/aria2/AriaNg/js/defaultsjs \
 #conf trackers

@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|Aria2|1.36.0|amd64;arm64v8;arm32v7,修改线程数至128，默认32，集成Trackers自动更新。|
+|Aria2|1.37.0|amd64;arm64v8;arm32v7,修改线程数至128，默认32，集成Trackers自动更新。|
 |AriaNg|1.3.6|Aria2的web管理界面|
 
 ### docker命令行设置：
@@ -91,7 +91,7 @@
 | `-e ARIA2_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新Aria2的trackers,默认开启|
 | `-e ARIA2_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为  </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `-e ARIA2_CONF_LANGUAGE=zh_Hans` |(zh_Hans\|zh_Hant\|en)Aria2配置文件注释语言|
-| `-e ARIANG_RPC_SECRET_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中token值,默认开启|
+| `-e ARIANG_RPC_SECRET_AUTO=false` |(true\|false)自动添加AriaNG里RPC连接中token值,默认关闭|
 | `-e ARIANG_RPC_LISTEN_PORT_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中port值(本地与容器端口需一致),默认开启|
 
 ### 群晖docker设置：
@@ -126,5 +126,5 @@
 | `ARIA2_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新Aria2的trackers,默认开启|
 | `ARIA2_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为  </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `ARIA2_CONF_LANGUAGE=zh_Hans` |(zh_Hans\|zh_Hant\|en)Aria2配置文件注释语言|
-| `ARIANG_RPC_SECRET_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中token值,默认开启|
+| `ARIANG_RPC_SECRET_AUTO=false` |(true\|false)自动添加AriaNG里RPC连接中token值,默认关闭|
 | `ARIANG_RPC_LISTEN_PORT_AUTO=true` |(true\|false)自动添加AriaNG里RPC连接中port值(本地与容器端口需一致),默认开启|
