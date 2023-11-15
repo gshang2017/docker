@@ -1,6 +1,6 @@
 FROM alpine:3.18
 
-ARG ARIA2_VER=1.36.0
+ARG ARIA2_VER=1.37.0
 
 RUN apk add --no-cache --virtual aria2cdep build-base ca-certificates gnutls-dev expat-dev sqlite-dev c-ares-dev cppunit-dev zlib-dev libssh2-dev \
 && mkdir /aria2build \
@@ -8,8 +8,6 @@ RUN apk add --no-cache --virtual aria2cdep build-base ca-certificates gnutls-dev
 && tar -zxvf /aria2build/aria2-${ARIA2_VER}.tar.gz -C /aria2build \
 && cd /aria2build/aria2-${ARIA2_VER} \
 && sed -i 's/"1", 1, 16/"32", 1, 128/g' src/OptionHandlerFactory.cc \
-&& sed -i 's/"20M", 1_m, 1_g/"2M", 1_k, 1_g/g' src/OptionHandlerFactory.cc \
-&& sed -i 's/"1M", 1_m, 1_g/"1M", 1_k, 1_g/g' src/OptionHandlerFactory.cc \
 && if [ "$(uname -m)" = "x86_64" ];then host=x86_64-alpine-linux-musl;elif [ "$(uname -m)" = "aarch64" ];then host=aarch64-alpine-linux-musl;elif [ "$(uname -m)" = "armv7l" ];then host=armv7-alpine-linux-musleabihf; fi \
 && ./configure --disable-nls --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt --host=$host \
 && make -j $(nproc) install-strip \
