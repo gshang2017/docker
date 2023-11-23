@@ -1,8 +1,8 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
-ARG QBITTORRENT_VER=4.6.0
-ARG QBITTORRENT_EE_VER=4.6.0.10
+ARG QBITTORRENT_VER=4.6.1
+ARG QBITTORRENT_EE_VER=4.6.1.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 #qBittorrent-Enhanced-Edition
@@ -32,7 +32,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 # docker qB
 FROM alpine:3.18
 
-ARG S6_VER=3.1.5.0
+ARG S6_VER=3.1.6.2
 
 ENV UID=1000
 ENV GID=1000
