@@ -56,6 +56,35 @@ else
   fi
 fi
 
+#fix封面颜色偏暗
+if [ "$ENABLE_FIX_COVER_COLOR" == "true" ]; then
+  if [ `cat /usr/local/calibre-web/app/cps/helper.py |grep -n "srgb"|wc -l` -eq 0 ]; then
+    if [ ! -f /usr/local/calibre-web/app/cps/helper.py.bak ]; then
+      mv /usr/local/calibre-web/app/cps/helper.py /usr/local/calibre-web/app/cps/helper.py.bak
+    fi
+    cp /usr/local/calibre-web/app/cps/helper.py.bak /usr/local/calibre-web/app/cps/helper.py
+    sed -i s/rgb/srgb/g /usr/local/calibre-web/app/cps/helper.py
+  fi
+  if [ `cat /usr/local/calibre-web/app/cps/cover.py |grep -n "srgb"|wc -l` -eq 0 ]; then
+    if [ ! -f /usr/local/calibre-web/app/cps/cover.py.bak ]; then
+      mv /usr/local/calibre-web/app/cps/cover.py /usr/local/calibre-web/app/cps/cover.py.bak
+    fi
+    cp /usr/local/calibre-web/app/cps/cover.py.bak /usr/local/calibre-web/app/cps/cover.py
+    sed -i s/rgb/srgb/g /usr/local/calibre-web/app/cps/cover.py
+  fi
+else
+  if [ `cat /usr/local/calibre-web/app/cps/helper.py |grep -n "srgb"|wc -l` -ne 0 ]; then
+    if [ -f /usr/local/calibre-web/app/cps/helper.py.bak ]; then
+      mv /usr/local/calibre-web/app/cps/helper.py.bak /usr/local/calibre-web/app/cps/helper.py
+    fi
+  fi
+  if [ `cat /usr/local/calibre-web/app/cps/cover.py |grep -n "srgb"|wc -l` -ne 0 ]; then
+    if [ -f /usr/local/calibre-web/app/cps/cover.py.bak ]; then
+      mv /usr/local/calibre-web/app/cps/cover.py.bak /usr/local/calibre-web/app/cps/cover.py
+    fi
+  fi
+fi
+
 #修改用户UID GID
 groupmod -o -g "$GID" calibre
 usermod -o -u "$UID" calibre

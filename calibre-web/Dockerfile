@@ -1,6 +1,6 @@
 FROM alpine:3.18
 
-ARG S6_VER=3.1.5.0
+ARG S6_VER=3.1.6.2
 ARG CALIBRE_WEB_VER=0.6.21
 ARG CALIBRE_VER=5.44.0
 ARG KEPUBIFY_VER=4.0.4
@@ -26,6 +26,7 @@ ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 ENV CALIBRE_DBPATH=/config/calibre-web
 ENV CALIBRE_CONFIG_DIRECTORY=/config/calibre-server
 ENV CALIBRE_LOCALHOST=true
+ENV ENABLE_FIX_COVER_COLOR=false
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
@@ -34,9 +35,9 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
             mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst \
             libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite xdg-utils \
 && pip3 install --no-cache-dir sde rapidfuzz \
-&& apk add --no-cache font-wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+&& apk add --no-cache font-wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/community \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
-            libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake \
+            libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake libressl-dev \
 #install unrar
 && mkdir /tmp/unrar \
 && wget -P /tmp https://www.rarlab.com/rar/unrarsrc-${UNRAR_VERSION}.tar.gz \
