@@ -1,8 +1,8 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
-ARG QBITTORRENT_VER=4.6.1
-ARG QBITTORRENT_EE_VER=4.6.1.10
+ARG QBITTORRENT_VER=4.6.2
+ARG QBITTORRENT_EE_VER=4.6.2.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 #qBittorrent-Enhanced-Edition
@@ -10,12 +10,6 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 && wget -P /tmp/qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
 && unzip -q /tmp/qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
-#fix webui password
-&& sed -i '101a#ifdef DISABLE_GUI' src/app/main.cpp \
-&& sed -i '102a\    setvbuf(stdout, nullptr, _IONBF, 0);' src/app/main.cpp \
-&& sed -i '103a#endif' src/app/main.cpp \
-&& sed -i '104a\' src/app/main.cpp \
-#
 && cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=ON -DGUI=OFF \
 && cmake --build build-nox -j $(nproc) \
 && cmake --install build-nox \
@@ -25,12 +19,6 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 && wget -P /tmp/qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
 && unzip -q /tmp/qbbuild/release-${QBITTORRENT_VER}.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
-#fix webui password
-&& sed -i '101a#ifdef DISABLE_GUI' src/app/main.cpp \
-&& sed -i '102a\    setvbuf(stdout, nullptr, _IONBF, 0);' src/app/main.cpp \
-&& sed -i '103a#endif' src/app/main.cpp \
-&& sed -i '104a\' src/app/main.cpp \
-#
 && cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=ON -DGUI=OFF \
 && cmake --build build-nox -j $(nproc) \
 && cmake --install build-nox \
