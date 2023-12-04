@@ -1,0 +1,30 @@
+From: Peter Eisentraut <peter@eisentraut.org>
+Date: Thu, 25 Nov 2021 13:19:22 +0000 (+0100)
+Subject: Remove unneeded Python includes
+X-Git-Tag: REL_15_BETA1~1132
+X-Git-Url: http://git.postgresql.org/gitweb/?p=postgresql.git;a=commitdiff_plain;h=99e4d24a9d77e7bb87e15b318e96dc36651a7da2
+
+Remove unneeded Python includes
+
+Inluding <compile.h> and <eval.h> has not been necessary since Python
+2.4, since they are included via <Python.h>.  Morever, <eval.h> is
+being removed in Python 3.11.  So remove these includes.
+
+Reviewed-by: Tom Lane <tgl@sss.pgh.pa.us>
+Discussion: https://www.postgresql.org/message-id/flat/84884.1637723223%40sss.pgh.pa.us
+---
+
+diff --git a/src/pl/plpython/plpython.h b/src/pl/plpython/plpython.h
+index 994457b37d..ae1275afe2 100644
+--- a/src/pl/plpython/plpython.h
++++ b/src/pl/plpython/plpython.h
+@@ -94,9 +94,6 @@
+ #undef TEXTDOMAIN
+ #define TEXTDOMAIN PG_TEXTDOMAIN("plpython")
+ 
+-#include <compile.h>
+-#include <eval.h>
+-
+ /* put back our *printf macros ... this must match src/include/port.h */
+ #ifdef vsnprintf
+ #undef vsnprintf

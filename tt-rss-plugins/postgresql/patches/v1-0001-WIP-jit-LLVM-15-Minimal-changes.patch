@@ -1,0 +1,60 @@
+From d2a383fe07f962e3a1e17a7f8f112a868cbd8175 Mon Sep 17 00:00:00 2001
+From: Thomas Munro <thomas.munro@gmail.com>
+Date: Thu, 22 Sep 2022 23:38:56 +1200
+Subject: [PATCH v1] WIP: jit: LLVM 15: Minimal changes.
+
+Per https://llvm.org/docs/OpaquePointers.html, support for non-opaque
+pointers still exists and we can request that on our context.  We have
+until LLVM 16 to move to opaque pointers.
+---
+ src/backend/jit/llvm/llvmjit.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/src/backend/jit/llvm/llvmjit.c b/src/backend/jit/llvm/llvmjit.c
+index fd3eecf27d3..bccfcfa9698 100644
+--- a/src/backend/jit/llvm/llvmjit.c
++++ b/src/backend/jit/llvm/llvmjit.c
+@@ -798,6 +798,16 @@ llvm_session_initialize(void)
+ 	LLVMInitializeNativeAsmPrinter();
+ 	LLVMInitializeNativeAsmParser();
+ 
++	/*
++	 * When targetting an llvm version with opaque pointers enabled by
++	 * default, turn them off for the context we build our code in. Don't need
++	 * to do so for other contexts (e.g. llvm_ts_context) - once the IR is
++	 * generated, it carries the necessary information.
++	 */
++#if LLVM_VERSION_MAJOR > 14
++	LLVMContextSetOpaquePointers(LLVMGetGlobalContext(), false);
++#endif
++
+ 	/*
+ 	 * Synchronize types early, as that also includes inferring the target
+ 	 * triple.
+@@ -1112,7 +1122,11 @@ llvm_resolve_symbols(LLVMOrcDefinitionGeneratorRef GeneratorObj, void *Ctx,
+ 					 LLVMOrcJITDylibRef JD, LLVMOrcJITDylibLookupFlags JDLookupFlags,
+ 					 LLVMOrcCLookupSet LookupSet, size_t LookupSetSize)
+ {
++#if LLVM_VERSION_MAJOR > 14
++	LLVMOrcCSymbolMapPairs symbols = palloc0(sizeof(LLVMOrcCSymbolMapPair) * LookupSetSize);
++#else
+ 	LLVMOrcCSymbolMapPairs symbols = palloc0(sizeof(LLVMJITCSymbolMapPair) * LookupSetSize);
++#endif
+ 	LLVMErrorRef error;
+ 	LLVMOrcMaterializationUnitRef mu;
+ 
+@@ -1230,7 +1244,11 @@ llvm_create_jit_instance(LLVMTargetMachineRef tm)
+ 	 * Symbol resolution support for "special" functions, e.g. a call into an
+ 	 * SQL callable function.
+ 	 */
++#if LLVM_VERSION_MAJOR > 14
++	ref_gen = LLVMOrcCreateCustomCAPIDefinitionGenerator(llvm_resolve_symbols, NULL, NULL);
++#else
+ 	ref_gen = LLVMOrcCreateCustomCAPIDefinitionGenerator(llvm_resolve_symbols, NULL);
++#endif
+ 	LLVMOrcJITDylibAddGenerator(LLVMOrcLLJITGetMainJITDylib(lljit), ref_gen);
+ 
+ 	return lljit;
+-- 
+2.37.3.542.gdd3f6c4cae
+
