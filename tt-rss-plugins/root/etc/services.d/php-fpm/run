@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 #启动 php-fpm
-exec s6-setuidgid ttrss php-fpm81 -F
+exec s6-setuidgid ttrss php-fpm82 -F

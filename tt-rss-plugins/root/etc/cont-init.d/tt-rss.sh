@@ -105,11 +105,11 @@ fi
 if [ ! -e "/config/php/log/error.log" ]; then
   touch /config/php/log/error.log
 fi
-if [ ! -L "/var/log/php81/error.log" ]; then
-  if [ -e "/var/log/php81/error.log" ]; then
-    rm /var/log/php81/error.log
+if [ ! -L "/var/log/php82/error.log" ]; then
+  if [ -e "/var/log/php82/error.log" ]; then
+    rm /var/log/php82/error.log
   fi
-  ln -s /config/php/log/error.log /var/log/php81/error.log
+  ln -s /config/php/log/error.log /var/log/php82/error.log
 fi
 
 #检查/var/run/postgresql目录
@@ -156,7 +156,7 @@ if [ -n "$POSTGRES_GID" ] && [ -n "$POSTGRES_UID" ]; then
     groupmod -o -g "$POSTGRES_GID" postgres
     usermod -o -u "$POSTGRES_UID" postgres
     usermod -g ttrss ttrss
-    sed -i -e 's/^\(user\|group\) = .*/\1 = ttrss/i' /etc/php81/php-fpm.d/www.conf
+    sed -i -e 's/^\(user\|group\) = .*/\1 = ttrss/i' /etc/php82/php-fpm.d/www.conf
   else
     echo 请设定POSTGRES_UID与POSTGRES_GID为非0数值...
   fi
@@ -165,7 +165,7 @@ fi
 #更改文件夹权限
 chown -R ttrss:ttrss /config/
 chown -R ttrss:ttrss /usr/local/tt-rss/
-chown -R ttrss:ttrss /var/log/php81/
+chown -R ttrss:ttrss /var/log/php82/
 chown -R postgres:postgres /var/lib/postgresql/data
 chown -R postgres:postgres /var/run/postgresql/
 
