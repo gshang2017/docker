@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
-ARG S6_VER=3.1.6.0
-ARG ANKI_VER=23.10.1
+ARG S6_VER=3.1.6.2
+ARG ANKI_VER=23.12
 
 ENV TZ=Asia/Shanghai
 ENV SYNC_USER1=user:pass
