@@ -13,7 +13,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|Anki-sync-server|23.12(official)|amd64;arm64v8|
+|Anki-sync-server|23.12.1(official)|amd64;arm64v8|
 |Anki-sync-server|2.4.0(ankicommunity)|amd64;arm64v8;arm32v7,支持(Anki:2.1.49、AnkiDroid:2.15.6)|
 
 ### 注意:
