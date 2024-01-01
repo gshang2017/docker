@@ -12,13 +12,14 @@
 [https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron "https://github.com/feediron/ttrss_plugin-feediron")     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin "https://github.com/DigitalDJ/tinytinyrss-fever-plugin")      
+[https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git "https://git.tt-rss.org/fox/ttrss-af-readability.git")
 [https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme "https://github.com/levito/tt-rss-feedly-theme")
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-23.12-2b8e3445|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-23.12-f0f22c23|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 
@@ -118,7 +119,7 @@
 | `-e TTRSS_DB_PORT=5432` |tt-rss使用的数据库端口,默认设置为容器内部端口，无需更改|
 | `-e TTRSS_DB_HOST=0.0.0.0` |tt-rss使用的数据库IP,默认设置为容器内部IP，无需更改|
 | `-e TTRSS_SELF_URL_PATH=http://localhost:80/` |tt-rss访问地址,需更改为IP或域名加tt-rss服务器web端口|
-| `-e TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext` |tt-rss默认开启插件|
+| `-e TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext,af_readability` |tt-rss默认开启插件|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
 | `-e TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
@@ -160,7 +161,7 @@
 | `TTRSS_DB_PORT=5432` |tt-rss使用的数据库端口,默认设置为容器内部端口，无需更改|
 | `TTRSS_DB_HOST=0.0.0.0` |tt-rss使用的数据库IP,默认设置为容器内部IP，无需更改|
 | `TTRSS_SELF_URL_PATH=http://localhost:80/` |tt-rss访问地址,需更改为IP或域名加tt-rss服务器web端口|
-| `TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext` |tt-rss默认开启插件|
+| `TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext,af_readability` |tt-rss默认开启插件|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
 | `TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|

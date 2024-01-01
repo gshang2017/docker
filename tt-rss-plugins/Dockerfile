@@ -1,8 +1,8 @@
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.1.6.2
-ARG TTRSS_VER=23.12-2b8e3445
-ARG GIT_COMMIT_SHA=2b8e34453234b8b31ebc9e7020f8677bf3889898
+ARG TTRSS_VER=23.12-f0f22c23
+ARG GIT_COMMIT_SHA=f0f22c23c5986d8f21f82e4a8203a164a5c4aace
 
 ENV UID=1000
 ENV GID=1000
@@ -17,7 +17,7 @@ ENV TTRSS_DB_PORT=5432
 ENV TTRSS_DB_HOST=0.0.0.0
 ENV TTRSS_SELF_URL_PATH=http://localhost:80/
 ENV TTRSS_PHP_EXECUTABLE=/usr/bin/php82
-ENV TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext
+ENV TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext,af_readability
 ENV SCRIPT_ROOT=/usr/local/tt-rss/app
 ENV TZ=Asia/Shanghai
 ENV TTRSS_ALLOW_PORTS=80,443
@@ -81,6 +81,8 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && git clone --depth 1 https://github.com/feediron/ttrss_plugin-feediron.git  /usr/local/tt-rss/defaults/plugins.local/feediron \
 # install fever
 && git clone --depth 1 https://github.com/DigitalDJ/tinytinyrss-fever-plugin /usr/local/tt-rss/defaults/plugins.local/fever \
+# install af-readability
+&& git clone --depth 1 https://git.tt-rss.org/fox/ttrss-af-readability.git /usr/local/tt-rss/defaults/plugins.local/af_readability \
 # install themes
 # install tt-rss-feedly-theme
 && git clone -b dist --depth 1 https://github.com/levito/tt-rss-feedly-theme.git /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \

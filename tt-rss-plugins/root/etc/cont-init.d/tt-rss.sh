@@ -71,6 +71,10 @@ fi
 if [ ! -d "/config/plugins.local/mercury_fulltext" ]; then
   cp -rf /usr/local/tt-rss/defaults/plugins.local/mercury_fulltext /config/plugins.local/
 fi
+#检查af_readability plugins
+if [ ! -d "/config/plugins.local/af_readability" ]; then
+  cp -rf /usr/local/tt-rss/defaults/plugins.local/af_readability /config/plugins.local/
+fi
 
 #检查templates.local文件夹位置
 if [ ! -d "/config/templates.local" ]; then
