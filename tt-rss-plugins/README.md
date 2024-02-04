@@ -12,14 +12,14 @@
 [https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron "https://github.com/feediron/ttrss_plugin-feediron")     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin "https://github.com/DigitalDJ/tinytinyrss-fever-plugin")      
-[https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git "https://git.tt-rss.org/fox/ttrss-af-readability.git")
+[https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git "https://git.tt-rss.org/fox/ttrss-af-readability.git")      
 [https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme "https://github.com/levito/tt-rss-feedly-theme")
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-23.12-f0f22c23|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-24.01-c7e36e1a|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 
