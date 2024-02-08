@@ -1,7 +1,7 @@
-FROM alpine:3.18
+FROM alpine:3.19
 
-ARG S6_VER=3.1.5.0
-ARG QIANDAO_VER=20230821
+ARG S6_VER=3.1.6.2
+ARG QIANDAO_VER=20240208
 
 ENV UID=1000
 ENV GID=1000
@@ -47,7 +47,7 @@ RUN  apk add --no-cache shadow bash ca-certificates tzdata python3 py3-pip py3-w
 && sed -i '/cryptography/d' /usr/local/qiandao/app/requirements.txt \
 && sed -i '/pycryptodome/d' /usr/local/qiandao/app/requirements.txt \
 #
-&& pip3 install --no-cache-dir -r /usr/local/qiandao/app/requirements.txt \
+&& pip3 install --no-cache-dir --break-system-packages -r /usr/local/qiandao/app/requirements.txt \
 #create qiandao user
 &&  useradd -u 1000 -U -d /config -s /bin/false qiandao \
 &&  usermod -G users qiandao \
