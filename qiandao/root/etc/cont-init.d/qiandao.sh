@@ -22,14 +22,6 @@ fi
 #启动更新qiandao。
 if [ "$QIANDAO_UPDATE_AUTO" == "true" ]; then
   /usr/local/qiandao/defaults/update-qiandao.sh
-else
-  #支持STARTTLS邮件发送
-  cd /usr/local/qiandao/app
-  git checkout -- /usr/local/qiandao/app/config.py
-  git checkout -- /usr/local/qiandao/app/libs/utils.py
-  if [ "$ENABLE_MAIL_STARTTLS" == "true" ]; then
-    /usr/local/qiandao/defaults/mail_starttls.sh
-  fi
 fi
 
 #设置管理员

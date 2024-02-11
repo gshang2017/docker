@@ -12,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qiandao|20240208|amd64;arm64v8;arm32v7|
+|qiandao|20240210|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -90,14 +90,12 @@
 | `-e MAIL_SMTP=` |邮件smtp地址，可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
 | `-e MAIL_PORT=` |邮件端口值，ssl端口465 starttls端口587 非ssl端口25|
 | `-e MAIL_SSL=True` |邮件ssl开关，(True\|False),默认开启此功能|
-| `-e MAIL_STARTTLS=False` |邮件starttls开关，(True\|False),默认关闭此功能|
 | `-e MAIL_USER=` |邮件账户|
 | `-e MAIL_PASSWORD=` |邮件密码|
 | `-e MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
 | `-e MAIL_DOMAIN=` |邮件域名|
 | `-e ADMIN_MAIL=` |设置管理员账户，可不设置，系统默认第一个注册用户为管理员|
 | `-e QIANDAO_UPDATE_AUTO=true` |自动更新qiandao(true\|false),默认开启此功能|
-| `-e ENABLE_MAIL_STARTTLS=false` |支持STARTTLS邮件发送(true\|false),默认关闭此功能|
 
 ### 群晖docker设置：
 
@@ -124,14 +122,12 @@
 | `MAIL_SMTP=` |邮件smtp地址，可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
 | `MAIL_PORT=` |邮件端口值，ssl端口465 starttls端口587 非ssl端口25|
 | `MAIL_SSL=True` |邮件ssl开关，(True\|False),默认开启此功能|
-| `MAIL_STARTTLS=False` |邮件starttls开关，(True\|False),默认关闭此功能|
 | `MAIL_USER=` |邮件账户|
 | `MAIL_PASSWORD=` |邮件密码|
 | `MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
 | `MAIL_DOMAIN=` |邮件域名|
 | `ADMIN_MAIL=` |设置管理员账户，可不设置，系统默认第一个注册用户为管理员|
 | `QIANDAO_UPDATE_AUTO=false` |自动更新qiandao(true\|false),默认关闭此功能|
-| `ENABLE_MAIL_STARTTLS=false` |支持STARTTLS邮件发送(true\|false),默认关闭此功能|
 
 * 公开模板：
 
