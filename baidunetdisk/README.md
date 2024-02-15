@@ -13,7 +13,7 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |baidunetdisk|4.17.7|amd64|
-|baidunetdisk|4.14.6|arm64|
+|baidunetdisk|4.17.7|arm64|
 
 #### 注意：
 
