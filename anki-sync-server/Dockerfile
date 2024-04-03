@@ -1,7 +1,17 @@
-FROM python:3.11-slim
+FROM rust:alpine3.19 AS builder
+
+ARG ANKI_VER=24.04
+
+RUN apk update \
+&& apk add --no-cache build-base protobuf \
+&& cargo install --git https://github.com/ankitects/anki.git \
+    --tag ${ANKI_VER} \
+    --root /anki-server  \
+    anki-sync-server
+
+FROM alpine:3.19
 
 ARG S6_VER=3.1.6.2
-ARG ANKI_VER=23.12.1
 
 ENV TZ=Asia/Shanghai
 ENV SYNC_USER1=user:pass
@@ -14,14 +24,11 @@ ENV SYNC_HOST=0.0.0.0
 ENV MAX_SYNC_PAYLOAD_MEGS=100
 
 COPY --chmod=755 root /
+COPY --from=builder /anki-server/bin/anki-sync-server /usr/local/bin/anki-sync-server
 
-RUN apt-get update -q -y \
-&& ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-&& echo Asia/Shanghai > /etc/timezone \
-&& apt-get install -q -y wget xz-utils \
-#install anki
-&& pip install --no-cache-dir anki==${ANKI_VER} \
-#install s6-overlay
+RUN apk update \
+&& apk add --no-cache wget xz bash shadow tzdata \
+# install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
 && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
@@ -36,7 +43,7 @@ RUN apt-get update -q -y \
 && useradd -u 1000 -U -d /ankisyncdir -s /bin/false ankisync \
 && usermod -G users ankisync \
 #
-&& apt-get clean \
+&& rm -rf /var/cache/apk/* \
 && rm -rf /tmp/*
 
 VOLUME /ankisyncdir
