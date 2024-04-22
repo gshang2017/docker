@@ -8,8 +8,8 @@ if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
     CALIBRE_SERVER_OTHER_OPTION="--disable-use-bonjour"
   fi
   if [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
-    exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library --userdb $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite --enable-auth
+    exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library --userdb $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite --enable-auth --port $CALIBRE_SERVER_PORT
   else
-    exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library
+    exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library --port $CALIBRE_SERVER_PORT
   fi
 fi

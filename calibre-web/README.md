@@ -16,14 +16,14 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |calibre-web|0.6.21|amd64;arm64v8;arm32v7|
-|calibre-server|5.44.0|amd64;arm64v8;arm32v7|
+|calibre-server|7.9.0|amd64;arm64v8;arm32v7|
 |kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
 
 * 新版更改了变量名[USER PASSWORD WEBLANGUAGE(0.6.16-5.10.1及以前)]。</br>新增CALIBRE_ASCII_FILENAME=false设定calibre支持中文目录。
 * 新增自动添加图书(配置autoaddbooks文件夹，图书添加后会自动删除)。使用此功能请备份图书。
-* arm32v7版ebook-convert可能无法转换成PDF格式。
+* arm版ebook-convert可能无法转换成PDF格式。
 * CN版(旧)修改了calibre，支持中文目录(非拼音)。替换前请备份书库，新版通过环境变量设置此功能。
 * 0.6.16及以前未安装新增的Google Scholar元数据搜索。
 * 豆瓣搜索 0.6.18及以前:ENABLE_DOUBAN_SEARCH=true 0.6.16及以前:需自行安装 </br>https://hub.docker.com/r/fugary/simple-boot-douban-api ，并配置环境变量DOUBANIP。
@@ -94,6 +94,7 @@
 | `-e CALIBRE_SERVER_USER=用户名` |calibre-server 用户名|
 | `-e CALIBRE_SERVER_PASSWORD=用户密码` |calibre-server 用户密码|
 | `-e CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，默认中文，详见calibre-server其它语言|
+| `-e CALIBRE_SERVER_PORT=8080` |calibre-server web访问端口，默认8080|
 | `-e CALIBRE_ASCII_FILENAME=true` |(true\|false)设定false时calibre支持中文目录|
 | `-e CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
@@ -132,6 +133,7 @@
 | `CALIBRE_SERVER_USER=` |calibre-server 用户名|
 | `CALIBRE_SERVER_PASSWORD=` |calibre-server 用户密码|
 | `CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，详见calibre-server其它语言|
+| `CALIBRE_SERVER_PORT=8080` |calibre-server web访问端口，默认8080|
 | `CALIBRE_ASCII_FILENAME=true` |(true\|false)设定false时calibre支持中文目录|
 | `CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|

@@ -2,7 +2,10 @@
 
 #检查metadata.db文件，并创建.
 if [ ! -f /library/metadata.db ]; then
-   calibredb restore_database --really-do-it --with-library /library
+  if [ ! -d /library/.calnotes ]; then
+    mkdir -p /library/.calnotes
+  fi
+  calibredb restore_database --really-do-it --with-library /library
 fi
 
 #检查calibre-web配置文件，并创建.

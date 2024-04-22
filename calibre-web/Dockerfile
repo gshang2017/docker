@@ -1,8 +1,8 @@
-FROM alpine:3.18
+FROM alpine:3.19
 
 ARG S6_VER=3.1.6.2
 ARG CALIBRE_WEB_VER=0.6.21
-ARG CALIBRE_VER=5.44.0
+ARG CALIBRE_VER=7.9.0
 ARG KEPUBIFY_VER=4.0.4
 ARG UNRAR_VERSION=6.2.12
 
@@ -13,6 +13,7 @@ ENV ENABLE_CALIBRE_SERVER_OPDS=false
 ENV CALIBRE_SERVER_USER=
 ENV CALIBRE_SERVER_PASSWORD=
 ENV CALIBRE_SERVER_WEB_LANGUAGE=zh_CN
+ENV CALIBRE_SERVER_PORT=8080
 ENV CALIBRE_ASCII_FILENAME=true
 ENV CALIBRE_WEB_LANGUAGE=zh_Hans_CN
 ENV TZ=Asia/Shanghai
@@ -26,15 +27,18 @@ ENV QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox
 ENV CALIBRE_DBPATH=/config/calibre-web
 ENV CALIBRE_CONFIG_DIRECTORY=/config/calibre-server
 ENV CALIBRE_LOCALHOST=true
+ENV CALIBRE_RECONNECT=true
 ENV ENABLE_FIX_COVER_COLOR=false
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
 
 RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wheel expect imagemagick libintl libstdc++ libxcb mesa-gl \
-            mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst \
-            libxrandr libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite xdg-utils \
-&& pip3 install --no-cache-dir sde rapidfuzz \
+            mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst libxrandr \
+            libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite xdg-utils xcb-util-wm xcb-util-image xcb-util-keysyms \
+            xcb-util-renderutil libxkbcommon-x11 libevent opus libvpx alsa-lib snappy minizip libxkbfile mesa-egl libb2 krb5-libs pcre2 \
+            libjpeg-turbo-utils pciutils-libs lcms2 lcms2-plugins \
+&& pip3 install --no-cache-dir --break-system-package sde rapidfuzz \
 && apk add --no-cache font-wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/community \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
             libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake libressl-dev \
@@ -68,8 +72,8 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 #install calibre-web dep
 && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
 && apk add --no-cache py3-lxml py3-cryptography poppler-data py3-gevent \
-&& pip3 install --no-cache-dir -r /usr/local/calibre-web/app/requirements.txt \
-&& pip3 install --no-cache-dir -r /usr/local/calibre-web/app/optional-requirements.txt \
+&& pip3 install --no-cache-dir --break-system-package -r /usr/local/calibre-web/app/requirements.txt \
+&& pip3 install --no-cache-dir --break-system-package -r /usr/local/calibre-web/app/optional-requirements.txt \
 #install kepubify
 && if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi \
 && wget https://github.com/pgaskin/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify \
