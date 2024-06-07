@@ -1,8 +1,9 @@
-FROM alpine:3.17
+FROM syncthing/discosrv:1.27.8 as discosrvbin
+FROM syncthing/relaysrv:1.27.8 as relaysrvbin
 
-ARG RELAYSRV_VER=1.22.1
-ARG DISCOSRV_VER=1.23.4
-ARG S6_VER=3.1.4.2
+FROM alpine:3.20
+
+ARG S6_VER=3.1.6.2
 
 ENV UID=1000
 ENV GID=1000
@@ -18,14 +19,10 @@ ENV RELAY_OTHER_OPTION=
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
+COPY --from=discosrvbin --chmod=755 /bin/stdiscosrv /usr/local/bin/stdiscosrv
+COPY --from=relaysrvbin --chmod=755 /bin/strelaysrv /usr/local/bin/strelaysrv
 
 RUN apk add --no-cache bash shadow ca-certificates \
-# install relaysrv discosrv
-&& if [ "$(uname -m)" = "x86_64" ];then srv_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then srv_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then srv_arch=arm; fi \
-&& wget -P /tmp https://github.com/syncthing/relaysrv/releases/download/v${RELAYSRV_VER}/strelaysrv-linux-${srv_arch}-v${RELAYSRV_VER}.tar.gz \
-&& tar --strip-components 1 -C /usr/local/bin -xvzf /tmp/strelaysrv-linux-${srv_arch}-v${RELAYSRV_VER}.tar.gz strelaysrv-linux-${srv_arch}-v${RELAYSRV_VER}/strelaysrv \
-&& wget -P /tmp https://github.com/syncthing/discosrv/releases/download/v${DISCOSRV_VER}/stdiscosrv-linux-${srv_arch}-v${DISCOSRV_VER}.tar.gz \
-&& tar --strip-components 1 -C /usr/local/bin -xvzf /tmp/stdiscosrv-linux-${srv_arch}-v${DISCOSRV_VER}.tar.gz stdiscosrv-linux-${srv_arch}-v${DISCOSRV_VER}/stdiscosrv \
 #create stsrv user
 && useradd -u 1000 -U -d /config -s /bin/false stsrv \
 && usermod -G users stsrv \
