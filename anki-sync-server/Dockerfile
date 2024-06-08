@@ -1,6 +1,6 @@
-FROM rust:alpine3.19 AS builder
+FROM rust:alpine3.20 AS builder
 
-ARG ANKI_VER=24.04.1
+ARG ANKI_VER=24.06.1
 
 RUN apk update \
 && apk add --no-cache build-base protobuf \
@@ -9,7 +9,7 @@ RUN apk update \
     --root /anki-server  \
     anki-sync-server
 
-FROM alpine:3.19
+FROM alpine:3.20
 
 ARG S6_VER=3.1.6.2
 
