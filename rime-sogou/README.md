@@ -18,7 +18,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|rime-sogou|2.2|amd64;arm64v8;arm32v7|
+|rime-sogou|2.3|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -66,6 +66,8 @@
 | `-e RIME_DICT_UPDATE_AUTO=true` |(true\|false)自动更新rime词库,默认开启|
 | `-e SOGOU_DICT_NAME=luna_pinyin_simp.sogou_pop` |词库名称,默认为luna_pinyin_simp.sogou_pop|
 | `-e RIME_FREQ=2000001` |词库词频,默认为2000001|
+| `-e RIME_DICT_ALLINONE_SET=False` |(True\|False)合并输出词库|
+| `-e RIME_DICT_ALLINONE_GITHUB_SET=False` |(True\|False)输出github生成的合并词库|
 | `-e ENGLISH_DICT_SET=True` |英语词库|
 | `-e BASIC_DICT_SET=True` |基础词库|
 | `-e WIKI_DICT_SET` |维基词库|
@@ -115,6 +117,8 @@
 | `RIME_DICT_UPDATE_AUTO=true` |(true\|false)自动更新rime词库,默认开启|
 | `SOGOU_DICT_NAME=luna_pinyin_simp.sogou_pop` |词库名称,默认为luna_pinyin_simp.sogou_pop|
 | `RIME_FREQ=2000001` |词库词频,默认为2000001|
+| `RIME_DICT_ALLINONE_SET=False` |(True\|False)合并输出词库|
+| `RIME_DICT_ALLINONE_GITHUB_SET=False` |(True\|False)输出github生成的合并词库|
 | `ENGLISH_DICT_SET=True` |英语词库|
 | `BASIC_DICT_SET=True` |基础词库|
 | `WIKI_DICT_SET` |维基词库|

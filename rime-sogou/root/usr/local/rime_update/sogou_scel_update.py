@@ -81,13 +81,11 @@ else:
 os.system(command)
 
 #完善yaml文件输出格式
-data1 = '''
-# Rime dictionary
+data1 = '''# Rime dictionary
 # encoding: utf-8
 #
 #sogou输入法网络流行新词
 #https://pinyin.sogou.com/dict/detail/index/4
-
 # 部署位置：
 # ~/.config/ibus/rime  (Linux ibus)
 # ~/.config/fcitx/rime  (Linux fcitx)
@@ -96,7 +94,6 @@ data1 = '''
 #
 # 于重新部署后生效
 #
-
 ---
 '''
 #创建名称

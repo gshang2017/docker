@@ -17,7 +17,7 @@ jobs:
 
       - name: 'Set env'
         run: |
-          echo "RIME_SOGOU_VER=$(echo `grep -n "RIME_SOGOU_VER=" rime-sogou/Dockerfile`|awk -F: '{print $2}'|cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "RIME_SOGOU_VER=$(echo `grep -n "RIME_SOGOU_VER=" rime-sogou/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
