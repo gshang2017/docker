@@ -2,7 +2,7 @@
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
 ARG QBITTORRENT_VER=4.6.5
-ARG QBITTORRENT_EE_VER=4.6.4.10
+ARG QBITTORRENT_EE_VER=4.6.5.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 #qBittorrent-Enhanced-Edition
@@ -32,7 +32,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 # docker qB
 FROM alpine:3.20
 
-ARG S6_VER=3.1.6.2
+ARG S6_VER=3.2.0.0
 
 ENV UID=1000
 ENV GID=1000
@@ -43,6 +43,8 @@ ENV QB_EE_BIN=false
 ENV QB_TRACKERS_UPDATE_AUTO=true
 ENV QB_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 ENV ENABLE_CHOWN_DOWNLOADS=true
+ENV ENABLE_CHOWN_R_DOWNLOADS=true
+ENV QB_DOWNLOADS_DIRECTORY=/Downloads
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /

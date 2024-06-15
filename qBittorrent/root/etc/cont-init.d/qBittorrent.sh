@@ -38,5 +38,9 @@ usermod -o -u "$UID" qbittorrent
 #修复权限
 chown -R qbittorrent:qbittorrent /config
 if [ "$ENABLE_CHOWN_DOWNLOADS" == "true" ]; then
-  chown -R qbittorrent:qbittorrent /Downloads
+  if [ "$ENABLE_CHOWN_R_DOWNLOADS" == "true" ]; then
+    chown -R qbittorrent:qbittorrent $QB_DOWNLOADS_DIRECTORY
+  else
+    chown qbittorrent:qbittorrent $QB_DOWNLOADS_DIRECTORY
+  fi
 fi

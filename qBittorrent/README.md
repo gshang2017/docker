@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent-qBittorrentEE|4.6.5-4.6.4.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent-qBittorrentEE|4.6.5-4.6.5.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 #### 版本升级注意：
 
@@ -89,6 +89,8 @@
 | `-e QB_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新qBittorrent的trackers,默认开启|
 | `-e QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `-e ENABLE_CHOWN_DOWNLOADS=true` |(true\|false)设定修复Downloads文件夹拥有者，默认开启|
+| `-e ENABLE_CHOWN_R_DOWNLOADS=true` |(true\|false)设定递归修复Downloads文件夹拥有者，默认开启|
+| `-e QB_DOWNLOADS_DIRECTORY=/Downloads` |qBittorrent下载位置，默认/Downloads(仅用于修复权限)|
 
 ### 群晖docker设置：
 
@@ -120,6 +122,8 @@
 | `QB_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新qBittorrent的trackers,默认开启|
 | `QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `ENABLE_CHOWN_DOWNLOADS=true` |(true\|false)设定修复Downloads文件夹拥有者，默认开启|
+| `ENABLE_CHOWN_R_DOWNLOADS=true` |(true\|false)设定递归修复Downloads文件夹拥有者，默认开启|
+| `QB_DOWNLOADS_DIRECTORY=/Downloads` |qBittorrent下载位置，默认/Downloads(仅用于修复权限)|
 
 ### 搜索：
 
