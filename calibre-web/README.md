@@ -15,7 +15,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.21|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.22|amd64;arm64v8;arm32v7|
 |calibre-server|7.9.0|amd64;arm64v8;arm32v7|
 |kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
@@ -95,6 +95,7 @@
 | `-e CALIBRE_SERVER_PASSWORD=用户密码` |calibre-server 用户密码|
 | `-e CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，默认中文，详见calibre-server其它语言|
 | `-e CALIBRE_SERVER_PORT=8080` |calibre-server web访问端口，默认8080|
+| `-e CALIBRE_PORT=8083` |calibre-web访问端口，默认8083|
 | `-e CALIBRE_ASCII_FILENAME=true` |(true\|false)设定false时calibre支持中文目录|
 | `-e CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
@@ -134,6 +135,7 @@
 | `CALIBRE_SERVER_PASSWORD=` |calibre-server 用户密码|
 | `CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，详见calibre-server其它语言|
 | `CALIBRE_SERVER_PORT=8080` |calibre-server web访问端口，默认8080|
+| `CALIBRE_PORT=8083` |calibre-web访问端口，默认8083|
 | `CALIBRE_ASCII_FILENAME=true` |(true\|false)设定false时calibre支持中文目录|
 | `CALIBRE_WEB_LANGUAGE=zh_Hans_CN` |(zh_Hans_CN\|en)calibre-web初始界面语言，详见calibre-web其它语言|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
