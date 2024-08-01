@@ -19,7 +19,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-24.06-d5eec31d|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-24.07-9d37158d|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 
