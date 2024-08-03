@@ -145,6 +145,37 @@ if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_WEB_LANGUAGE"
   fi
 fi
 
+#calibre-web与calibre-server并存补丁.
+if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
+  if [ `cat /usr/local/calibre-web/app/cps/embed_helper.py |grep -n "#library"|wc -l` -eq 0 ]; then
+    cp /usr/local/calibre-web/app/cps/embed_helper.py /usr/local/calibre-web/app/cps/embed_helper.py.bak
+  else
+    cp /usr/local/calibre-web/app/cps/embed_helper.py.bak /usr/local/calibre-web/app/cps/embed_helper.py
+  fi
+  if [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
+    sed -i s/", library_path"/", 'http:\/\/localhost:$CALIBRE_SERVER_PORT\/\#library', '--username', '$CALIBRE_SERVER_USER', '--password', '$CALIBRE_SERVER_PASSWORD'"/g /usr/local/calibre-web/app/cps/embed_helper.py
+  else
+    sed -i s/", library_path"/", 'http:\/\/localhost:$CALIBRE_SERVER_PORT\/\#library'"/g /usr/local/calibre-web/app/cps/embed_helper.py
+  fi
+  if [ `cat /usr/local/calibre-web/app/cps/tasks/convert.py |grep -n "#library"|wc -l` -eq 0 ]; then
+    cp /usr/local/calibre-web/app/cps/tasks/convert.py /usr/local/calibre-web/app/cps/tasks/convert.py.bak
+  else
+    cp /usr/local/calibre-web/app/cps/tasks/convert.py.bak /usr/local/calibre-web/app/cps/tasks/convert.py
+  fi
+  if [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
+    sed -i s/", library_path"/", 'http:\/\/localhost:$CALIBRE_SERVER_PORT\/\#library', '--username', '$CALIBRE_SERVER_USER', '--password', '$CALIBRE_SERVER_PASSWORD'"/g /usr/local/calibre-web/app/cps/tasks/convert.py
+  else
+    sed -i s/", library_path"/", 'http:\/\/localhost:$CALIBRE_SERVER_PORT\/\#library'"/g /usr/local/calibre-web/app/cps/tasks/convert.py
+  fi
+else
+  if [ `cat /usr/local/calibre-web/app/cps/embed_helper.py |grep -n "#library"|wc -l` -ne 0 ]; then
+    cp -f /usr/local/calibre-web/app/cps/embed_helper.py.bak /usr/local/calibre-web/app/cps/embed_helper.py
+  fi
+  if [ `cat /usr/local/calibre-web/app/cps/tasks/convert.py |grep -n "#library"|wc -l` -ne 0 ]; then
+    cp -f /usr/local/calibre-web/app/cps/tasks/convert.py.bak /usr/local/calibre-web/app/cps/tasks/convert.py
+  fi
+fi
+
 #设置时区
 ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
 echo $TZ > /etc/timezone
