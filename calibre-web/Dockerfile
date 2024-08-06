@@ -1,15 +1,17 @@
 FROM alpine:3.20
 
 ARG S6_VER=3.2.0.0
-ARG CALIBRE_WEB_VER=0.6.22
+ARG CALIBRE_WEB_VER=0.6.23
 ARG CALIBRE_VER=7.9.0
 ARG KEPUBIFY_VER=4.0.4
 ARG UNRAR_VERSION=6.2.12
 
 ENV UID=1000
 ENV GID=1000
-ENV ENABLE_CALIBRE_SERVER=true
+ENV ENABLE_CALIBRE_SERVER=false
 ENV ENABLE_CALIBRE_SERVER_OPDS=false
+ENV ENABLE_CALIBREDB_URLLIBRARYPATH=true
+ENV CALIBRE_SERVER_RESTART_AUTO=true
 ENV CALIBRE_SERVER_USER=
 ENV CALIBRE_SERVER_PASSWORD=
 ENV CALIBRE_SERVER_WEB_LANGUAGE=zh_CN
@@ -37,10 +39,12 @@ COPY --chmod=755 root /
 RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wheel expect imagemagick libintl libstdc++ libxcb mesa-gl \
             mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev libxrender libxcursor libxtst libxrandr \
             libxkbcommon libatomic libxdamage ttf-dejavu inotify-tools libldap sqlite xdg-utils xcb-util-wm xcb-util-image xcb-util-keysyms \
-            xcb-util-renderutil libxkbcommon-x11 libevent opus libvpx alsa-lib snappy minizip libxkbfile mesa-egl libb2 krb5-libs pcre2 \
+            xcb-util-renderutil libxkbcommon-x11 libevent opus alsa-lib snappy minizip libxkbfile mesa-egl libb2 krb5-libs pcre2 \
             libjpeg-turbo-utils pciutils-libs lcms2 lcms2-plugins \
 && pip3 install --no-cache-dir --break-system-package sde rapidfuzz \
 && apk add --no-cache font-wqy-zenhei --repository https://dl-cdn.alpinelinux.org/alpine/edge/community \
+#libvpx.so.8
+&& apk add --no-cache libvpx==1.13.1-r0 --repository https://dl-cdn.alpinelinux.org/alpine/v3.19/community \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
             libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake libressl-dev \
 #install unrar
@@ -79,6 +83,8 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 && if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi \
 && wget https://github.com/pgaskin/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify \
 && chmod 755 /usr/local/bin/kepubify \
+#chmod calibre-server-restart.sh
+&& chmod 755 /usr/local/calibre-server/calibre-server-restart.sh \
 #create calibre user
 && mkdir -p /home/calibre \
 && useradd -u 1000 -U -d /home/calibre -s /bin/false calibre \

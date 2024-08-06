@@ -146,7 +146,7 @@ if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_WEB_LANGUAGE"
 fi
 
 #calibre-web与calibre-server并存补丁.
-if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
+if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ "$ENABLE_CALIBREDB_URLLIBRARYPATH" == "true" ]; then
   if [ `cat /usr/local/calibre-web/app/cps/embed_helper.py |grep -n "#library"|wc -l` -eq 0 ]; then
     cp /usr/local/calibre-web/app/cps/embed_helper.py /usr/local/calibre-web/app/cps/embed_helper.py.bak
   else
@@ -176,6 +176,16 @@ else
   fi
 fi
 
+#设定定时重启calibre-server任务
+if [ "$CALIBRE_SERVER_RESTART_AUTO" == "true" ]; then
+  if [ `grep -c calibre-server-restart.sh /var/spool/cron/crontabs/root` -eq 0 ]; then
+    echo "0       0       *       *       *       /usr/local/calibre-server/calibre-server-restart.sh" >> /var/spool/cron/crontabs/root
+    echo 定时重启calibre-server任务已设定。
+  else
+    echo 定时重启calibre-server任务已存在。
+  fi
+fi
+
 #设置时区
 ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
 echo $TZ > /etc/timezone
@@ -184,6 +194,7 @@ echo $TZ > /etc/timezone
 chown -R calibre:calibre /home/calibre
 chown -R calibre:calibre /config/
 chown -R calibre:calibre /usr/local/calibre-web/
+chown -R calibre:calibre /usr/local/calibre-server/
 if [ "$ENABLE_CHOWN_LIBRARY" == "true" ]; then
   chown -R calibre:calibre /library
 fi

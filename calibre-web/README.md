@@ -15,12 +15,13 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|calibre-web|0.6.22|amd64;arm64v8;arm32v7|
+|calibre-web|0.6.23|amd64;arm64v8;arm32v7|
 |calibre-server|7.9.0|amd64;arm64v8;arm32v7|
 |kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
 
+* 0.6.22新增(基本配置-功能配置-Embed Metadata to Ebook File on Download)导致calibre-server与calibre-web冲突。如同时使用新增功能与calibre-server需开启环境变量ENABLE_CALIBREDB_URLLIBRARYPATH=true。
 * 新版更改了变量名[USER PASSWORD WEBLANGUAGE(0.6.16-5.10.1及以前)]。</br>新增CALIBRE_ASCII_FILENAME=false设定calibre支持中文目录。
 * 新增自动添加图书(配置autoaddbooks文件夹，图书添加后会自动删除)。使用此功能请备份图书。
 * arm版ebook-convert可能无法转换成PDF格式。
@@ -89,8 +90,10 @@
 | `-v /自动添加文件夹:/autoaddbooks` |calibre自动添加图书文件夹位置|
 | `-e UID=1000` |uid设置,默认为1000|
 | `-e GID=1000` |gid设置,默认为1000|
-| `-e ENABLE_CALIBRE_SERVER=true` |(true\|false)设定开启calibre-server，默认开启|
+| `-e ENABLE_CALIBRE_SERVER=false` |(true\|false)设定开启calibre-server，默认关闭|
 | `-e ENABLE_CALIBRE_SERVER_OPDS=false` |(true\|false)开启calibre-server的OPDS功能，默认不开启，arm可能不可用|
+| `-e ENABLE_CALIBREDB_URLLIBRARYPATH=true` |(true\|false)开启calibre-server与calibre-web共存补丁，默认开启|
+| `-e CALIBRE_SERVER_RESTART_AUTO=true` |(true\|false)开启calibre-server定时重启(0点)，默认开启|
 | `-e CALIBRE_SERVER_USER=用户名` |calibre-server 用户名|
 | `-e CALIBRE_SERVER_PASSWORD=用户密码` |calibre-server 用户密码|
 | `-e CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，默认中文，详见calibre-server其它语言|
@@ -129,8 +132,10 @@
 |:-|:-|
 | `UID=1000` |uid设置,默认为1000|
 | `GID=1000` |gid设置,默认为1000|
-| `ENABLE_CALIBRE_SERVER=true` |(true\|false)设定开启calibre-server，默认开启|
+| `ENABLE_CALIBRE_SERVER=false` |(true\|false)设定开启calibre-server，默认关闭|
 | `ENABLE_CALIBRE_SERVER_OPDS=false` |(true\|false)开启calibre-server的OPDS功能，默认不开启，arm可能不可用|
+| `ENABLE_CALIBREDB_URLLIBRARYPATH=true` |(true\|false)开启calibre-server与calibre-web共存补丁，默认开启|
+| `CALIBRE_SERVER_RESTART_AUTO=true` |(true\|false)开启calibre-server定时重启(0点)，默认开启|
 | `CALIBRE_SERVER_USER=` |calibre-server 用户名|
 | `CALIBRE_SERVER_PASSWORD=` |calibre-server 用户密码|
 | `CALIBRE_SERVER_WEB_LANGUAGE=zh_CN` |calibre-server web界面语言，详见calibre-server其它语言|
