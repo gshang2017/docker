@@ -1,8 +1,8 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
-ARG QBITTORRENT_VER=4.6.5
-ARG QBITTORRENT_EE_VER=4.6.5.10
+ARG QBITTORRENT_VER=4.6.6
+ARG QBITTORRENT_EE_VER=4.6.6.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 #qBittorrent-Enhanced-Edition
