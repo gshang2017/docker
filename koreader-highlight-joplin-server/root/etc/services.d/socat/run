@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+# 启动socat
+exec s6-setuidgid koreader socat tcp-listen:$SOCAT_TCP_LISTEN_PORT,reuseaddr,fork tcp:localhost:41184

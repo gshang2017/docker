@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+# 启动joplin
+exec s6-setuidgid koreader joplin server start
