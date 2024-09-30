@@ -1,0 +1,50 @@
+name: libtorrent2
+
+on:
+  push:
+    paths:
+    - 'qBittorrent/Dockerfile.libtorrent2'
+  workflow_dispatch:
+
+jobs:
+  job1:
+    name: buildx tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Set env'
+        run: |
+          echo "LIBTORRENT_VER=$(echo `grep -n "LIBTORRENT_VER=" qBittorrent/Dockerfile.libtorrent2`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "ALPINE_VER=$(echo `grep -n "alpine" qBittorrent/Dockerfile.libtorrent2`|awk -F: '{print $3}')" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          version: latest
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./qBittorrent
+          file: ./qBittorrent/Dockerfile.libtorrent2
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            ghcr.io/gshang2017/libtorrent:2
+            ghcr.io/gshang2017/libtorrent:${{ env.LIBTORRENT_VER }}-alpine-${{ env.ALPINE_VER }}

@@ -1,0 +1,16 @@
+FROM alpine:3.20
+
+ARG LIBTORRENT_VER=2.0.10
+
+RUN apk add --no-cache --virtual libtorrentdep ca-certificates cmake build-base boost-dev wget openssl-dev samurai \
+#libtorrent-rasterbar
+&& mkdir -p /tmp/libtorrentbuild \
+&& wget -P /tmp/libtorrentbuild https://github.com/arvidn/libtorrent/releases/download/v${LIBTORRENT_VER}/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz \
+&& tar -zxf /tmp/libtorrentbuild/libtorrent-rasterbar-${LIBTORRENT_VER}.tar.gz -C /tmp/libtorrentbuild \
+&& cd /tmp/libtorrentbuild/libtorrent-rasterbar-${LIBTORRENT_VER} \
+&& cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=/usr \
+&& cmake --build build -j $(nproc) \
+&& cmake --install build \
+&& strip /usr/lib/libtorrent-rasterbar.so.* \
+&& apk del libtorrentdep \
+&& rm -rf /var/cache/apk/* /tmp/*
