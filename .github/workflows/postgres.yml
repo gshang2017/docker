@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ALPINE_VER: 3.18
+  ALPINE_VER: 3.20
 
 jobs:
   job1:
@@ -15,24 +15,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: download postgres src
         run: |
           sudo apt-get update
           sudo apt-get install  git
           git clone https://github.com/docker-library/postgres.git
-          sed -i 's/coreutils/coreutils patch/g' postgres/14/alpine3.18/Dockerfile
-          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine3.18/Dockerfile
-          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < postgresql.git-99e4d24a9d77e7bb87e15b318e96dc36651a7da2.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/postgresql.git-99e4d24a9d77e7bb87e15b318e96dc36651a7da2.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < v1-0001-WIP-jit-LLVM-15-Minimal-changes.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/v1-0001-WIP-jit-LLVM-15-Minimal-changes.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < postgresql.git-0052fb489008a68d0f3e0445f52e1ab3166632a4.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/postgresql.git-0052fb489008a68d0f3e0445f52e1ab3166632a4.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < llvm14-support.patch; \\ '  postgres/14/alpine3.18/Dockerfile
-          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/llvm14-support.patch; \\ '  postgres/14/alpine3.18/Dockerfile
+          sed -i 's/coreutils/coreutils patch/g' postgres/14/alpine3.20/Dockerfile
+          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 14.1/g' postgres/14/alpine3.20/Dockerfile
+          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f/g' postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < postgresql.git-99e4d24a9d77e7bb87e15b318e96dc36651a7da2.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/postgresql.git-99e4d24a9d77e7bb87e15b318e96dc36651a7da2.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < v1-0001-WIP-jit-LLVM-15-Minimal-changes.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/v1-0001-WIP-jit-LLVM-15-Minimal-changes.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < postgresql.git-0052fb489008a68d0f3e0445f52e1ab3166632a4.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/postgresql.git-0052fb489008a68d0f3e0445f52e1ab3166632a4.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < llvm14-support.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/llvm14-support.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ patch -p1 < 0001-Replace-uses-of-deprecated-Python-module-distutils.s.patch; \\ '  postgres/14/alpine3.20/Dockerfile
+          sed -i '/cd \/usr\/src\/postgresql; \\/a\\ \ \ \ wget https://raw.githubusercontent.com/gshang2017/docker/master/tt-rss-plugins/postgresql/patches/0001-Replace-uses-of-deprecated-Python-module-distutils.s.patch; \\ '  postgres/14/alpine3.20/Dockerfile
 
       - name: Set up QEMU
         id: qemu
@@ -54,10 +56,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
-          context: ./postgres/14/alpine3.18
-          file: ./postgres/14/alpine3.18/Dockerfile
+          context: ./postgres/14/alpine3.20
+          file: ./postgres/14/alpine3.20/Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
