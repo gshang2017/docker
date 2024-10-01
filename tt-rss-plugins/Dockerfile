@@ -1,8 +1,13 @@
+FROM node:18.20.4-alpine3.20 as mercury-parser-api-build
+# install mercury-parser-api
+RUN apk add --no-cache git \
+&& npm install --prefix /usr/local/mercury-parser-api git+https://github.com/HenryQW/mercury-parser-api.git
+
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.0.0
-ARG TTRSS_VER=24.08-1fb202b2
-ARG GIT_COMMIT_SHA=1fb202b258c751cb4e64bc38603c67263cc45959
+ARG TTRSS_VER=24.09-8fcc68ba
+ARG GIT_COMMIT_SHA=8fcc68baf5b0ff964a0a4a045353462586e0e316
 
 ENV UID=1000
 ENV GID=1000
@@ -16,7 +21,7 @@ ENV TTRSS_DB_TYPE=pgsql
 ENV TTRSS_DB_PORT=5432
 ENV TTRSS_DB_HOST=0.0.0.0
 ENV TTRSS_SELF_URL_PATH=http://localhost:80/
-ENV TTRSS_PHP_EXECUTABLE=/usr/bin/php82
+ENV TTRSS_PHP_EXECUTABLE=/usr/bin/php83
 ENV TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext,af_readability
 ENV SCRIPT_ROOT=/usr/local/tt-rss/app
 ENV TZ=Asia/Shanghai
@@ -27,11 +32,13 @@ ENV POSTGRES_DB_RESTORE=false
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
+COPY --from=mercury-parser-api-build --chmod=755 /usr/local/mercury-parser-api /usr/local/mercury-parser-api
 
 # install php tt-rss caddy git [npm nodejs]-mercury-parser-api
 RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy dumb-init postgresql-client musl-locales \
-	          php82 php82-fpm php82-pdo php82-gd php82-pgsql php82-pdo_pgsql php82-mbstring php82-intl php82-xml php82-curl php82-session php82-tokenizer \
-						php82-dom php82-fileinfo php82-ctype php82-json php82-iconv php82-pcntl php82-posix php82-zip php82-exif php82-openssl php82-pecl-xdebug \
+						php83 php83-fpm php83-phar php83-sockets php83-pecl-apcu php83-pdo php83-gd php83-pgsql php83-pdo_pgsql php83-xmlwriter php83-opcache \
+						php83-mbstring php83-intl php83-xml php83-curl php83-simplexml php83-session php83-tokenizer php83-dom php83-fileinfo php83-ctype \
+						php83-json php83-iconv php83-pcntl php83-posix php83-zip php83-exif php83-openssl php83-pecl-xdebug \
 && apk add --no-cache --virtual ttrssdep clang15 llvm15 build-base \
 # install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
@@ -44,7 +51,7 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
 && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
 # install mercury-parser-api
-&& npm install --prefix /usr/local/mercury-parser-api git+https://github.com/HenryQW/mercury-parser-api.git \
+# && npm install --prefix /usr/local/mercury-parser-api git+https://github.com/HenryQW/mercury-parser-api.git \
 # install zhparser
 && wget http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2 \
 && tar -xf scws-1.2.3.tar.bz2 \
@@ -58,11 +65,11 @@ RUN apk add --no-cache bash shadow tzdata git npm nodejs ca-certificates caddy d
 && useradd -u 1000 -U -d /config -s /bin/false ttrss \
 && usermod -G users ttrss \
 # php
-&& sed -i 's/\(memory_limit =\) 128M/\1 256M/' /etc/php82/php.ini \
-&& sed -i -e 's/;\(clear_env\) = .*/\1 = no/i' /etc/php82/php-fpm.d/www.conf \
-&& sed -i -e 's/^\(user\|group\) = .*/\1 = postgres/i' /etc/php82/php-fpm.d/www.conf \
-&& sed -i -e 's/;\(php_admin_value\[error_log\]\) = .*/\1 = \/var\/log\/php82\/error.log/' /etc/php82/php-fpm.d/www.conf \
-&& sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php82/php-fpm.d/www.conf \
+&& sed -i 's/\(memory_limit =\) 128M/\1 256M/' /etc/php83/php.ini \
+&& sed -i -e 's/;\(clear_env\) = .*/\1 = no/i' /etc/php83/php-fpm.d/www.conf \
+&& sed -i -e 's/^\(user\|group\) = .*/\1 = postgres/i' /etc/php83/php-fpm.d/www.conf \
+&& sed -i -e 's/;\(php_admin_value\[error_log\]\) = .*/\1 = \/var\/log\/php83\/error.log/' /etc/php83/php-fpm.d/www.conf \
+&& sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php83/php-fpm.d/www.conf \
 # reset ttrss
 && git clone --depth 50 https://git.tt-rss.org/fox/tt-rss.git /usr/local/tt-rss/app \
 && cd /usr/local/tt-rss/app \
