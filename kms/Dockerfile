@@ -1,5 +1,5 @@
 #compiling vlmcsd
-FROM alpine:3.18 as compilingvlmcsd
+FROM alpine:3.20 as compilingvlmcsd
 
 ARG VLMCSD_VER=1113
 
@@ -10,9 +10,9 @@ RUN apk add --no-cache git build-base \
 && make
 
 # docker vlmcsd
-FROM alpine:3.18
+FROM alpine:3.20
 
-ARG S6_VER=3.1.6.0
+ARG S6_VER=3.2.0.0
 ARG VLMCSD_VER=1113
 
 ENV KMS_README_WEB=true
