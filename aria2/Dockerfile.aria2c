@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.20
 
 ARG ARIA2_VER=1.37.0
 
