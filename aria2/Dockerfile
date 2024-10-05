@@ -2,11 +2,11 @@
 FROM ghcr.io/gshang2017/aria2c:latest as compilingaria2c
 
 # docker aria2
-FROM alpine:3.18
+FROM alpine:3.20
 
 ARG ARIA2_VER=1.37.0
 ARG AriaNg_VER=1.3.7
-ARG S6_VER=3.1.6.2
+ARG S6_VER=3.2.0.0
 
 ENV UID=1000
 ENV GID=1000
