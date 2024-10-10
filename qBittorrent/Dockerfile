@@ -1,7 +1,7 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
-ARG QBITTORRENT_VER=4.6.7
+ARG QBITTORRENT_VER=5.0.0
 ARG QBITTORRENT_EE_VER=4.6.7.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
@@ -29,6 +29,38 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 && if [ -e /usr/lib/libtorrent-rasterbar.so.2.0 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent; fi \
 && if [ -e /usr/lib/libtorrent-rasterbar.so.10 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.10 /qbittorrent; fi
 
+#compiling qB2
+FROM ghcr.io/gshang2017/libtorrent:2 as compilingqB2
+
+ARG QBITTORRENT_VER=5.0.0
+ARG QBITTORRENT_EE_VER=4.6.7.10
+
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
+#qBittorrent-Enhanced-Edition
+&& mkdir -p /tmp/qbbuild \
+&& wget -P /tmp/qbbuild https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
+&& unzip -q /tmp/qbbuild/release-${QBITTORRENT_EE_VER}.zip -d /tmp/qbbuild \
+&& cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release-${QBITTORRENT_EE_VER} \
+&& cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=ON -DGUI=OFF \
+&& cmake --build build-nox -j $(nproc) \
+&& cmake --install build-nox \
+&& strip /usr/local/bin/qbittorrent-nox \
+&& mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee2-nox \
+#qBittorrent
+&& wget -P /tmp/qbbuild https://github.com/qbittorrent/qBittorrent/archive/release-${QBITTORRENT_VER}.zip \
+&& unzip -q /tmp/qbbuild/release-${QBITTORRENT_VER}.zip -d /tmp/qbbuild \
+&& cd /tmp/qbbuild/qBittorrent-release-${QBITTORRENT_VER} \
+&& cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=ON -DGUI=OFF \
+&& cmake --build build-nox -j $(nproc) \
+&& cmake --install build-nox \
+&& strip /usr/local/bin/qbittorrent-nox \
+&& mkdir /qbittorrent \
+&& mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrent2-nox \
+&& cp --parents /usr/local/bin/qbittorrent2-nox /qbittorrent \
+&& cp --parents /usr/local/bin/qbittorrentee2-nox /qbittorrent \
+&& if [ -e /usr/lib/libtorrent-rasterbar.so.2.0 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent; fi \
+&& if [ -e /usr/lib/libtorrent-rasterbar.so.10 ];then cp --parents /usr/lib/libtorrent-rasterbar.so.10 /qbittorrent; fi
+
 # docker qB
 FROM alpine:3.20
 
@@ -40,6 +72,7 @@ ENV UMASK=022
 ENV TZ=Asia/Shanghai
 ENV QB_WEBUI_PORT=8989
 ENV QB_EE_BIN=false
+ENV LIBTORRENT2=false
 ENV QB_TRACKERS_UPDATE_AUTO=true
 ENV QB_TRACKERS_LIST_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 ENV ENABLE_CHOWN_DOWNLOADS=true
@@ -49,6 +82,7 @@ ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
 COPY --from=compilingqB --chmod=755 /qbittorrent /
+COPY --from=compilingqB2 --chmod=755 /qbittorrent /
 
 #install bash curl tzdata python3 shadow qt6
 RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbase-sqlite qt6-qtbase wget \

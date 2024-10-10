@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent-qBittorrentEE|4.6.7-4.6.7.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent-qBittorrentEE|5.0.0-4.6.7.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 #### 版本升级注意：
 
@@ -86,6 +86,7 @@
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e QB_WEBUI_PORT=8989` |web访问端口环境变量|
 | `-e QB_EE_BIN=false` |(true\|false)设置使用qBittorrent-EE,默认不使用|
+| `-e LIBTORRENT2=false` |(true\|false)设置使用libtorrent2.0编译版,默认不使用|
 | `-e QB_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新qBittorrent的trackers,默认开启|
 | `-e QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `-e ENABLE_CHOWN_DOWNLOADS=true` |(true\|false)设定修复Downloads文件夹拥有者，默认开启|
@@ -119,6 +120,7 @@
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `QB_WEBUI_PORT=8989` |web访问端口环境变量|
 | `QB_EE_BIN=false` |(true\|false)设置使用qBittorrent-EE,默认不使用|
+| `LIBTORRENT2=false` |(true\|false)设置使用libtorrent2.0编译版,默认不使用|
 | `QB_TRACKERS_UPDATE_AUTO=true` |(true\|false)自动更新qBittorrent的trackers,默认开启|
 | `QB_TRACKERS_LIST_URL=` |trackers更新地址设置,仅支持ngosang格式,默认为 </br>https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
 | `ENABLE_CHOWN_DOWNLOADS=true` |(true\|false)设定修复Downloads文件夹拥有者，默认开启|
