@@ -1,6 +1,7 @@
-FROM jlesage/baseimage-gui:debian-10-v4.2.2
+FROM jlesage/baseimage-gui:debian-12-v4.6.4
 
 ARG BAIDUNETDISK_VER=4.17.7
+ARG BAIDUNETDISK_VER_ARM64=4.17.7
 
 ENV APP_NAME="Baidunetdisk"
 ENV NOVNC_LANGUAGE="zh_Hans"
@@ -13,13 +14,16 @@ COPY --chmod=755 startapp.sh /startapp.sh
 
 RUN apt-get update \
 && apt-get install -y wget libnss3 libxss1 desktop-file-utils libasound2 ttf-wqy-zenhei libgtk-3-0 libgbm1 libnotify4 \
-                      xdg-utils libsecret-common libsecret-1-0 libindicator3-7 libdbusmenu-glib4 libdbusmenu-gtk3-4 libappindicator3-1 procps \
-&& wget https://issuepcdn.baidupcs.com/issue/netdisk/LinuxGuanjia/${BAIDUNETDISK_VER}/baidunetdisk_${BAIDUNETDISK_VER}_amd64.deb \
-&& dpkg -i  baidunetdisk_${BAIDUNETDISK_VER}_amd64.deb \
-&& rm  baidunetdisk_${BAIDUNETDISK_VER}_amd64.deb \
+                      xdg-utils libsecret-common libsecret-1-0 libdbusmenu-glib4 libdbusmenu-gtk3-4 procps \
+                      libayatana-indicator3-7 libayatana-appindicator3-1 libayatana-ido3-0.4-0 \
+&& if [ "$(uname -m)" = "x86_64" ];then baidunetdisk_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then baidunetdisk_arch=arm64; fi \
+&& if [ "$(uname -m)" = "x86_64" ];then baidunetdisk_ver=${BAIDUNETDISK_VER};elif [ "$(uname -m)" = "aarch64" ];then baidunetdisk_ver=${BAIDUNETDISK_VER_ARM64}; fi \
+&& wget https://issuepcdn.baidupcs.com/issue/netdisk/LinuxGuanjia/${baidunetdisk_ver}/baidunetdisk_${baidunetdisk_ver}_${baidunetdisk_arch}.deb \
+&& dpkg -i  baidunetdisk_${baidunetdisk_ver}_${baidunetdisk_arch}.deb \
+&& rm  baidunetdisk_${baidunetdisk_ver}_${baidunetdisk_arch}.deb \
 && install_app_icon.sh https://raw.githubusercontent.com/gshang2017/docker/master/baidunetdisk/icon/baidunetdisk.png \
 #fix window decorations
-&& sed -i 's/normal/desktop/g' /opt/base/etc/jwm/main-window-group.sh \
+&& sed -i 's@<decor>no<\/decor>@<decor>yes<\/decor>@g' /opt/base/etc/openbox/rc.xml.template \
 #novnc_language
 && mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
 #fix dpkg
