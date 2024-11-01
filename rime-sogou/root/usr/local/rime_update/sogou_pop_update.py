@@ -18,55 +18,44 @@ if not os.path.exists('/usr/local/sogouscelupdate'):
 #指定工作目录
 os.chdir('/usr/local/sogouscelupdate')
 
-#
-qq_url_set = os.getenv('QQ_URL_SET',default = 'False') == 'True'
-if qq_url_set:
-    filename_extension = ".qcel"
-else:
-    filename_extension = ".scel"
-
 #下载细胞词文件temp.scel
-if qq_url_set:
-    url = 'http://cdict.qq.pinyin.cn/download?dict_id=s4'
-else:
-    url = 'https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D%E3%80%90%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E3%80%91&f=detail'
+url = 'https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D%E3%80%90%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E3%80%91&f=detail'
 r = requests.get(url)
-scel_file = open("temp"+filename_extension, "wb+")
+scel_file = open("temp.scel", "wb+")
 scel_file.write(r.content)
 scel_file.close()
 
 #计算md5
-md5_file = open("temp"+filename_extension, 'rb')
+md5_file = open("temp.scel", 'rb')
 data = md5_file.read()
 md5 = hashlib.md5(data).hexdigest()
 md5_file.close()
 print(md5)
 
 #判断文件是否更新（md5）
-if os.path.exists(md5+filename_extension):
-    os.remove("temp"+filename_extension)
+if os.path.exists(md5+".scel"):
+    os.remove("temp.scel")
     os._exit(0)
 else:
-    file_size = os.stat("temp"+filename_extension).st_size
+    file_size = os.stat("temp.scel").st_size
     #判断文件大小
     if file_size > 2000:
-        os.rename("temp"+filename_extension,md5+filename_extension)
+        os.rename("temp.scel",md5+".scel")
     else:
-        os.remove("temp"+filename_extension)
+        os.remove("temp.scel")
         os._exit(0)
 
 #删除多余.scel文件
 n = 0
 for root, dirs, files in os.walk('./'):
     for name in files:
-        if(not name.startswith(md5) and name.endswith(filename_extension)):
+        if(not name.startswith(md5) and name.endswith(".scel")):
          n += 1
          print(n)
          os.remove(os.path.join(root, name))
 
-
 #转换.scel文件
-scel_md5_file = glob("*"+filename_extension)
+scel_md5_file = glob("*"+".scel")
 dict_name = os.getenv('SOGOU_DICT_NAME')
 if dict_name is None:
    dict_name = 'luna_pinyin_simp.sogou_pop'
@@ -74,10 +63,7 @@ elif len(dict_name) == 0:
    dict_name = 'luna_pinyin_simp.sogou_pop'
 rime_freq = os.getenv('RIME_FREQ',default = 2000001)
 scel_output_file = '{name}.dict.yaml'.format(name=dict_name)
-if qq_url_set:
-    command='''dotnet /usr/local/imewlconverter/ImeWlConverterCmd.dll -i:qcel %s -r:%s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),rime_freq,scel_output_file)
-else:
-    command='''dotnet /usr/local/imewlconverter/ImeWlConverterCmd.dll -i:scel %s -r:%s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),rime_freq,scel_output_file)
+command='''dotnet /usr/local/imewlconverter/publish/ImeWlConverterCmd.dll -i:scel %s -r:%s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),rime_freq,scel_output_file)
 os.system(command)
 
 #完善yaml文件输出格式
@@ -90,7 +76,7 @@ data1 = '''# Rime dictionary
 # ~/.config/ibus/rime  (Linux ibus)
 # ~/.config/fcitx/rime  (Linux fcitx)
 # ~/Library/Rime  (Mac OS)
-# %APPDATA%\Rime  (Windows)
+# %APPDATA%\\Rime  (Windows)
 #
 # 于重新部署后生效
 #
@@ -127,6 +113,12 @@ for root, dirs, files in os.walk('./'):
          n += 1
          print(n)
          os.remove(os.path.join(root, name))
+
+#opencc转换
+rime_opencc = os.getenv('RIME_OPENCC',default = 'False')== 'True'
+rime_opencc_config = os.getenv('RIME_OPENCC_CONFIG',default = 's2t.json')
+if rime_opencc:
+    os.system('''opencc  --noflush 1 -i %s -o %s -c %s''' %(scel_output_file,scel_output_file,rime_opencc_config))
 
 #复制yaml文件到指定目录
 os.chmod(scel_output_file, 0o0777)
