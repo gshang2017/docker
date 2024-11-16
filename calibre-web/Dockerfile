@@ -1,7 +1,7 @@
 FROM alpine:3.20
 
-ARG S6_VER=3.2.0.0
-ARG CALIBRE_WEB_VER=0.6.23
+ARG S6_VER=3.2.0.2
+ARG CALIBRE_WEB_VER=0.6.24
 ARG CALIBRE_VER=7.9.0
 ARG KEPUBIFY_VER=4.0.4
 ARG UNRAR_VERSION=6.2.12
@@ -46,7 +46,7 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 #libvpx.so.8
 && apk add --no-cache libvpx==1.13.1-r0 --repository https://dl-cdn.alpinelinux.org/alpine/v3.19/community \
 && apk add --no-cache --virtual calibrewebdep build-base rust cargo libffi-dev git python3-dev openldap-dev libxml2-dev \
-            libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake libressl-dev \
+            libxslt-dev libjpeg-turbo-dev libevent-dev file cython cmake libressl-dev linux-headers \
 #install unrar
 && mkdir /tmp/unrar \
 && wget -P /tmp https://www.rarlab.com/rar/unrarsrc-${UNRAR_VERSION}.tar.gz \
@@ -75,6 +75,9 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 && mkdir -p /usr/local/calibre-web/app \
 && cp -rf /tmp/calibre-web-${CALIBRE_WEB_VER}/* /usr/local/calibre-web/app \
 #install calibre-web dep
+# armv7l netifaces-plu
+&& if [ "$(uname -m)" = "armv7l" ];then pip install git+https://github.com/tsukumijima/netifaces-plus@release_0_12_3 --break-system-packages; fi \
+#
 && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
 && apk add --no-cache py3-lxml py3-cryptography poppler-data py3-gevent \
 && pip3 install --no-cache-dir --break-system-package -r /usr/local/calibre-web/app/requirements.txt \
