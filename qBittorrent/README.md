@@ -14,7 +14,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qBittorrent-qBittorrentEE|5.0.1-5.0.0.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
+|qBittorrent-qBittorrentEE|5.0.2-5.0.0.10|(amd64;arm64v8;arm32v7) 集成Trackers自动更新|
 
 #### 版本升级注意：
 
