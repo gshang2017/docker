@@ -2,7 +2,7 @@
 FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
 
 ARG QBITTORRENT_VER=5.0.2
-ARG QBITTORRENT_EE_VER=5.0.0.10
+ARG QBITTORRENT_EE_VER=5.0.2.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 #qBittorrent-Enhanced-Edition
@@ -33,7 +33,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 FROM ghcr.io/gshang2017/libtorrent:2 as compilingqB2
 
 ARG QBITTORRENT_VER=5.0.2
-ARG QBITTORRENT_EE_VER=5.0.0.10
+ARG QBITTORRENT_EE_VER=5.0.2.10
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 #qBittorrent-Enhanced-Edition
