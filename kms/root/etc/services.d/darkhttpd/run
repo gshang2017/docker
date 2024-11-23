@@ -2,5 +2,8 @@
 
 #启动darkhttpd
 if [ "$KMS_README_WEB" == "true" ]; then
-  exec darkhttpd /home/www
+  exec s6-setuidgid kms darkhttpd /home/www --port $KMS_README_WEB_PORT
+else
+  s6-svc -Od .
+  exit 0
 fi

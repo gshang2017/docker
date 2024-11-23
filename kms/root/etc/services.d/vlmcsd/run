@@ -1,4 +1,4 @@
 #! /usr/bin/with-contenv bash
 
 #启动vlmcsd
-exec vlmcsd -D
+exec s6-setuidgid kms vlmcsd -D -P $VLMCSD_SERVER_PORT
