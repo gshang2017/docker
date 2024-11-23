@@ -90,6 +90,7 @@
 | `-v /自动添加文件夹:/autoaddbooks` |calibre自动添加图书文件夹位置|
 | `-e UID=1000` |uid设置,默认为1000|
 | `-e GID=1000` |gid设置,默认为1000|
+| `-e ENABLE_AUTOADDBOOKS=true` |(true\|false)设定开启自动添加图书功能，默认开启|
 | `-e ENABLE_CALIBRE_SERVER=false` |(true\|false)设定开启calibre-server，默认关闭|
 | `-e ENABLE_CALIBRE_SERVER_OPDS=false` |(true\|false)开启calibre-server的OPDS功能，默认不开启，arm可能不可用|
 | `-e ENABLE_CALIBREDB_URLLIBRARYPATH=true` |(true\|false)开启calibre-server与calibre-web共存补丁，默认开启|
@@ -132,6 +133,7 @@
 |:-|:-|
 | `UID=1000` |uid设置,默认为1000|
 | `GID=1000` |gid设置,默认为1000|
+| `ENABLE_AUTOADDBOOKS=true` |(true\|false)设定开启自动添加图书功能，默认开启|
 | `ENABLE_CALIBRE_SERVER=false` |(true\|false)设定开启calibre-server，默认关闭|
 | `ENABLE_CALIBRE_SERVER_OPDS=false` |(true\|false)开启calibre-server的OPDS功能，默认不开启，arm可能不可用|
 | `ENABLE_CALIBREDB_URLLIBRARYPATH=true` |(true\|false)开启calibre-server与calibre-web共存补丁，默认开启|

@@ -1,17 +1,22 @@
 #! /usr/bin/with-contenv bash
 
 # 启动inotify
-while inotifywait -e close -e move -r /autoaddbooks; do
-    if [ "`ls -A /autoaddbooks`" != "" ]; then
-      inotifywait -mr /autoaddbooks -t 30
-      if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
-        mv /opt/calibre/bin/calibre-server /opt/calibre/bin/calibre-server.bak
-        ps -ef |grep /opt/calibre/bin/calibre-server |grep -v grep|awk '{print $1}'|xargs kill -9
-        su -p calibre -s /bin/bash -c "calibredb add -r /autoaddbooks $CALIBREDB_OTHER_OPTION --library-path=/library"
-        mv /opt/calibre/bin/calibre-server.bak /opt/calibre/bin/calibre-server
-      else
-        su -p calibre -s /bin/bash -c "calibredb add -r /autoaddbooks $CALIBREDB_OTHER_OPTION --library-path=/library"
+if [ "$ENABLE_AUTOADDBOOKS" == "true" ]; then
+  while inotifywait -e close -e move -r /autoaddbooks; do
+      if [ "`ls -A /autoaddbooks`" != "" ]; then
+        inotifywait -mr /autoaddbooks -t 30
+        if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
+          mv /opt/calibre/bin/calibre-server /opt/calibre/bin/calibre-server.bak
+          ps -ef |grep /opt/calibre/bin/calibre-server |grep -v grep|awk '{print $1}'|xargs kill -9
+          su -p calibre -s /bin/bash -c "calibredb add -r /autoaddbooks $CALIBREDB_OTHER_OPTION --library-path=/library"
+          mv /opt/calibre/bin/calibre-server.bak /opt/calibre/bin/calibre-server
+        else
+          su -p calibre -s /bin/bash -c "calibredb add -r /autoaddbooks $CALIBREDB_OTHER_OPTION --library-path=/library"
+        fi
+        rm -r /autoaddbooks/*
       fi
-      rm -r /autoaddbooks/*
-    fi
-done
+  done
+else
+  s6-svc -Od .
+  exit 0
+fi

@@ -206,7 +206,9 @@ if [ -f /opt/calibre/bin/calibre-server.bak ]; then
   mv /opt/calibre/bin/calibre-server.bak /opt/calibre/bin/calibre-server
 fi
 #添加图书.
-if [ "`ls -A /autoaddbooks`" != "" ];then
-  su -p calibre -s /bin/bash -c "calibredb add -r /autoaddbooks $CALIBREDB_OTHER_OPTION --library-path=/library"
-  rm -r /autoaddbooks/*
+if [ "$ENABLE_AUTOADDBOOKS" == "true" ]; then
+  if [ "`ls -A /autoaddbooks`" != "" ];then
+    su -p calibre -s /bin/bash -c "calibredb add -r /autoaddbooks $CALIBREDB_OTHER_OPTION --library-path=/library"
+    rm -r /autoaddbooks/*
+  fi
 fi

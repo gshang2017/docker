@@ -12,4 +12,7 @@ if [ "$ENABLE_CALIBRE_SERVER" == "true" ]; then
   else
     exec s6-setuidgid calibre calibre-server $CALIBRE_SERVER_OTHER_OPTION /library --port $CALIBRE_SERVER_PORT
   fi
+else
+  s6-svc -Od .
+  exit 0
 fi
