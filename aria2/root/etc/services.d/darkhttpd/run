@@ -1,4 +1,9 @@
 #! /usr/bin/with-contenv bash
 
 #启动darkhttpd
-exec s6-setuidgid aria2 darkhttpd /usr/local/aria2/AriaNg --port 8080
+if [ "$ENABLE_ARIANG" == "true" ]; then
+  exec s6-setuidgid aria2 darkhttpd /usr/local/aria2/AriaNg --port $ARIANG_PORT
+else
+  s6-svc -Od .
+  exit 0
+fi
