@@ -19,7 +19,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-24.10-68da94cc|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-24.11-4dfa7a66|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
 
 #### 版本升级注意：
 
@@ -123,6 +123,7 @@
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
 | `-e TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
+| `-e TTRSS_CADDY_PORT=80` |tt-rss访问及caddy端口，无需更改|
 | `-e POSTGRES_DB_DUMP=false` |PostgreSQL备份(true\|false)，不能与还原同时使用，仅启动时执行|
 | `-e POSTGRES_DB_RESTORE=false` |PostgreSQL还原(true\|false)，不能与备份同时使用，仅启动时执行|
 
@@ -165,6 +166,7 @@
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
 | `TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
+| `TTRSS_CADDY_PORT=80` |tt-rss访问及caddy端口，无需更改|
 | `POSTGRES_DB_DUMP=false` |PostgreSQL备份(true\|false)，不能与还原同时使用，仅启动时执行|
 | `POSTGRES_DB_RESTORE=false` |PostgreSQL还原(true\|false)，不能与备份同时使用，仅启动时执行|
 
