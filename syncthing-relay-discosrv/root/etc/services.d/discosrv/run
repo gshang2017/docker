@@ -6,4 +6,4 @@ do
    sleep 5
 done
 
-exec s6-setuidgid stsrv /usr/local/bin/stdiscosrv -db-dir="/config/discosrvdb" -cert="/config/certs/cert.pem" -key="/config/certs/key.pem" ${DISCO_OTHER_OPTION} 
+exec s6-setuidgid stsrv /usr/local/bin/stdiscosrv --db-dir="/config/discosrvdb" --cert="/config/certs/cert.pem" --key="/config/certs/key.pem" ${DISCO_OTHER_OPTION}

@@ -4,6 +4,9 @@
 if [ ! -d /config/discosrvdb ]; then
   mkdir -p /config/discosrvdb
 fi
+if [ ! -f /config/discosrvdb/records.db ]; then
+  touch /config/discosrvdb/records.db
+fi
 if [ ! -d /config/certs ]; then
   mkdir -p /config/certs
 fi
