@@ -1,9 +1,13 @@
 #! /usr/bin/with-contenv bash
 
 #启动 stdiscosrv
-while [ ! -f "/config/certs/cert.pem" ] || [ ! -f "/config/certs/key.pem" ]
-do
-   sleep 5
-done
-
-exec s6-setuidgid stsrv /usr/local/bin/stdiscosrv --db-dir="/config/discosrvdb" --cert="/config/certs/cert.pem" --key="/config/certs/key.pem" ${DISCO_OTHER_OPTION}
+if [ "$ENABLE_STDISCOSRV" == "true" ]; then
+  while [ ! -f "/config/certs/cert.pem" ] || [ ! -f "/config/certs/key.pem" ]
+  do
+     sleep 5
+  done
+  exec s6-setuidgid stsrv /usr/local/bin/stdiscosrv --db-dir="/config/discosrvdb" --cert="/config/certs/cert.pem" --key="/config/certs/key.pem" ${DISCO_OTHER_OPTION}
+else
+  s6-svc -Od .
+  exit 0
+fi

@@ -1,5 +1,9 @@
 #! /usr/bin/with-contenv bash
 
 #启动 strelaysrv
-
-exec s6-setuidgid stsrv /usr/local/bin/strelaysrv -global-rate="${GLOBAL_RATE}" -keys="/config/certs" -message-timeout="${MESSAGE_TIMEOUT}" -network-timeout="${NETWORK_TIMEOUT}" -per-session-rate="${PER_SESSION_RATE}" -ping-interval="${PING_INTERVAL}" -pools="${POOLS}" -provided-by="${PROVIDED_BY}" ${RELAY_OTHER_OPTION}
+if [ "$ENABLE_STRELAYSRV" == "true" ]; then
+  exec s6-setuidgid stsrv /usr/local/bin/strelaysrv -global-rate="${GLOBAL_RATE}" -keys="/config/certs" -message-timeout="${MESSAGE_TIMEOUT}" -network-timeout="${NETWORK_TIMEOUT}" -per-session-rate="${PER_SESSION_RATE}" -ping-interval="${PING_INTERVAL}" -pools="${POOLS}" -provided-by="${PROVIDED_BY}" ${RELAY_OTHER_OPTION}
+else
+  s6-svc -Od .
+  exit 0
+fi

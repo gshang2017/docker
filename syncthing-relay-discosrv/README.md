@@ -12,8 +12,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|strelaysrv|1.28.0|amd64;arm64v8;arm32v7|
-|stdiscosrv|1.28.0|amd64;arm64v8;arm32v7|
+|strelaysrv|1.28.1|amd64;arm64v8;arm32v7|
+|stdiscosrv|1.28.1|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -61,6 +61,8 @@
 | `-v /配置文件位置:/config` |可不设置，/config/discosrvdb为同步发现服务器数据库位置；/config/certs为服务器证书位置,设置后证书不变,重装后 device ID不变|
 | `-e UID=1000` |uid设置,默认为1000|
 | `-e GID=1000` |gid设置,默认为1000|
+| `-e ENABLE_STDISCOSRV=true` |(true\|false)设定开启发现服务器，默认开启|
+| `-e ENABLE_STRELAYSRV=true` |(true\|false)设定开启中继服务器，默认开启|
 | `-e GLOBAL_RATE=100000000` |全局速率限制 单位为bytes/s|
 | `-e PER_SESSION_RATE=10000000` | 每个会话速率限制 单位为bytes/s|
 | `-e MESSAGE_TIMEOUT=1m30s` |等待相关消息到达的最长时间|
@@ -93,6 +95,8 @@
 |:-|:-|
 | `UID=1000` |uid设置,默认为1000|
 | `GID=1000` |gid设置,默认为1000|
+| `ENABLE_STDISCOSRV=true` |(true\|false)设定开启发现服务器，默认开启|
+| `ENABLE_STRELAYSRV=true` |(true\|false)设定开启中继服务器，默认开启|
 | `GLOBAL_RATE=100000000` |全局速率限制 单位为bytes/s|
 | `PER_SESSION_RATE=10000000` | 每个会话速率限制 单位为bytes/s|
 | `MESSAGE_TIMEOUT=1m30s` |等待相关消息到达的最长时间|
