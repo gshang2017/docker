@@ -1,0 +1,45 @@
+#compiling qB
+FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
+
+ARG QBITTORRENT_EE_VER=5.0.2.10
+
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
+&& mkdir -p /tmp/qbbuild \
+&& mkdir /qbittorrent \
+&& cp --parents /usr/lib/libtorrent-rasterbar.so.10 /qbittorrent \
+#qBittorrent-Enhanced-Edition
+&& wget -O /tmp/qbbuild/qbittorrent.zip https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/release-${QBITTORRENT_EE_VER}.zip \
+&& unzip -q /tmp/qbbuild/qbittorrent.zip -d /tmp/qbbuild \
+&& cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release* \
+&& cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=ON -DGUI=OFF \
+&& cmake --build build-nox -j $(nproc) \
+&& cmake --install build-nox \
+&& strip /usr/local/bin/qbittorrent-nox \
+&& mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee-nox \
+&& cp --parents /usr/local/bin/qbittorrentee-nox /qbittorrent
+
+
+#compiling qB2
+FROM ghcr.io/gshang2017/libtorrent:2 as compilingqB2
+
+COPY --from=compilingqB /tmp/qbbuild/qbittorrent.zip /tmp/qbbuild/qbittorrent.zip
+
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
+&& mkdir /qbittorrent \
+&& cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent \
+#qBittorrent-Enhanced-Edition
+&& unzip -q /tmp/qbbuild/qbittorrent.zip -d /tmp/qbbuild \
+&& cd /tmp/qbbuild/qBittorrent-Enhanced-Edition-release* \
+&& cmake -B build-nox -G Ninja -DCMAKE_BUILD_TYPE=Release -DSTACKTRACE=OFF -DQT6=ON -DGUI=OFF \
+&& cmake --build build-nox -j $(nproc) \
+&& cmake --install build-nox \
+&& strip /usr/local/bin/qbittorrent-nox \
+&& mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrentee2-nox \
+&& cp --parents /usr/local/bin/qbittorrentee2-nox /qbittorrent
+
+
+# docker qB-nox qBee-nox
+FROM alpine:3.21
+
+COPY --from=compilingqB --chmod=755 /qbittorrent /qbittorrent
+COPY --from=compilingqB2 --chmod=755 /qbittorrent /qbittorrent

@@ -4,6 +4,8 @@ on:
   push:
     paths:
     - 'qBittorrent/Dockerfile'
+    - 'qBittorrent/Dockerfile.qb'
+    - 'qBittorrent/Dockerfile.qbee'
     - 'qBittorrent/root/**'
   workflow_dispatch:
 
@@ -17,8 +19,103 @@ jobs:
 
       - name: 'Set env'
         run: |
-          echo "QBITTORRENT_VER=$(echo `grep -n "QBITTORRENT_VER=" qBittorrent/Dockerfile`|awk -F= '{print $3}')" >> $GITHUB_ENV
-          echo "QBITTORRENT_EE_VER=$(echo `grep -n "QBITTORRENT_EE_VER=" qBittorrent/Dockerfile`|awk -F= '{print $3}')" >> $GITHUB_ENV
+          echo "QBITTORRENT_VER=$(echo `grep -n "QBITTORRENT_VER=" qBittorrent/Dockerfile.qb`|awk -F= '{print $2}')" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: latest
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check image exist
+        id: qb-check-step
+        run: |
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/qbittorrent-nox:${{ env.QBITTORRENT_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+
+      - name: Build and push
+        if : ( steps.qb-check-step.outputs.skipnext  != 'true' )
+        uses: docker/build-push-action@v6
+        with:
+          context: ./qBittorrent
+          file: ./qBittorrent/Dockerfile.qb
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            ghcr.io/gshang2017/qbittorrent-nox:latest
+            ghcr.io/gshang2017/qbittorrent-nox:${{ env.QBITTORRENT_VER }}
+
+  job2:
+    name: buildx tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Set env'
+        run: |
+          echo "QBITTORRENT_EE_VER=$(echo `grep -n "QBITTORRENT_EE_VER=" qBittorrent/Dockerfile.qbee`|awk -F= '{print $2}')" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: latest
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check image exist
+        id: qbee-check-step
+        run: |
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/qbittorrentee-nox:${{ env.QBITTORRENT_EE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+
+      - name: Build and push
+        if : ( steps.qbee-check-step.outputs.skipnext  != 'true' )
+        uses: docker/build-push-action@v6
+        with:
+          context: ./qBittorrent
+          file: ./qBittorrent/Dockerfile.qbee
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            ghcr.io/gshang2017/qbittorrentee-nox:latest
+            ghcr.io/gshang2017/qbittorrentee-nox:${{ env.QBITTORRENT_EE_VER }}
+
+  job3:
+    needs: [job1, job2]
+    name: buildx tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Set env'
+        run: |
+          echo "QBITTORRENT_VER=$(echo `grep -n "QBITTORRENT_VER=" qBittorrent/Dockerfile.qb`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "QBITTORRENT_EE_VER=$(echo `grep -n "QBITTORRENT_EE_VER=" qBittorrent/Dockerfile.qbee`|awk -F= '{print $2}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
