@@ -63,5 +63,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: johngong/tt-rss
-          short-description: Tiny Tiny RSS:plugins-${{ env.TTRSS_VER }},集成postgres数据库,mercury-parser-api及一些常用插件
+          short-description: Tiny Tiny RSS:plugins-${{ env.TTRSS_VER }},集成postgres数据库,mercury-parser-api,opencc-api,及一些常用插件
           readme-filepath: ./tt-rss-plugins/README.md

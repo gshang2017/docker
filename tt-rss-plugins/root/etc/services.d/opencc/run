@@ -1,0 +1,8 @@
+#! /usr/bin/with-contenv bash
+
+#启动 opencc api
+if [ $ENABLE_OPENCC == "true" ]; then
+	exec s6-setuidgid ttrss node /usr/local/OpenCC.henry.wang/node_modules/opencc.henry.wang/bin/www
+esle
+	exit 0
+fi

@@ -9,6 +9,8 @@
 [https://git.tt-rss.org/fox/tt-rss.git](https://git.tt-rss.org/fox/tt-rss.git "https://git.tt-rss.org/fox/tt-rss.git")  
 [https://github.com/docker-library/postgres](https://github.com/docker-library/postgres "https://github.com/docker-library/postgres")   
 [https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api "https://github.com/HenryQW/mercury-parser-api")  
+[https://github.com/HenryQW/OpenCC.henry.wang](https://github.com/HenryQW/OpenCC.henry.wang "https://github.com/HenryQW/OpenCC.henry.wang")  
+[https://github.com/HenryQW/ttrss_opencc](https://github.com/HenryQW/ttrss_opencc "https://github.com/HenryQW/ttrss_opencc")  
 [https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron "https://github.com/feediron/ttrss_plugin-feediron")     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin "https://github.com/DigitalDJ/tinytinyrss-fever-plugin")      
@@ -19,7 +21,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-24.11-4dfa7a66|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api及一些常用插件|
+|ttrss|plugins-24.12-7b727156|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 
@@ -65,6 +67,7 @@
            -p 80:80 \
            -p 5432:5432 \
            -p 3000:3000 \
+           -p 4000:4000 \
            -v /配置文件位置:/config  \
            -v /PostgreSQL存储数据的位置:/var/lib/postgresql/data  \
            -e UID=1000  \
@@ -103,6 +106,7 @@
 | `-p 80:80` |tt-rss服务器web端口; 默认用户名:admin,默认密码:password|
 | `-p 5432:5432` |PostgreSQL服务器端口|
 | `-p 3000:3000` |mercury-parser-api 服务端口|
+| `-p 4000:4000` |opencc-api 服务端口|
 | ` -v /配置文件位置:/config` |tt-rss配置文件位置|
 | `-v /PostgreSQL存储数据的位置:/var/lib/postgresql/data` |PostgreSQL存储数据的位置|
 | `-e UID=1000` |uid设置,默认为1000,不支持设定为0|
@@ -124,6 +128,12 @@
 | `-e TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
 | `-e TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
 | `-e TTRSS_CADDY_PORT=80` |tt-rss访问及caddy端口，无需更改|
+| `-e ENABLE_MERCURY=true` |(true\|false)mercury-parser-api服务,默认开启|
+| `-e MERCURY_PORT=3000` |mercury-parser-api监听端口，无需更改|
+| `-e ENABLE_OPENCC=false` |(true\|false)opencc-api服务,默认关闭|
+| `-e OPENCC_PORT=4000` |opencc-api服务监听端口，无需更改|
+| `-e PGPORT=5432` |PostgreSQL监听端口，无需更改|
+| `-e PHP_LISTEN_PORT=9000` |PHP监听端口，无需更改|
 | `-e POSTGRES_DB_DUMP=false` |PostgreSQL备份(true\|false)，不能与还原同时使用，仅启动时执行|
 | `-e POSTGRES_DB_RESTORE=false` |PostgreSQL还原(true\|false)，不能与备份同时使用，仅启动时执行|
 
@@ -142,7 +152,8 @@
 |:-|:-|
 | `本地端口1:80` |tt-rss服务器web端口; 默认用户名:admin,默认密码:password|
 | `本地端口2:3000` |mercury-parser-api 服务端口|
-| `本地端口3:5432` |postgres数据库服务端口|
+| `本地端口3:4000` |opencc-api 服务端口|
+| `本地端口4:5432` |postgres数据库服务端口|
 
 3. 环境变量：
 
@@ -167,6 +178,12 @@
 | `TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
 | `TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
 | `TTRSS_CADDY_PORT=80` |tt-rss访问及caddy端口，无需更改|
+| `ENABLE_MERCURY=true` |(true\|false)mercury-parser-api服务,默认开启|
+| `MERCURY_PORT=3000` |mercury-parser-api监听端口，无需更改|
+| `ENABLE_OPENCC=false` |(true\|false)opencc-api服务,默认关闭|
+| `OPENCC_PORT=4000` |opencc-api服务监听端口，无需更改|
+| `PGPORT=5432` |PostgreSQL监听端口，无需更改|
+| `PHP_LISTEN_PORT=9000` |PHP监听端口，无需更改|
 | `POSTGRES_DB_DUMP=false` |PostgreSQL备份(true\|false)，不能与还原同时使用，仅启动时执行|
 | `POSTGRES_DB_RESTORE=false` |PostgreSQL还原(true\|false)，不能与备份同时使用，仅启动时执行|
 
@@ -175,7 +192,12 @@
 * mercury_fulltext：
 
   1. 偏好设置启用插件
-  2. 信息源栏 Mercury Fulltext settings 填入 [ip:本地端口2](ip:本地端口2)
+  2. 供稿栏 Mercury Fulltext settings 填入 [ip:本地端口2](ip:本地端口2)
+
+* opencc：
+
+  1. 偏好设置启用插件
+  2. 供稿栏 opencc settings 填入 [ip:本地端口3](ip:本地端口3)
 
 ### 中文搜索设置：
 

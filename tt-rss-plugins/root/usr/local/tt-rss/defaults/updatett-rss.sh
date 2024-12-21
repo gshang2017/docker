@@ -36,6 +36,9 @@ if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
   # update plugin fever
   cd /usr/local/tt-rss/app/plugins.local/fever
   git pull --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
+  # update plugin opencc
+  cd /usr/local/tt-rss/app/plugins.local/opencc
+  git pull --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
   # update plugin feedly-theme
   cd /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme
   Oldversion="`git rev-parse HEAD`"

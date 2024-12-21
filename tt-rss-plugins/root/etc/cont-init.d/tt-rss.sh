@@ -75,6 +75,10 @@ fi
 if [ ! -d "/config/plugins.local/af_readability" ]; then
   cp -rf /usr/local/tt-rss/defaults/plugins.local/af_readability /config/plugins.local/
 fi
+#检查opencc plugins
+if [ ! -d "/config/plugins.local/opencc" ]; then
+  cp -rf /usr/local/tt-rss/defaults/plugins.local/opencc /config/plugins.local/
+fi
 
 #检查templates.local文件夹位置
 if [ ! -d "/config/templates.local" ]; then
@@ -164,6 +168,11 @@ if [ -n "$POSTGRES_GID" ] && [ -n "$POSTGRES_UID" ]; then
   else
     echo 请设定POSTGRES_UID与POSTGRES_GID为非0数值...
   fi
+fi
+
+#修改php监听端口
+if [ "$PHP_LISTEN_PORT" != "$(grep -E  "^listen = 127.0.0.1" /etc/php83/php-fpm.d/www.conf|awk -F: '{print $2}')" ]; then
+  sed -i -e "s/^listen = 127.0.0.1.*/listen = 127.0.0.1:$PHP_LISTEN_PORT/" /etc/php83/php-fpm.d/www.conf
 fi
 
 #更改文件夹权限
