@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e # Exit immediately if a command exits with a non-zero status.
+set -u # Treat unset variables as an error.
+
+[ `ps | grep "/usr/lib/bluetooth/bluetoothd" |grep -v grep |wc -l` -eq 1 ]
+
+# vim:ft=sh:ts=4:sw=4:et:sts=4

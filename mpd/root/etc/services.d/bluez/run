@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e # Exit immediately if a command exits with a non-zero status.
+
+if [ -n "$BLUETOOTHD_OPTION" ] ; then
+	exec /usr/lib/bluetooth/bluetoothd -n $BLUETOOTHD_OPTION
+else
+	exec /usr/lib/bluetooth/bluetoothd -n
+fi
+
+# vim:ft=sh:ts=4:sw=4:et:sts=4

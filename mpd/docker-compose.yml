@@ -1,0 +1,61 @@
+services:
+  mpd:
+    # github镜像：ghcr.io/johngong/mpd:latest
+    image: johngong/mpd:latest
+    # 容器名
+    container_name: mpd
+    # bluetooth需要host网络
+    network_mode: host
+    # bluetooth需要NET_ADMIN权限
+    cap_add:
+      - NET_ADMIN
+    devices:
+      # bluetooth设备
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      # mpd配置文件位置
+      - ./config:/config
+      # 音乐文件位置
+      - ./config/music:/config/music
+      # 蓝牙配对信息存储位置
+      - ./config/bluetooth:/var/lib/bluetooth
+    environment:
+      # uid设置,默认为1000
+      USER_ID: 1000
+      # gid设置,默认为1000
+      GROUP_ID: 1000
+      # blueman Web界面访问端口
+      WEB_LISTENING_PORT: 5800
+      # blueman VNC协议访问端口
+      VNC_LISTENING_PORT: 5900
+      # mpd监听端口
+      MPD_PORT: 6600
+      # blueman界面语言设置,默认为英语,(中文需设置为zh_CN.UTF-8)
+      LC_ALL: C
+      # (zh_Hans|en)设定novnc语言,(中文需设置为zh_Hans)
+      NOVNC_LANGUAGE: en
+      # (true|false)开启mpd(output输出设备仅有一个)进程,默认开启
+      ENABLE_MPC_IDLE: true
+      # (true|false)开启mympd,默认开启
+      ENABLE_MYMPD: true
+      # (true|false)开启mympd的http访问,默认开启
+      MYMPD_HTTP: true
+      # mympd的http访问端口,默认80
+      MYMPD_HTTP_PORT: 80
+      # (true|false)开启mympd的ssl访问,默认关闭
+      #MYMPD_SSL: false
+      # mympd的ssl访问端口,默认443
+      #MYMPD_SSL_PORT: 443
+      # bluez选项(例如 --plugin=a2dp,avrcp)
+      #BLUETOOTHD_OPTION:
+      # 系统时区设置,默认为Asia/Shanghai
+      #TZ: Asia/Shanghai
+      # mpd配置文件位置
+      #HOME: /config
+      # (true|false)关闭窗口最大化,默认关闭
+      #ENABLE_FIX_OPENBOX_DECOR: false
+      # VNC密码
+      #VNC_PASSWORD: password
+      # blueman日志等级,默认为error
+      #BLUEMAN_LOGLEVEL: error
+    restart: unless-stopped
