@@ -15,8 +15,8 @@ RUN apk add --no-cache git python3 build-base \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.0.2
-ARG TTRSS_VER=24.12-7b727156
-ARG GIT_COMMIT_SHA=7b727156780236cb639c52e45d07cc80c1f2b0d3
+ARG TTRSS_VER=24.12-d85cfb5c
+ARG GIT_COMMIT_SHA=d85cfb5c56ea75e1ba6fd849461cbf898ab837a1
 
 ENV UID=1000
 ENV GID=1000

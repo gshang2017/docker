@@ -6,22 +6,22 @@
 
 ### 感谢以下项目:
 
-[https://git.tt-rss.org/fox/tt-rss.git](https://git.tt-rss.org/fox/tt-rss.git "https://git.tt-rss.org/fox/tt-rss.git")  
-[https://github.com/docker-library/postgres](https://github.com/docker-library/postgres "https://github.com/docker-library/postgres")   
-[https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api "https://github.com/HenryQW/mercury-parser-api")  
-[https://github.com/HenryQW/OpenCC.henry.wang](https://github.com/HenryQW/OpenCC.henry.wang "https://github.com/HenryQW/OpenCC.henry.wang")  
-[https://github.com/HenryQW/ttrss_opencc](https://github.com/HenryQW/ttrss_opencc "https://github.com/HenryQW/ttrss_opencc")  
-[https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext "https://github.com/HenryQW/mercury_fulltext")  
-[https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron "https://github.com/feediron/ttrss_plugin-feediron")     
-[https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin "https://github.com/DigitalDJ/tinytinyrss-fever-plugin")      
-[https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git "https://git.tt-rss.org/fox/ttrss-af-readability.git")      
-[https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme "https://github.com/levito/tt-rss-feedly-theme")
+[https://git.tt-rss.org/fox/tt-rss.git](https://git.tt-rss.org/fox/tt-rss.git)  
+[https://github.com/docker-library/postgres](https://github.com/docker-library/postgres)   
+[https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api)  
+[https://github.com/HenryQW/OpenCC.henry.wang](https://github.com/HenryQW/OpenCC.henry.wang)  
+[https://github.com/HenryQW/ttrss_opencc](https://github.com/HenryQW/ttrss_opencc)  
+[https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext)  
+[https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron)     
+[https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)      
+[https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git)      
+[https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme)
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-24.12-7b727156|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
+|ttrss|plugins-24.12-d85cfb5c|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 
@@ -207,7 +207,7 @@
 
 #### 注意：
 
-* 手动添加zhparser扩展：
+* 手动添加zhparser扩展(仅用于旧数据升级)：
 
 |标题|命令|举例|
 |:-|:-|:-|
@@ -226,10 +226,10 @@
 
 |平台|软件|
 |:-|:-|
-|android|feedme (免费)|
-|linux|NewsFlash(免费),fluent-reader(免费)|
-|mac os x|Reeder 4,fluent-reader(免费)|
-|windows|fluent-reader(免费)|
+|android|[feedme](https://github.com/seazon/FeedMe/releases), [ttrss](https://gitlab.tt-rss.org/tt-rss/tt-rss-android/-/releases)|
+|linux|[NewsFlash](https://gitlab.com/news-flash/news_flash_gtk),[fluent-reader](https://github.com/yang991178/fluent-reader/releases)|
+|mac os x|[fluent-reader](https://github.com/yang991178/fluent-reader/releases)|
+|windows|[fluent-reader](https://github.com/yang991178/fluent-reader/releases)|
 
 ### 其它：
 
