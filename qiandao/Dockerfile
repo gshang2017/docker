@@ -1,7 +1,7 @@
-FROM alpine:3.19
+FROM alpine:3.21
 
-ARG S6_VER=3.1.6.2
-ARG QIANDAO_VER=20240210
+ARG S6_VER=3.2.0.2
+ARG QIANDAO_VER=v_fdcc02d
 
 ENV UID=1000
 ENV GID=1000
@@ -10,6 +10,7 @@ ENV DOMAIN=
 ENV MAIL_SMTP=
 ENV MAIL_PORT=
 ENV MAIL_SSL=True
+ENV MAIL_STARTTLS=False
 ENV MAIL_USER=
 ENV MAIL_PASSWORD=
 ENV MAIL_FROM=
@@ -35,7 +36,8 @@ RUN  apk add --no-cache shadow bash ca-certificates tzdata python3 py3-pip py3-w
 # install qiandao
 && mkdir -p /usr/local/qiandao/app \
 && git config --global advice.detachedHead false \
-&& git clone --depth 1 -b ${QIANDAO_VER} https://github.com/qd-today/qd.git /usr/local/qiandao/app \
+&& git clone --depth 20 https://github.com/qd-today/qd.git /usr/local/qiandao/app \
+#&& git clone --depth 1 -b ${QIANDAO_VER} https://github.com/qd-today/qd.git /usr/local/qiandao/app \
 # add safe.directory
 && git config --global --add safe.directory /usr/local/qiandao/app \
 #del ddddocr redis

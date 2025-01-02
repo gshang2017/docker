@@ -12,16 +12,9 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|qiandao|20240210|amd64;arm64v8;arm32v7|
+|qiandao|v_fdcc02d|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
-
-* 变量名变更
-
-    |版本|20220901及以后|v_380e25e及以前|
-    |:-:|:-|:-|
-    |1|MAIL_SMTP|MAIL_STMP|
-    |2|ADMIN_MAIL|ADMINEMAIL|
 
 1. 下载镜像
 
@@ -90,6 +83,7 @@
 | `-e MAIL_SMTP=` |邮件smtp地址，可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
 | `-e MAIL_PORT=` |邮件端口值，ssl端口465 starttls端口587 非ssl端口25|
 | `-e MAIL_SSL=True` |邮件ssl开关，(True\|False),默认开启此功能|
+| `-e MAIL_STARTTLS=False` |邮件starttls开关，(True\|False),默认关闭此功能|
 | `-e MAIL_USER=` |邮件账户|
 | `-e MAIL_PASSWORD=` |邮件密码|
 | `-e MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
@@ -122,6 +116,7 @@
 | `MAIL_SMTP=` |邮件smtp地址，可不设置，设置后可发送签到失败提醒mail，需同时设置DOMAIN值|
 | `MAIL_PORT=` |邮件端口值，ssl端口465 starttls端口587 非ssl端口25|
 | `MAIL_SSL=True` |邮件ssl开关，(True\|False),默认开启此功能|
+| `MAIL_STARTTLS=False` |邮件starttls开关，(True\|False),默认关闭此功能|
 | `MAIL_USER=` |邮件账户|
 | `MAIL_PASSWORD=` |邮件密码|
 | `MAIL_FROM=` |发送时使用的邮箱，默认与MAIL_USER相同|
@@ -132,7 +127,7 @@
 * 公开模板：
 
 1. https://qiandao.today/tpls/public
-2. https://github.com/qiandao-today/templates
+2. https://github.com/qd-today/templates
 
 ### MAIL配置说明：
 
@@ -143,16 +138,16 @@
        MAIL_STARTTLS=True
        MAIL_USER=**@hotmail.com
        MAIL_PASSWORD=**
-       ENABLE_MAIL_STARTTLS=true
 
 2. 以qq邮箱配置为例：
 
        MAIL_SMTP=smtp.qq.com
        MAIL_PORT=465       
        MAIL_SSL=True
+       MAIL_STARTTLS=False
        MAIL_USER=**@qq.com
        MAIL_PASSWORD=** （此值需入qq邮箱设置,开启POP3/SMTP服务并生成授权码）
 
 ### 其它设置
 
-* 详见[https://github.com/qiandao-today/qiandao](https://github.com/qiandao-today/qiandao)
+* 详见[https://github.com/qd-today/qd](https://github.com/qd-today/qd)

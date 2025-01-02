@@ -1,0 +1,25 @@
+services:
+  mpd:
+    # github镜像：ghcr.io/johngong/qiandao:latest
+    image: johngong/qiandao:latest
+    container_name: qiandao
+    ports:
+      - 8923:8923
+    volumes:
+      - ./config:/config
+    environment:
+      UID: 1000
+      GID: 1000
+      #TZ: Asia/Shanghai
+      DOMAIN: ip_addr:port
+      MAIL_SMTP: smtp.qq.com
+      MAIL_PORT: 465
+      MAIL_SSL: "True"
+      MAIL_STARTTLS: "False"
+      MAIL_USER: 12345678@qq.com
+      MAIL_PASSWORD: password
+      #MAIL_FROM:
+      #MAIL_DOMAIN:
+      ADMIN_MAIL: 12345678@qq.com
+      QIANDAO_UPDATE_AUTO: false
+    restart: unless-stopped
