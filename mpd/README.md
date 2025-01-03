@@ -15,13 +15,14 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|mpd|0.23.15|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
+|mpd|0.23.16|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
+|myMPD|19.0.2|mpd的web管理界面|
 
 #### 注意：
 
 * 需关闭系统上蓝牙服务(ubuntu: sudo systemctl stop bluetooth && sudo systemctl disable bluetooth),重启系统。恢复系统上蓝牙服务(ubuntu: sudo systemctl enable bluetooth)。
 * 默认配置倍速播放功能，可用Android远程控制服务端连蓝牙播放，可自动切换输出设备（需开启ENABLE_MPC_IDLE）。
-* 群晖DSM7以后去除了蓝牙功能，需手动添加。安装synokernel-usbserial软件(SynoKernel USB Serial drivers)以及[synology-bluetooth](https://github.com/kcsoft/synology-bluetooth)
+* 群晖DSM7以后去除了蓝牙功能，需手动添加。安装[synology-bluetooth](https://github.com/kcsoft/synology-bluetooth)，apollolake可以参考[dsm-bluetooth](https://github.com/gshang2017/dsm-bluetooth)
 
 ### docker命令行设置：
 
@@ -159,5 +160,5 @@
 
 |平台|软件|
 |:-|:-|
-|android|[MPDroid](https://github.com/abarisain/dmix)(中文界面需自行编译)|
+|android|[MPDroid](https://github.com/abarisain/dmix)(中文需自行编译或者[下载](https://github.com/gshang2017/dmix))|
 |android|[avnc](https://github.com/gujjwal00/avnc)|

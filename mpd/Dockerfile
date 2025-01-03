@@ -1,6 +1,6 @@
-FROM alpine:3.20 as myMPD
+FROM alpine:3.21 as myMPD
 
-ARG MYMPD_VER=19.0.1
+ARG MYMPD_VER=19.0.2
 
 WORKDIR /myMPD
 RUN wget -O /tmp/mympd.tar.gz https://github.com/jcorporation/myMPD/archive/refs/tags/v${MYMPD_VER}.tar.gz
@@ -10,9 +10,9 @@ RUN cmake -B "release" -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Relea
 RUN make -j $(nproc) -C "release"
 
 
-FROM jlesage/baseimage-gui:alpine-3.20-v4
+FROM jlesage/baseimage-gui:alpine-3.21-v4
 
-ARG MPD_VER=0.23.15
+ARG MPD_VER=0.23.16
 
 ENV APP_NAME=MPD
 ENV TZ=Asia/Shanghai
