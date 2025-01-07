@@ -1,4 +1,9 @@
 #! /usr/bin/with-contenv bash
+
+#修改用户UID GID
+groupmod -o -g "$GID" koreader
+usermod -o -u "$UID" koreader
+
 #检查log-clipper.txt文件(inotify需要)
 if [ ! -e "/config/.config/joplin/log-clipper.txt" ]; then
   mkdir -p $HOME/.config/joplin/
