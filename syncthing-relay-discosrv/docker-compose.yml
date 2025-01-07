@@ -1,0 +1,26 @@
+services:
+  syncthing-relay-discosrv:
+    # github镜像：ghcr.io/johngong/syncthing-relay-discosrv:latest
+    image: johngong/syncthing-relay-discosrv:latest
+    container_name: syncthing-relay-discosrv
+    ports:
+      - 22067:22067
+      - 22070:22070
+      - 8443:8443
+    volumes:
+      - ./config:/config
+    environment:
+      UID: 1000
+      GID: 1000
+      ENABLE_STDISCOSRV: true
+      ENABLE_STRELAYSRV: true
+      GLOBAL_RATE: 100000000
+      PER_SESSION_RATE: 10000000
+      MESSAGE_TIMEOUT: 1m30s
+      NATWORK_TIMEOUT: 3m0s
+      PING_INTERVAL: 1m30s
+      PROVIDED_BY: strelaysrv
+      #POOLS:
+      #DISCO_OTHER_OPTION:
+      #RELAY_OTHER_OPTION:
+    restart: unless-stopped

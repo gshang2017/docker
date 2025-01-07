@@ -6,14 +6,14 @@
 
 ### 感谢以下项目:
 
-[https://github.com/syncthing](https://github.com/syncthing "https://github.com/syncthing")
+[https://github.com/syncthing](https://github.com/syncthing)
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|strelaysrv|1.28.1|amd64;arm64v8;arm32v7|
-|stdiscosrv|1.28.1|amd64;arm64v8;arm32v7|
+|strelaysrv|1.29.0|amd64;arm64v8;arm32v7|
+|stdiscosrv|1.29.0|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
@@ -70,8 +70,8 @@
 | `-e PING_INTERVAL=1m30s` | ping的发送频率|
 | `-e PROVIDED_BY="strelaysrv"` |中继提供者|
 | `-e POOLS=` |中继服务器地址列表,如果不填则为私有中继|
-| `-e DISCO_OTHER_OPTION=` |同步发现服务器其它自添加选项,`-debug -http -listen -metrics -listen -replicate -replication-listen`，选项说明详见:[https://docs.syncthing.net/users/stdiscosrv.html](https://docs.syncthing.net/users/stdiscosrv.html "https://docs.syncthing.net/users/stdiscosrv.html")|
-| `-e RELAY_OTHER_OPTION=` |同步中继服务器其它自添加选项,`-debug -ext-address -listen -nat -nat-lease -nat-renewal -nat-timeout -protocol -status-srv`，选项说明详见:[https://docs.syncthing.net/users/strelaysrv.html](https://docs.syncthing.net/users/strelaysrv.html "https://docs.syncthing.net/users/strelaysrv.html")|
+| `-e DISCO_OTHER_OPTION=` |同步发现服务器其它自添加选项,`-debug -http -listen -metrics -listen -replicate -replication-listen`，选项说明详见:[https://docs.syncthing.net/users/stdiscosrv.html](https://docs.syncthing.net/users/stdiscosrv.html)|
+| `-e RELAY_OTHER_OPTION=` |同步中继服务器其它自添加选项,`-debug -ext-address -listen -nat -nat-lease -nat-renewal -nat-timeout -protocol -status-srv`，选项说明详见:[https://docs.syncthing.net/users/strelaysrv.html](https://docs.syncthing.net/users/strelaysrv.html)|
 
 ### 群晖docker设置：
 
@@ -104,8 +104,8 @@
 | `PING_INTERVAL=1m30s` | ping的发送频率|
 | `PROVIDED_BY="strelaysrv"` |中继提供者|
 | `POOLS=` |中继服务器地址列表,如果不填则为私有中继|
-| `DISCO_OTHER_OPTION=` |同步发现服务器其它自添加选项,`-debug -http -listen -metrics -listen -replicate -replication-listen`，选项说明详见:[https://docs.syncthing.net/users/stdiscosrv.html](https://docs.syncthing.net/users/stdiscosrv.html "https://docs.syncthing.net/users/stdiscosrv.html")|
-| `RELAY_OTHER_OPTION=` |同步中继服务器其它自添加选项,`-debug -ext-address -listen -nat -nat-lease -nat-renewal -nat-timeout -protocol -status-srv`，选项说明详见:[https://docs.syncthing.net/users/strelaysrv.html](https://docs.syncthing.net/users/strelaysrv.html "https://docs.syncthing.net/users/strelaysrv.html")|
+| `DISCO_OTHER_OPTION=` |同步发现服务器其它自添加选项,`-debug -http -listen -metrics -listen -replicate -replication-listen`，选项说明详见:[https://docs.syncthing.net/users/stdiscosrv.html](https://docs.syncthing.net/users/stdiscosrv.html)|
+| `RELAY_OTHER_OPTION=` |同步中继服务器其它自添加选项,`-debug -ext-address -listen -nat -nat-lease -nat-renewal -nat-timeout -protocol -status-srv`，选项说明详见:[https://docs.syncthing.net/users/strelaysrv.html](https://docs.syncthing.net/users/strelaysrv.html")|
 
 ### 客户端配置：
 
@@ -117,14 +117,14 @@
 
 * 界面- 操作-设置-连接
 
-1. 协议监听地址:[ relay://ip或域名:本地端口1/?id=deviceID]( relay://ip或域名:本地端口1/?id=deviceID " relay://ip或域名:本地端口1/?id=deviceID"),例:[relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM "relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM")
+1. 协议监听地址:[ relay://ip或域名:本地端口1/?id=deviceID]( relay://ip或域名:本地端口1/?id=deviceID),例:[relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM)
 2. 开启（启用NAT遍历 全球发现[自用可不开启] 本地发现 开启中继）
-3. 全球发现服务器:[https://ip或域名:本地端口3/?id=deviceID](https://ip或域名:本地端口3/?id=deviceID "https://ip或域名:本地端口3/?id=deviceID"),例:[https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM "https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM")
+3. 全球发现服务器:[https://ip或域名:本地端口3/?id=deviceID](https://ip或域名:本地端口3/?id=deviceID),例:[https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](https://disco.example.com:8443/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM)
 
 *  界面- 远程设备
 
-1. 具体连接设备-选项-高级-地址列表:[relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM "relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM")
+1. 具体连接设备-选项-高级-地址列表:[relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM](relay://private-relay-1.example.com:22067/?id=ITZRNXE-YNROGBZ-HXTH5P7-VK5NYE5-QHRQGE2-7JQ6VNJ-KZUEDIU-5PPR5AM)
 
 ### 其它：
 
-详见[https://docs.syncthing.net/users/](https://docs.syncthing.net/users/ "https://docs.syncthing.net/users/")
+详见[https://docs.syncthing.net/users/](https://docs.syncthing.net/users/)

@@ -1,7 +1,7 @@
-FROM syncthing/discosrv:1.28.1 as discosrvbin
-FROM syncthing/relaysrv:1.28.1 as relaysrvbin
+FROM syncthing/discosrv:1.29.0 as discosrvbin
+FROM syncthing/relaysrv:1.29.0 as relaysrvbin
 
-FROM alpine:3.20
+FROM alpine:3.21
 
 ARG S6_VER=3.2.0.2
 
