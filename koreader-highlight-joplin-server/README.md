@@ -13,7 +13,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|koreader-highlight-joplin-server|3.0.1|amd64;arm64v8|
+|koreader-highlight-joplin-server|3.2.1|amd64;arm64v8|
 
 #### 同步说明：
 

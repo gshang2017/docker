@@ -1,0 +1,19 @@
+services:
+  koreader-highlight-joplin-server:
+    # github镜像：ghcr.io/johngong/koreader-highlight-joplin-server:latest
+    image: johngong/koreader-highlight-joplin-server:latest
+    container_name: koreader-highlight-joplin-server
+    ports:
+      - 41185:41185
+    volumes:
+      - ./config:/config
+    environment:
+      UID: 1000
+      GID: 1000
+      #TZ: Asia/Shanghai
+      JOPLIN_SYNC_PATH: https://example.com
+      JOPLIN_SYNC_USERNAME: user
+      JOPLIN_SYNC_PASSWORD: password
+      HOME: /config
+      SOCAT_TCP_LISTEN_PORT: 41185
+    restart: unless-stopped
