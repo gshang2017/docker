@@ -1,0 +1,4 @@
+#! /usr/bin/with-contenv bash
+
+# 启动redis-server
+exec s6-setuidgid koreader redis-server /app/koreader-sync-server/config/redis.conf

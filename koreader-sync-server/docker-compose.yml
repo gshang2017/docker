@@ -1,0 +1,17 @@
+services:
+  koreader-sync-server:
+    # github镜像：ghcr.io/johngong/koreader-sync-server:latest
+    image: johngong/koreader-sync-server:latest
+    container_name: koreader-sync-server
+    ports:
+      - 7200:7200
+    volumes:
+      - ./config:/config
+      - ./logs/app:/app/koreader-sync-server/logs
+      - ./logs/redis:/var/log/redis
+      - ./data/redis:/var/lib/redis
+    environment:
+      UID: 1000
+      GID: 1000
+      #TZ: Asia/Shanghai
+    restart: unless-stopped

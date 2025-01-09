@@ -1,0 +1,5 @@
+#! /usr/bin/with-contenv bash
+
+# 启动koreader-sync-server
+cd /app/koreader-sync-server
+exec s6-setuidgid koreader gin start
