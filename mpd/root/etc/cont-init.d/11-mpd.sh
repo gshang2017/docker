@@ -115,3 +115,4 @@ if [ ! -d $HOME/music ]; then
 fi
 
 chown -R app:app $HOME/mpd
+chown -R app:app /usr/local/mpd
