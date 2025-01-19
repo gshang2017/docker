@@ -1,0 +1,29 @@
+services:
+  aria2:
+    # github镜像：ghcr.io/johngong/aria2:latest
+    image: johngong/aria2:latest
+    container_name: aria2
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 6800:6800
+      - 8080:8080
+    volumes:
+      - ./config:/config
+      - ./Downloads:/Downloads
+    environment:
+      UID: 1000
+      GID: 1000
+      UMASK: "022"
+      #TZ: Asia/Shanghai
+      ARIA2_RPC_SECRET:
+      ARIA2_RPC_LISTEN_PORT: 6800
+      ARIA2_LISTEN_PORT: 6881
+      ARIA2_TRACKERS_UPDATE_AUTO: true
+      ARIA2_TRACKERS_LIST_URL: "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt"
+      ARIA2_CONF_LANGUAGE: zh_Hans
+      ENABLE_ARIANG: true
+      ARIANG_PORT: 8080
+      ARIANG_RPC_SECRET_AUTO: true
+      ARIANG_RPC_LISTEN_PORT_AUTO: true
+    restart: unless-stopped
