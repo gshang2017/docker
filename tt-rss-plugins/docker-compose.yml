@@ -1,0 +1,42 @@
+services:
+  tt-rss:
+    # github镜像：ghcr.io/johngong/tt-rss:latest
+    image: johngong/tt-rss:latest
+    container_name: tt-rss
+    ports:
+      - 80:80
+      - 5432:5432
+      - 3000:3000
+      - 4000:4000
+    volumes:
+      - ./config:/config
+      - ./data:/var/lib/postgresql/data
+    environment:
+      UID: 1000
+      GID: 1000
+      #POSTGRES_UID:
+      #POSTGRES_GID:
+      POSTGRES_DB: ttrss
+      POSTGRES_USER: ttrss
+      POSTGRES_PASSWORD: ttrss
+      TTRSS_DB_NAME: ttrss
+      TTRSS_DB_USER: ttrss
+      TTRSS_DB_PASS: ttrss
+      TTRSS_DB_TYPE: pgsql
+      TTRSS_DB_PORT: 5432
+      TTRSS_DB_HOST: 0.0.0.0
+      TTRSS_SELF_URL_PATH: http://localhost:80/
+      TTRSS_PLUGINS: auth_internal,fever,mercury_fulltext,af_readability
+      #TZ: Asia/Shanghai
+      TTRSS_ALLOW_PORTS: 80,443
+      TTRSS_UPDATE_AUTO: true
+      TTRSS_CADDY_PORT: 80
+      ENABLE_MERCURY: true
+      MERCURY_PORT: 3000
+      ENABLE_OPENCC: false
+      OPENCC_PORT: 4000
+      PGPORT: 5432
+      #PHP_LISTEN_PORT: 9000
+      #POSTGRES_DB_DUMP: false
+      #POSTGRES_DB_RESTORE: false
+    restart: unless-stopped

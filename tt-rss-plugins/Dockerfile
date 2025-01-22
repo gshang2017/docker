@@ -1,6 +1,7 @@
-FROM node:18.20.4-alpine3.20 as mercury-parser-api-build
+FROM node:18.20-alpine3.21 AS mercury-parser-api-build
 
-RUN apk add --no-cache git python3 build-base \
+RUN apk add --no-cache git python3 make \
+&& apk add --no-cache gcc=13.2.1_git20240309-r0 g++=13.2.1_git20240309-r0 --repository https://dl-cdn.alpinelinux.org/alpine/v3.20/main \
 # install mercury-parser-api
 && npm install --prefix /usr/local/mercury-parser-api git+https://github.com/HenryQW/mercury-parser-api.git \
 && sed -i 's/env.PORT/env.MERCURY_PORT/' /usr/local/mercury-parser-api/node_modules/mercury-parser-api/config.js \
@@ -15,8 +16,8 @@ RUN apk add --no-cache git python3 build-base \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.0.2
-ARG TTRSS_VER=24.12-d85cfb5c
-ARG GIT_COMMIT_SHA=d85cfb5c56ea75e1ba6fd849461cbf898ab837a1
+ARG TTRSS_VER=25.01-a071edaa
+ARG GIT_COMMIT_SHA=a071edaa9d79ea646d6c36bb8b26de087d14f795
 
 ENV UID=1000
 ENV GID=1000
