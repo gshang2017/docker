@@ -1,5 +1,5 @@
 services:
-  mpd:
+  qiandao:
     # github镜像：ghcr.io/johngong/qiandao:latest
     image: johngong/qiandao:latest
     container_name: qiandao

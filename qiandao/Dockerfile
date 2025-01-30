@@ -1,7 +1,8 @@
-FROM alpine:3.21
+FROM python:3.12.8-alpine3.21
 
+ARG CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 ARG S6_VER=3.2.0.2
-ARG QIANDAO_VER=v_fdcc02d
+ARG QIANDAO_VER=20250128
 
 ENV UID=1000
 ENV GID=1000
@@ -18,11 +19,12 @@ ENV MAIL_DOMAIN=
 ENV ADMIN_MAIL=
 ENV QIANDAO_UPDATE_AUTO=false
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
+ENV PATH=/opt/venv/bin:$PATH
 
 COPY --chmod=755 root /
 
-RUN  apk add --no-cache shadow bash ca-certificates tzdata python3 py3-pip py3-wheel py3-curl sqlite git curl wget py3-cryptography py3-pycryptodome \
-&& apk add --no-cache --virtual qiandaodep build-base python3-dev libffi-dev \
+RUN  apk add --no-cache shadow bash ca-certificates tzdata sqlite git curl wget \
+&& apk add --no-cache --virtual qiandaodep build-base python3-dev libffi-dev curl-dev cargo \
 # install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
@@ -36,18 +38,16 @@ RUN  apk add --no-cache shadow bash ca-certificates tzdata python3 py3-pip py3-w
 # install qiandao
 && mkdir -p /usr/local/qiandao/app \
 && git config --global advice.detachedHead false \
-&& git clone --depth 20 https://github.com/qd-today/qd.git /usr/local/qiandao/app \
-#&& git clone --depth 1 -b ${QIANDAO_VER} https://github.com/qd-today/qd.git /usr/local/qiandao/app \
+&& git clone --depth 1 -b ${QIANDAO_VER} https://github.com/qd-today/qd.git /usr/local/qiandao/app \
 # add safe.directory
 && git config --global --add safe.directory /usr/local/qiandao/app \
 #del ddddocr redis
 && sed -i '/redis/d' /usr/local/qiandao/app/requirements.txt \
 && sed -i '/ddddocr/d' /usr/local/qiandao/app/requirements.txt \
-# apk add py3-cryptography py3-pycryptodome
-&& sed -i '/cryptography/d' /usr/local/qiandao/app/requirements.txt \
-&& sed -i '/pycryptodome/d' /usr/local/qiandao/app/requirements.txt \
 #
-&& pip3 install --no-cache-dir --break-system-packages -r /usr/local/qiandao/app/requirements.txt \
+&& python3 -m venv /opt/venv \
+&& pip3 install --no-cache-dir -r /usr/local/qiandao/app/requirements.txt \
+&& pip3 install --no-cache-dir pycurl \
 #create qiandao user
 &&  useradd -u 1000 -U -d /config -s /bin/false qiandao \
 &&  usermod -G users qiandao \
