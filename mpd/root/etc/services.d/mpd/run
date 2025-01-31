@@ -7,6 +7,6 @@ if [ ! -f $HOME/mpd/database ];then
   #default volume 30
   nohup bash -c 'until [ `mpc >/dev/null 2>&1; echo $?` -eq 0 ];do sleep 2;done && mpc volume 30' >/dev/null 2>&1 &
 fi
-exec mpd $HOME/mpd/mpd.conf --no-daemon
+exec /usr/local/bin/mpd $HOME/mpd/mpd.conf --no-daemon
 
 # vim:ft=sh:ts=4:sw=4:et:sts=4

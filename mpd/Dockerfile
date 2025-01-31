@@ -1,4 +1,4 @@
-FROM alpine:3.21 as myMPD
+FROM alpine:3.21 AS mympd
 
 ARG MYMPD_VER=19.0.3
 
@@ -10,9 +10,75 @@ RUN cmake -B "release" -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Relea
 RUN make -j $(nproc) -C "release"
 
 
-FROM jlesage/baseimage-gui:alpine-3.21-v4
+FROM alpine:3.21 AS mpd
 
-ARG MPD_VER=0.23.16
+ARG MPD_VER=0.23.17
+
+RUN apk add --no-cache abuild-meson build-base \
+  alsa-lib-dev \
+  avahi-dev \
+  boost-dev \
+  curl-dev \
+  expat-dev \
+  faad2-dev \
+  ffmpeg-dev \
+  flac-dev \
+  fmt-dev \
+  glib-dev \
+  gtest-dev \
+  icu-dev \
+  jack-dev \
+  lame-dev \
+  libao-dev \
+  libcap-utils \
+  libcdio-paranoia-dev \
+  libid3tag-dev \
+  libmad-dev \
+  libmodplug-dev \
+  libmpdclient-dev \
+  libnfs-dev \
+  libogg-dev \
+  libsamplerate-dev \
+  libshout-dev \
+  libvorbis-dev \
+  meson \
+  opus-dev \
+  pipewire-dev \
+  pulseaudio-dev \
+  py3-attrs \
+  py3-sphinx \
+  samba-dev \
+  soxr-dev \
+  wavpack-dev \
+&& mkdir -p /tmp/mpdbuild \
+&& wget -P /tmp/mpdbuild https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${MPD_VER}.tar.gz \
+&& tar -zxf /tmp/mpdbuild/v${MPD_VER}.tar.gz -C /tmp/mpdbuild \
+&& cd /tmp/mpdbuild/MPD-${MPD_VER} \
+&& abuild-meson \
+  -Dshout=enabled \
+  -Dopus=enabled \
+  -Dmodplug=enabled \
+  -Dnfs=enabled \
+  -Dsmbclient=enabled \
+  -Dffmpeg=enabled \
+  -Dlibmpdclient=enabled \
+  -Dcdio_paranoia=enabled \
+  -Dzeroconf=avahi \
+  -Dtest=true \
+  -Ddocumentation=enabled \
+  -Dwavpack=enabled \
+  -Dpipewire=enabled \
+  -Dsnapcast=true \
+  . output \
+&& meson compile -C output \
+&& meson install --no-rebuild -C output \
+&& mkdir -p /usr/local/mpd/ \
+&& sed	-e 's:\#user.*:user\t\t"mpd":' \
+  -e 's:\#log_file.*:log_file\t\t"syslog":' \
+  doc/mpdconf.example > /usr/local/mpd/mpd.conf
+
+
+FROM jlesage/baseimage-gui:alpine-3.21-v4
 
 ENV APP_NAME=MPD
 ENV TZ=Asia/Shanghai
@@ -35,9 +101,11 @@ ENV BLUEMAN_LOGLEVEL=error
 
 COPY --chmod=755 root /
 COPY --chmod=755 startapp.sh /startapp.sh
-COPY --from=myMPD --chmod=755 /myMPD/release/bin/mympd /usr/bin/
-COPY --from=myMPD --chmod=755 /myMPD/release/bin/mympd-script /usr/bin/
-COPY --from=myMPD --chmod=755 /myMPD/cli_tools/mympd-config/mympd-config /usr/bin/
+COPY --from=mympd --chmod=755 /myMPD/release/bin/mympd /usr/bin/
+COPY --from=mympd --chmod=755 /myMPD/release/bin/mympd-script /usr/bin/
+COPY --from=mympd --chmod=755 /myMPD/cli_tools/mympd-config/mympd-config /usr/bin/
+COPY --from=mpd --chmod=755 /usr/bin/mpd /usr/local/bin/mpd
+COPY --from=mpd --chmod=755 /usr/local/mpd/mpd.conf /usr/local/mpd/mpd.conf
 
 RUN apk update \
 && apk add --no-cache pulseaudio \

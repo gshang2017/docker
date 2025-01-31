@@ -7,7 +7,7 @@ if [ ! -d $HOME/mpd ]; then
 	mkdir -p $HOME/mpd
 fi
 if [ ! -f $HOME/mpd/mpd.conf ]; then
-	cp -f /etc/mpd.conf $HOME/mpd/mpd.conf
+	cp -f /usr/local/mpd/mpd.conf $HOME/mpd/mpd.conf
   cat >> $HOME/mpd/mpd.conf << EOF
 # Filters #####################################################################
 filter {
