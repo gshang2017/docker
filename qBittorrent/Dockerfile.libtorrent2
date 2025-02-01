@@ -1,6 +1,6 @@
 FROM alpine:3.21
 
-ARG LIBTORRENT_VER=2.0.10
+ARG LIBTORRENT_VER=2.0.11
 
 RUN apk add --no-cache --virtual libtorrentdep ca-certificates cmake build-base boost-dev wget openssl-dev samurai \
 #libtorrent-rasterbar
