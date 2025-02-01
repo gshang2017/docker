@@ -16,8 +16,8 @@ RUN apk add --no-cache git python3 make \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.0.2
-ARG TTRSS_VER=25.01-a071edaa
-ARG GIT_COMMIT_SHA=a071edaa9d79ea646d6c36bb8b26de087d14f795
+ARG TTRSS_VER=25.01-59b94a9e
+ARG GIT_COMMIT_SHA=59b94a9e455dabd54dfc7684637333826d70306f
 
 ENV UID=1000
 ENV GID=1000
@@ -53,12 +53,12 @@ COPY --from=mercury-parser-api-build --chmod=755 /usr/local/mercury-parser-api /
 COPY --from=mercury-parser-api-build --chmod=755 /usr/local/OpenCC.henry.wang /usr/local/OpenCC.henry.wang
 COPY --from=mercury-parser-api-build --chmod=755 /usr/local/bin/node /usr/local/bin/node
 
-# install php tt-rss caddy git [npm nodejs]-mercury-parser-api
+# install php tt-rss caddy
 RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init postgresql-client musl-locales \
 						php83 php83-fpm php83-phar php83-sockets php83-pecl-apcu php83-pdo php83-gd php83-pgsql php83-pdo_pgsql php83-xmlwriter php83-opcache \
 						php83-mbstring php83-intl php83-xml php83-curl php83-simplexml php83-session php83-tokenizer php83-dom php83-fileinfo php83-ctype \
 						php83-json php83-iconv php83-pcntl php83-posix php83-zip php83-exif php83-openssl php83-pecl-xdebug python3 \
-&& apk add --no-cache --virtual ttrssdep clang15 llvm15 build-base \
+&& apk add --no-cache --virtual ttrssdep clang15 llvm15 build-base automake autoconf libtool \
 # install s6-overlay
 && if [ "$(uname -m)" = "x86_64" ];then s6_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-noarch.tar.xz \
@@ -70,14 +70,14 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
 && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
 # install zhparser
-&& wget http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2 \
-&& tar -xf scws-1.2.3.tar.bz2 \
-&& cd scws-1.2.3 \
+&& git clone --depth 1 https://github.com/hightman/scws.git \
+&& cd scws \
+&& touch README;aclocal;autoconf;autoheader;libtoolize;automake --add-missing \
 && ./configure \
-&& make install \
+&& make install -j $(nproc) \
 && git clone --depth 1 https://github.com/amutu/zhparser.git \
 && cd zhparser \
-&& make install \
+&& make install -j $(nproc) \
 #create ttrss user
 && useradd -u 1000 -U -d /config -s /bin/false ttrss \
 && usermod -G users ttrss \
