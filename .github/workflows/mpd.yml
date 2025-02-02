@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - 'mpd/Dockerfile'
+    - 'mpd/Dockerfile.mpd'
     - 'mpd/root/**'
   workflow_dispatch:
 
@@ -17,8 +18,9 @@ jobs:
 
       - name: 'Set env'
         run: |
-          echo "MPD_VER=$(echo `grep -n "ARG MPD_VER=" mpd/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "MPD_VER=$(echo `grep -n "ARG MPD_VER=" mpd/Dockerfile.mpd`|awk -F= '{print $2}')" >> $GITHUB_ENV
           echo "MYMPD_VER=$(echo `grep -n "ARG MYMPD_VER=" mpd/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "ALPINE_VER=$(echo `grep -n "alpine" mpd/Dockerfile.mpd`|awk -F: '{print $3}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -44,6 +46,23 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check image exist
+        id: mpd-check-step
+        run: |
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-${{ env.ALPINE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+
+      - name: Build and push
+        if : ( steps.mpd-check-step.outputs.skipnext  != 'true' )
+        uses: docker/build-push-action@v6
+        with:
+          context: ./mpd
+          file: ./mpd/Dockerfile.mpd
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            ghcr.io/gshang2017/mpd-bin:latest
+            ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-${{ env.ALPINE_VER }}
 
       - name: Build and push
         uses: docker/build-push-action@v6

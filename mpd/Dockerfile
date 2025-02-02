@@ -1,6 +1,6 @@
 FROM alpine:3.21 AS mympd
 
-ARG MYMPD_VER=19.0.3
+ARG MYMPD_VER=20.0.0
 
 WORKDIR /myMPD
 RUN wget -O /tmp/mympd.tar.gz https://github.com/jcorporation/myMPD/archive/refs/tags/v${MYMPD_VER}.tar.gz
@@ -10,72 +10,7 @@ RUN cmake -B "release" -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Relea
 RUN make -j $(nproc) -C "release"
 
 
-FROM alpine:3.21 AS mpd
-
-ARG MPD_VER=0.23.17
-
-RUN apk add --no-cache abuild-meson build-base \
-  alsa-lib-dev \
-  avahi-dev \
-  boost-dev \
-  curl-dev \
-  expat-dev \
-  faad2-dev \
-  ffmpeg-dev \
-  flac-dev \
-  fmt-dev \
-  glib-dev \
-  gtest-dev \
-  icu-dev \
-  jack-dev \
-  lame-dev \
-  libao-dev \
-  libcap-utils \
-  libcdio-paranoia-dev \
-  libid3tag-dev \
-  libmad-dev \
-  libmodplug-dev \
-  libmpdclient-dev \
-  libnfs-dev \
-  libogg-dev \
-  libsamplerate-dev \
-  libshout-dev \
-  libvorbis-dev \
-  meson \
-  opus-dev \
-  pipewire-dev \
-  pulseaudio-dev \
-  py3-attrs \
-  py3-sphinx \
-  samba-dev \
-  soxr-dev \
-  wavpack-dev \
-&& mkdir -p /tmp/mpdbuild \
-&& wget -P /tmp/mpdbuild https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${MPD_VER}.tar.gz \
-&& tar -zxf /tmp/mpdbuild/v${MPD_VER}.tar.gz -C /tmp/mpdbuild \
-&& cd /tmp/mpdbuild/MPD-${MPD_VER} \
-&& abuild-meson \
-  -Dshout=enabled \
-  -Dopus=enabled \
-  -Dmodplug=enabled \
-  -Dnfs=enabled \
-  -Dsmbclient=enabled \
-  -Dffmpeg=enabled \
-  -Dlibmpdclient=enabled \
-  -Dcdio_paranoia=enabled \
-  -Dzeroconf=avahi \
-  -Dtest=true \
-  -Ddocumentation=enabled \
-  -Dwavpack=enabled \
-  -Dpipewire=enabled \
-  -Dsnapcast=true \
-  . output \
-&& meson compile -C output \
-&& meson install --no-rebuild -C output \
-&& mkdir -p /usr/local/mpd/ \
-&& sed	-e 's:\#user.*:user\t\t"mpd":' \
-  -e 's:\#log_file.*:log_file\t\t"syslog":' \
-  doc/mpdconf.example > /usr/local/mpd/mpd.conf
+FROM ghcr.io/gshang2017/mpd-bin:latest AS mpd
 
 
 FROM jlesage/baseimage-gui:alpine-3.21-v4
