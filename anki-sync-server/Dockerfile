@@ -1,6 +1,6 @@
-FROM rust:alpine3.20 AS builder
+FROM rust:alpine3.21 AS builder
 
-ARG ANKI_VER=24.11
+ARG ANKI_VER=25.02
 
 RUN apk update \
 && apk add --no-cache build-base protobuf \
@@ -9,7 +9,7 @@ RUN apk update \
     --root /anki-server  \
     anki-sync-server
 
-FROM alpine:3.20
+FROM alpine:3.21
 
 ARG S6_VER=3.2.0.2
 
@@ -43,8 +43,7 @@ RUN apk update \
 && useradd -u 1000 -U -d /ankisyncdir -s /bin/false ankisync \
 && usermod -G users ankisync \
 #
-&& rm -rf /var/cache/apk/* \
-&& rm -rf /tmp/*
+&& rm -rf /var/cache/apk/* /tmp/*
 
 VOLUME /ankisyncdir
 EXPOSE 8080

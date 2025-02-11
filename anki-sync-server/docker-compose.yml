@@ -1,0 +1,19 @@
+services:
+  anki:
+    # github镜像：ghcr.io/johngong/anki-sync-server:latest
+    image: johngong/anki-sync-server:latest
+    container_name: anki
+    ports:
+      - 8080:8080
+    volumes:
+      - ./ankisyncdir:/ankisyncdir
+    environment:
+      UID: 1000
+      GID: 1000
+      #TZ: Asia/Shanghai
+      SYNC_USER1: someone@example.com:password
+      SYNC_BASE: /ankisyncdir
+      SYNC_PORT: 8080
+      #SYNC_HOST: 0.0.0.0
+      #MAX_SYNC_PAYLOAD_MEGS: 100
+    restart: unless-stopped
