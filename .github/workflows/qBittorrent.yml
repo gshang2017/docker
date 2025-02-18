@@ -20,6 +20,7 @@ jobs:
       - name: 'Set env'
         run: |
           echo "QBITTORRENT_VER=$(echo `grep -n "QBITTORRENT_VER=" qBittorrent/Dockerfile.qb`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "QB_ALPINE_VER=$(echo `grep -n "FROM alpine" qBittorrent/Dockerfile.qb`|awk -F: '{print $3}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -43,7 +44,7 @@ jobs:
       - name: Check image exist
         id: qb-check-step
         run: |
-          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/qbittorrent-nox:${{ env.QBITTORRENT_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/qbittorrent-nox:${{ env.QBITTORRENT_VER }}-alpine-${{ env.QB_ALPINE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
 
       - name: Build and push
         if : ( steps.qb-check-step.outputs.skipnext  != 'true' )
@@ -55,7 +56,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/gshang2017/qbittorrent-nox:latest
-            ghcr.io/gshang2017/qbittorrent-nox:${{ env.QBITTORRENT_VER }}
+            ghcr.io/gshang2017/qbittorrent-nox:${{ env.QBITTORRENT_VER }}-alpine-${{ env.QB_ALPINE_VER }}
 
   job2:
     name: buildx tag
@@ -67,6 +68,7 @@ jobs:
       - name: 'Set env'
         run: |
           echo "QBITTORRENT_EE_VER=$(echo `grep -n "QBITTORRENT_EE_VER=" qBittorrent/Dockerfile.qbee`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "QBEE_ALPINE_VER=$(echo `grep -n "FROM alpine" qBittorrent/Dockerfile.qbee`|awk -F: '{print $3}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -90,7 +92,7 @@ jobs:
       - name: Check image exist
         id: qbee-check-step
         run: |
-          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/qbittorrentee-nox:${{ env.QBITTORRENT_EE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/qbittorrentee-nox:${{ env.QBITTORRENT_EE_VER }}-alpine-${{ env.QBEE_ALPINE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
 
       - name: Build and push
         if : ( steps.qbee-check-step.outputs.skipnext  != 'true' )
@@ -102,7 +104,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/gshang2017/qbittorrentee-nox:latest
-            ghcr.io/gshang2017/qbittorrentee-nox:${{ env.QBITTORRENT_EE_VER }}
+            ghcr.io/gshang2017/qbittorrentee-nox:${{ env.QBITTORRENT_EE_VER }}-alpine-${{ env.QBEE_ALPINE_VER }}
 
   job3:
     needs: [job1, job2]

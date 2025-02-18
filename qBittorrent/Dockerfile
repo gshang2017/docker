@@ -1,8 +1,8 @@
 #compiling qB
-FROM ghcr.io/gshang2017/qbittorrent-nox:latest as compilingqB
+FROM ghcr.io/gshang2017/qbittorrent-nox:latest AS compilingqb
 
 #compiling qB2
-FROM ghcr.io/gshang2017/qbittorrentee-nox:latest as compilingqB2
+FROM ghcr.io/gshang2017/qbittorrentee-nox:latest AS compilingqb2
 
 # docker qB
 FROM alpine:3.21
@@ -24,8 +24,8 @@ ENV QB_DOWNLOADS_DIRECTORY=/Downloads
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
-COPY --from=compilingqB --chmod=755 /qbittorrent /
-COPY --from=compilingqB2 --chmod=755 /qbittorrent /
+COPY --from=compilingqb --chmod=755 /qbittorrent /
+COPY --from=compilingqb2 --chmod=755 /qbittorrent /
 
 #install bash curl tzdata python3 shadow qt6
 RUN apk add --no-cache bash curl ca-certificates tzdata python3 shadow qt6-qtbase-sqlite qt6-qtbase wget \

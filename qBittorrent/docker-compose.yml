@@ -1,0 +1,26 @@
+services:
+  qbittorrent:
+    # github镜像：ghcr.io/johngong/qbittorrent:latest
+    image: johngong/qbittorrent:latest
+    container_name: qbittorrent
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8989:8989
+    volumes:
+      - ./config:/config
+      - ./Downloads:/Downloads
+    environment:
+      UID: 1000
+      GID: 1000
+      UMASK: "022"
+      #TZ: Asia/Shanghai
+      QB_WEBUI_PORT: 8989
+      QB_EE_BIN: false
+      LIBTORRENT2: false
+      QB_TRACKERS_UPDATE_AUTO: true
+      QB_TRACKERS_LIST_URL: "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt"
+      ENABLE_CHOWN_DOWNLOADS: true
+      ENABLE_CHOWN_R_DOWNLOADS: true
+      QB_DOWNLOADS_DIRECTORY: /Downloads
+    restart: unless-stopped

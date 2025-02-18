@@ -1,5 +1,5 @@
 #compiling qB
-FROM ghcr.io/gshang2017/libtorrent:1 as compilingqB
+FROM ghcr.io/gshang2017/libtorrent:1 AS compilingqb
 
 ARG QBITTORRENT_EE_VER=5.0.3.10
 
@@ -20,9 +20,9 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 
 
 #compiling qB2
-FROM ghcr.io/gshang2017/libtorrent:2 as compilingqB2
+FROM ghcr.io/gshang2017/libtorrent:2 AS compilingqb2
 
-COPY --from=compilingqB /tmp/qbbuild/qbittorrent.zip /tmp/qbbuild/qbittorrent.zip
+COPY --from=compilingqb /tmp/qbbuild/qbittorrent.zip /tmp/qbbuild/qbittorrent.zip
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
 && mkdir /qbittorrent \
@@ -41,5 +41,5 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 # docker qB-nox qBee-nox
 FROM alpine:3.21
 
-COPY --from=compilingqB --chmod=755 /qbittorrent /qbittorrent
-COPY --from=compilingqB2 --chmod=755 /qbittorrent /qbittorrent
+COPY --from=compilingqb --chmod=755 /qbittorrent /qbittorrent
+COPY --from=compilingqb2 --chmod=755 /qbittorrent /qbittorrent
