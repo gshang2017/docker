@@ -1,8 +1,10 @@
 FROM node:18.20-alpine3.21 AS mercury-parser-api-build
 
-RUN apk add --no-cache git python3 make \
-&& apk add --no-cache gcc=13.2.1_git20240309-r0 g++=13.2.1_git20240309-r0 --repository https://dl-cdn.alpinelinux.org/alpine/v3.20/main \
+RUN apk update \
+&& apk upgrade \
+&& apk add --no-cache git python3 make \
 # install mercury-parser-api
+&& apk add --no-cache "gcc<14" "g++<14" --repository https://dl-cdn.alpinelinux.org/alpine/v3.20/main \
 && npm install --prefix /usr/local/mercury-parser-api git+https://github.com/HenryQW/mercury-parser-api.git \
 && sed -i 's/env.PORT/env.MERCURY_PORT/' /usr/local/mercury-parser-api/node_modules/mercury-parser-api/config.js \
 # install OpenCC.henry.wang
@@ -16,8 +18,8 @@ RUN apk add --no-cache git python3 make \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.0.2
-ARG TTRSS_VER=25.01-59b94a9e
-ARG GIT_COMMIT_SHA=59b94a9e455dabd54dfc7684637333826d70306f
+ARG TTRSS_VER=25.02-532570ca
+ARG GIT_COMMIT_SHA=532570ca17f1120a4bfc07195080e5e6a3c469fd
 
 ENV UID=1000
 ENV GID=1000
