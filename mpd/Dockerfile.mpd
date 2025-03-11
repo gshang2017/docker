@@ -1,6 +1,6 @@
 FROM alpine:3.21
 
-ARG MPD_VER=0.23.17
+ARG MPD_VER=0.24
 
 RUN apk add --no-cache --virtual mpddep abuild-meson build-base \
   alsa-lib-dev \
@@ -38,6 +38,7 @@ RUN apk add --no-cache --virtual mpddep abuild-meson build-base \
   samba-dev \
   soxr-dev \
   wavpack-dev \
+  py3-sphinx_rtd_theme \
 && mkdir -p /tmp/mpdbuild \
 && wget -P /tmp/mpdbuild https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${MPD_VER}.tar.gz \
 && tar -zxf /tmp/mpdbuild/v${MPD_VER}.tar.gz -C /tmp/mpdbuild \

@@ -50,7 +50,7 @@ jobs:
       - name: Check image exist
         id: mpd-check-step
         run: |
-          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-${{ env.ALPINE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-alpine-${{ env.ALPINE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
 
       - name: Build and push
         if : ( steps.mpd-check-step.outputs.skipnext  != 'true' )
@@ -62,7 +62,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/gshang2017/mpd-bin:latest
-            ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-${{ env.ALPINE_VER }}
+            ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-alpine-${{ env.ALPINE_VER }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
