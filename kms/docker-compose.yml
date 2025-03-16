@@ -1,0 +1,15 @@
+services:
+  kms:
+    # github镜像：ghcr.io/johngong/kms:latest
+    image: johngong/kms:latest
+    container_name: kms
+    ports:
+      - 1688:1688
+      - 8080:8080
+    environment:
+      UID: 1000
+      GID: 1000
+      KMS_README_WEB: true
+      KMS_README_WEB_PORT: 8080
+      VLMCSD_SERVER_PORT: 1688
+    restart: unless-stopped
