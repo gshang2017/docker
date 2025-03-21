@@ -1,6 +1,6 @@
 FROM alpine:3.21
 
-ARG MPD_VER=0.24
+ARG MPD_VER=0.24.1
 
 RUN apk add --no-cache --virtual mpddep abuild-meson build-base \
   alsa-lib-dev \
