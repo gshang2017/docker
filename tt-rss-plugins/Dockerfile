@@ -18,8 +18,8 @@ RUN apk update \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.0.2
-ARG TTRSS_VER=25.02-532570ca
-ARG GIT_COMMIT_SHA=532570ca17f1120a4bfc07195080e5e6a3c469fd
+ARG TTRSS_VER=25.03-8df250f2
+ARG GIT_COMMIT_SHA=8df250f2ebabf8126f70595a666c17f65a84f2dc
 
 ENV UID=1000
 ENV GID=1000
@@ -74,6 +74,7 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 # install zhparser
 && git clone --depth 1 https://github.com/hightman/scws.git \
 && cd scws \
+&& sed -i '/#unison.*/d' Makefile.am \
 && touch README;aclocal;autoconf;autoheader;libtoolize;automake --add-missing \
 && ./configure \
 && make install -j $(nproc) \
@@ -90,7 +91,7 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 && sed -i -e 's/;\(php_admin_value\[error_log\]\) = .*/\1 = \/var\/log\/php83\/error.log/' /etc/php83/php-fpm.d/www.conf \
 && sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php83/php-fpm.d/www.conf \
 # reset ttrss
-&& git clone --depth 50 https://git.tt-rss.org/fox/tt-rss.git /usr/local/tt-rss/app \
+&& git clone --depth 50 https://gitlab.tt-rss.org/tt-rss/tt-rss.git /usr/local/tt-rss/app \
 && cd /usr/local/tt-rss/app \
 && git reset --hard ${GIT_COMMIT_SHA} \
 # install  plugins
