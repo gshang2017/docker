@@ -16,7 +16,7 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |calibre-web|0.6.24|amd64;arm64v8;arm32v7|
-|calibre-server|7.9.0|amd64;arm64v8;arm32v7|
+|calibre-server|8.0.1|amd64;arm64v8;arm32v7|
 |kepubify|4.0.4|amd64;arm64v8;arm32v7|
 
 #### 版本升级注意：
@@ -106,8 +106,15 @@
 | `-e CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
 | `-e DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `-e DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
+| `-e DISABLE_AMAZON_SEARCH=false` |(true\|false)设定禁用amazon搜索，默认不开启|
+| `-e DISABLE_COMICVINE_SEARCH=false` |(true\|false)设定禁用comicvine搜索，默认不开启|
+| `-e DISABLE_DOUBAN_SEARCH=false` |(true\|false)设定禁用douban搜索，默认不开启|
+| `-e DISABLE_LUBIMYCZYTAC_SEARCH=false` |(true\|false)设定禁用lubimyczytac搜索，默认不开启|
 | `-e ENABLE_CHOWN_LIBRARY=true` |(true\|false)设定修复library文件夹拥有者，默认开启|
+| `-e CALIBRE_DBPATH=/config/calibre-web` |Calibre-Web配置文件文件夹|
+| `-e CALIBRE_CONFIG_DIRECTORY=/config/calibre-server` |calibre-server配置文件文件夹|
 | `-e CALIBRE_LOCALHOST=true` |(true\|false)设定从本地主机和本地网络加载封面，默认开启|
+| `-e CALIBRE_RECONNECT=true` |(true\|false)设定启用重新连接数据库hostname/reconnect，默认开启|
 | `-e ENABLE_FIX_COVER_COLOR=false` |(true\|false)设定修复封面颜色偏暗，默认关闭|
 
 ### 群晖docker设置：
@@ -149,8 +156,15 @@
 | `CALIBREDB_OTHER_OPTION=` |为自动添加脚本中calibredb命令添加其它参数,例如：duplicates命令[-d]|
 | `DISABLE_GOOGLE_SEARCH=false` |(true\|false)设定禁用google搜索，默认不开启|
 | `DISABLE_SCHOLAR_SEARCH=false` |(true\|false)设定禁用scholar搜索，默认不开启|
+| `DISABLE_AMAZON_SEARCH=false` |(true\|false)设定禁用amazon搜索，默认不开启|
+| `DISABLE_COMICVINE_SEARCH=false` |(true\|false)设定禁用comicvine搜索，默认不开启|
+| `DISABLE_DOUBAN_SEARCH=false` |(true\|false)设定禁用douban搜索，默认不开启|
+| `DISABLE_LUBIMYCZYTAC_SEARCH=false` |(true\|false)设定禁用lubimyczytac搜索，默认不开启|
 | `ENABLE_CHOWN_LIBRARY=true` |(true\|false)设定修复library文件夹拥有者，默认开启|
+| `CALIBRE_DBPATH=/config/calibre-web` |Calibre-Web配置文件文件夹|
+| `CALIBRE_CONFIG_DIRECTORY=/config/calibre-server` |calibre-server配置文件文件夹|
 | `CALIBRE_LOCALHOST=true` |(true\|false)设定从本地主机和本地网络加载封面，默认开启|
+| `CALIBRE_RECONNECT=true` |(true\|false)设定启用重新连接数据库hostname/reconnect，默认开启|
 | `ENABLE_FIX_COVER_COLOR=false` |(true\|false)设定修复封面颜色偏暗，默认关闭|
 
 #### 其它：

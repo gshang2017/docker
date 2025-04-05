@@ -1,0 +1,42 @@
+services:
+  calibre-web:
+    # github镜像：ghcr.io/johngong/calibre-web:latest
+    image: johngong/calibre-web:latest
+    container_name: calibre-web
+    ports:
+      - 8083:8083
+      - 8080:8080
+    volumes:
+      - ./config:/config
+      - ./library:/library
+      - ./autoaddbooks:/autoaddbooks
+    environment:
+      UID: 1000
+      GID: 1000
+      ENABLE_AUTOADDBOOKS: true
+      ENABLE_CALIBRE_SERVER: false
+      ENABLE_CALIBRE_SERVER_OPDS: false
+      ENABLE_CALIBREDB_URLLIBRARYPATH: true
+      CALIBRE_SERVER_RESTART_AUTO: true
+      CALIBRE_SERVER_USER: user
+      CALIBRE_SERVER_PASSWORD: passeord
+      CALIBRE_SERVER_WEB_LANGUAGE: zh_CN
+      CALIBRE_SERVER_PORT: 8080
+      CALIBRE_PORT: 8083
+      CALIBRE_ASCII_FILENAME: true
+      CALIBRE_WEB_LANGUAGE: zh_Hans_CN
+      #TZ: Asia/Shanghai
+      #CALIBREDB_OTHER_OPTION:
+      DISABLE_GOOGLE_SEARCH: false
+      DISABLE_SCHOLAR_SEARCH: false
+      DISABLE_AMAZON_SEARCH: false
+      DISABLE_COMICVINE_SEARCH: false
+      DISABLE_DOUBAN_SEARCH: false
+      DISABLE_LUBIMYCZYTAC_SEARCH: false
+      ENABLE_CHOWN_LIBRARY: true
+      CALIBRE_DBPATH: /config/calibre-web
+      CALIBRE_CONFIG_DIRECTORY: /config/calibre-server
+      CALIBRE_LOCALHOST: true
+      CALIBRE_RECONNECT: true
+      #ENABLE_FIX_COVER_COLOR: false
+    restart: unless-stopped

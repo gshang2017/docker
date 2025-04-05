@@ -40,24 +40,23 @@ fi
 if [ ! -d /usr/local/calibre-web/defaults ]; then
   mkdir -p /usr/local/calibre-web/defaults
 fi
-if [ "$DISABLE_GOOGLE_SEARCH" == "true" ]; then
-  if [ -f /usr/local/calibre-web/app/cps/metadata_provider/google.py ]; then
-    mv /usr/local/calibre-web/app/cps/metadata_provider/google.py /usr/local/calibre-web/defaults/
+file_name[1]=google
+file_name[2]=scholar
+file_name[3]=amazon
+file_name[4]=comicvine
+file_name[5]=douban
+file_name[6]=lubimyczytac
+for i in ${file_name[*]}; do
+  if [ "$(env|grep "DISABLE_${i^^}_SEARCH"|awk -F= '{print $2}')" == "true" ]; then
+    if [ -f /usr/local/calibre-web/app/cps/metadata_provider/$i.py ]; then
+      mv /usr/local/calibre-web/app/cps/metadata_provider/$i.py /usr/local/calibre-web/defaults/
+    fi
+  else
+    if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/$i.py ]; then
+      mv /usr/local/calibre-web/defaults/$i.py /usr/local/calibre-web/app/cps/metadata_provider/
+    fi
   fi
-else
-  if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/google.py ]; then
-    mv /usr/local/calibre-web/defaults/google.py /usr/local/calibre-web/app/cps/metadata_provider/
-  fi
-fi
-if [ "$DISABLE_SCHOLAR_SEARCH" == "true" ]; then
-  if [ -f /usr/local/calibre-web/app/cps/metadata_provider/scholar.py ]; then
-    mv /usr/local/calibre-web/app/cps/metadata_provider/scholar.py /usr/local/calibre-web/defaults/
-  fi
-else
-  if [ ! -f /usr/local/calibre-web/app/cps/metadata_provider/scholar.py ]; then
-    mv /usr/local/calibre-web/defaults/scholar.py /usr/local/calibre-web/app/cps/metadata_provider/
-  fi
-fi
+done
 
 #fix封面颜色偏暗
 if [ "$ENABLE_FIX_COVER_COLOR" == "true" ]; then
@@ -116,7 +115,8 @@ fi
 if [ ! -f $CALIBRE_CONFIG_DIRECTORY/global.py.json ]; then
   calibre-server --version
 fi
-sde language en $CALIBRE_CONFIG_DIRECTORY/global.py.json
+jq '.language = "en"' $CALIBRE_CONFIG_DIRECTORY/global.py.json > $CALIBRE_CONFIG_DIRECTORY/temp.json
+mv $CALIBRE_CONFIG_DIRECTORY/temp.json $CALIBRE_CONFIG_DIRECTORY/global.py.json
 
 #添加user.
 if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
@@ -141,7 +141,8 @@ fi
 if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_WEB_LANGUAGE" ]; then
   CALIBRE_SERVER_WEB_ALL_LANGUAGE=("en" "af" "am" "ar" "ast" "az" "be" "bg" "bn" "bn_BD" "bn_IN" "br" "bs" "ca" "crh" "cs" "cy" "da" "de" "el" "en_AU" "en_CA" "en_GB" "eo" "es" "es_MX" "et" "eu" "fa" "fi" "fil" "fo" "fr" "fr_CA" "fur" "ga" "gl" "gu" "he" "hi" "hr" "hu" "hy" "id" "is" "it" "ja" "jv" "ka" "km" "kn" "ko" "ku" "lt" "ltg" "lv" "mi" "mk" "ml" "mn" "mr" "ms" "mt" "my" "nb" "nds" "nl" "nn" "nso" "oc" "or" "pa" "pl" "ps" "pt" "pt_BR" "ro" "ru" "rw" "sc" "si" "sk" "sl" "sq" "sr" "sr@latin" "sv" "ta" "te" "th" "ti" "tr" "tt" "ug" "uk" "ur" "uz@Latn" "ve" "vi" "wa" "xh" "yi" "zh_CN" "zh_HK" "zh_TW" "zu")
   if [[ ${CALIBRE_SERVER_WEB_ALL_LANGUAGE[@]} =~ "$CALIBRE_SERVER_WEB_LANGUAGE" ]]; then
-    sde language $CALIBRE_SERVER_WEB_LANGUAGE $CALIBRE_CONFIG_DIRECTORY/global.py.json
+    jq '.language = "'$CALIBRE_SERVER_WEB_LANGUAGE'"' $CALIBRE_CONFIG_DIRECTORY/global.py.json > $CALIBRE_CONFIG_DIRECTORY/temp.json
+    mv $CALIBRE_CONFIG_DIRECTORY/temp.json $CALIBRE_CONFIG_DIRECTORY/global.py.json
   fi
 fi
 
@@ -201,10 +202,6 @@ fi
 chown -R calibre:calibre /autoaddbooks
 
 #自动添加图书.
-#检查calibre-server文件
-if [ -f /opt/calibre/bin/calibre-server.bak ]; then
-  mv /opt/calibre/bin/calibre-server.bak /opt/calibre/bin/calibre-server
-fi
 #添加图书.
 if [ "$ENABLE_AUTOADDBOOKS" == "true" ]; then
   if [ "`ls -A /autoaddbooks`" != "" ];then
