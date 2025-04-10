@@ -143,7 +143,7 @@ fi
 
 #启动更新ttrss。
 if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
-  /usr/local/tt-rss/defaults/updatett-rss.sh
+  /usr/local/tt-rss/defaults/updatett-rss.sh skip
 fi
 
 #设置时区

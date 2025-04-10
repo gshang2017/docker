@@ -54,4 +54,10 @@ if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
   fi
   chown -R ttrss:ttrss /config/
   chown -R ttrss:ttrss /usr/local/tt-rss/
+  if [ "$1" != "skip" ]; then
+    while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
+      sleep 3
+    done
+    su ttrss -s /bin/sh -m -c "php83 /usr/local/tt-rss/app/update.php --update-schema=force-yes"
+  fi
 fi
