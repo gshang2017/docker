@@ -1,6 +1,6 @@
 FROM rust:alpine3.21 AS builder
 
-ARG ANKI_VER=25.02.4
+ARG ANKI_VER=25.02.5
 
 RUN apk update \
 && apk add --no-cache build-base protobuf \
