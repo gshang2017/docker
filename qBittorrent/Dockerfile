@@ -7,7 +7,7 @@ FROM ghcr.io/gshang2017/qbittorrentee-nox:latest AS compilingqb2
 # docker qB
 FROM alpine:3.21
 
-ARG S6_VER=3.2.0.2
+ARG S6_VER=3.2.1.0
 
 ENV UID=1000
 ENV GID=1000
