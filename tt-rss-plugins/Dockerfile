@@ -17,9 +17,9 @@ RUN apk update \
 
 FROM ghcr.io/gshang2017/postgres:latest
 
-ARG S6_VER=3.2.0.2
-ARG TTRSS_VER=25.04-4ae17d0f
-ARG GIT_COMMIT_SHA=4ae17d0f1c956bfe392653ab847eb2e3da6f7bfc
+ARG S6_VER=3.2.1.0
+ARG TTRSS_VER=25.05-516fcfee
+ARG GIT_COMMIT_SHA=516fcfee98100fcfca649fc3de4874de9ccec238
 
 ENV UID=1000
 ENV GID=1000
@@ -109,7 +109,7 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 # install fever
 && git clone --depth 1 https://github.com/DigitalDJ/tinytinyrss-fever-plugin /usr/local/tt-rss/defaults/plugins.local/fever \
 # install af-readability
-&& git clone --depth 1 https://gitlab.tt-rss.org/tt-rss/plugins/ttrss-af-readability.git /usr/local/tt-rss/defaults/plugins.local/af_readability \
+&& git clone --depth 1 https://git.tt-rss.org/fox/ttrss-af-readability.git /usr/local/tt-rss/defaults/plugins.local/af_readability \
 # install opencc
 && git clone --depth 1 https://github.com/HenryQW/ttrss_opencc.git /usr/local/tt-rss/defaults/plugins.local/opencc \
 # install themes
