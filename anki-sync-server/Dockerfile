@@ -1,15 +1,16 @@
-FROM rust:alpine3.21 AS builder
+FROM rust:alpine3.22 AS builder
 
-ARG ANKI_VER=25.02.6
+ARG ANKI_VER=25.02.7
 
 RUN apk update \
 && apk add --no-cache build-base protobuf \
 && cargo install --git https://github.com/ankitects/anki.git \
     --tag ${ANKI_VER} \
     --root /anki-server  \
+    --locked  \
     anki-sync-server
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 ARG S6_VER=3.2.1.0
 
