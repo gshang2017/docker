@@ -5,7 +5,7 @@ FROM ghcr.io/gshang2017/qbittorrent-nox:latest AS compilingqb
 FROM ghcr.io/gshang2017/qbittorrentee-nox:latest AS compilingqb2
 
 # docker qB
-FROM alpine:3.21
+FROM alpine:3.22
 
 ARG S6_VER=3.2.1.0
 

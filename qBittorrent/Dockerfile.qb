@@ -1,9 +1,9 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 AS compilingqb
 
-ARG QBITTORRENT_VER=5.1.0
+ARG QBITTORRENT_VER=5.1.1
 
-RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev qt6-qtbase-private-dev \
 && mkdir -p /tmp/qbbuild \
 && mkdir /qbittorrent \
 && cp --parents /usr/lib/libtorrent-rasterbar.so.10 /qbittorrent \
@@ -23,7 +23,7 @@ FROM ghcr.io/gshang2017/libtorrent:2 AS compilingqb2
 
 COPY --from=compilingqb /tmp/qbbuild/qbittorrent.zip /tmp/qbbuild/qbittorrent.zip
 
-RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev \
+RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev qt6-qtbase-private-dev \
 && mkdir /qbittorrent \
 && cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent \
 #qBittorrent
@@ -38,7 +38,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 
 
 # docker qB-nox qBee-nox
-FROM alpine:3.21
+FROM alpine:3.22
 
 COPY --from=compilingqb --chmod=755 /qbittorrent /qbittorrent
 COPY --from=compilingqb2 --chmod=755 /qbittorrent /qbittorrent
