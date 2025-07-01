@@ -15,13 +15,14 @@
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron)     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)      
 [https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git)      
+[https://github.com/eric-pierce/freshapi](https://github.com/eric-pierce/freshapi)      
 [https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme)
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-25.05-516fcfee|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
+|ttrss|plugins-25.06-18f8f55c|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 

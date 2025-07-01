@@ -79,6 +79,11 @@ fi
 if [ ! -d "/config/plugins.local/opencc" ]; then
   cp -rf /usr/local/tt-rss/defaults/plugins.local/opencc /config/plugins.local/
 fi
+#检查freshapi plugins
+if [ ! -d "/config/plugins.local/freshapi" ]; then
+  cp -rf /usr/local/tt-rss/defaults/plugins.local/freshapi /config/plugins.local/
+  sed -i "s/dirname.*$/\"\/usr\/local\/tt-rss\/app\";/" /usr/local/tt-rss/app/plugins.local/freshapi/api/greader.php
+fi
 
 #检查templates.local文件夹位置
 if [ ! -d "/config/templates.local" ]; then

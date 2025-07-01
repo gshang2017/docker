@@ -39,6 +39,11 @@ if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
   # update plugin opencc
   cd /usr/local/tt-rss/app/plugins.local/opencc
   git pull --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
+  # update plugin freshapi
+  cd /usr/local/tt-rss/app/plugins.local/freshapi
+  git checkout -- /usr/local/tt-rss/app/plugins.local/freshapi/api/greader.php
+  git pull --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
+  sed -i "s/dirname.*$/\"\/usr\/local\/tt-rss\/app\";/" /usr/local/tt-rss/app/plugins.local/freshapi/api/greader.php
   # update plugin feedly-theme
   cd /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme
   Oldversion="`git rev-parse HEAD`"
