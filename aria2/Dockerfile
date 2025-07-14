@@ -3,10 +3,10 @@ FROM ghcr.io/gshang2017/aria2c:latest AS compilingaria2c
 
 
 # docker aria2
-FROM alpine:3.21
+FROM alpine:3.22
 
-ARG AriaNg_VER=1.3.10
-ARG S6_VER=3.2.0.2
+ARG AriaNg_VER=1.3.11
+ARG S6_VER=3.2.1.0
 
 ENV UID=1000
 ENV GID=1000
