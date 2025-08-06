@@ -1,6 +1,6 @@
-FROM alpine:3.21 AS mympd
+FROM alpine:3.22 AS mympd
 
-ARG MYMPD_VER=22.0.2
+ARG MYMPD_VER=22.0.3
 
 WORKDIR /myMPD
 RUN wget -O /tmp/mympd.tar.gz https://github.com/jcorporation/myMPD/archive/refs/tags/v${MYMPD_VER}.tar.gz
@@ -13,7 +13,7 @@ RUN make -j $(nproc) -C "release"
 FROM ghcr.io/gshang2017/mpd-bin:latest AS mpd
 
 
-FROM jlesage/baseimage-gui:alpine-3.21-v4
+FROM jlesage/baseimage-gui:alpine-3.22-v4.8.2
 
 ENV APP_NAME=MPD
 ENV TZ=Asia/Shanghai
@@ -49,9 +49,9 @@ RUN apk update \
           bluez-deprecated dbus-x11 mpd upower mpc adwaita-icon-theme font-wqy-zenhei gst-plugins-bad \
 #mpdris2
 && apk add --no-cache py3-mpd2 --repository https://dl-cdn.alpinelinux.org/alpine/edge/community \
-&& apk add --no-cache mpdris2 mpdris2-doc --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+&& apk add --no-cache mpdris2 mpdris2-doc mpdris2-lang --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
 #myMPD
-&& apk add --no-cache openssl libid3tag flac lua5.4 pcre2 newt \
+&& apk add --no-cache openssl libid3tag flac lua5.4 pcre2 newt ca-certificates \
 #pulse
 && sed -i 's/^load-module module-console-kit/#load-module module-console-kit/' /etc/pulse/default.pa \
 && mkdir -p /etc/pulse/default.pa.d \
