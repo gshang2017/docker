@@ -18,8 +18,8 @@ RUN apk update \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.1.0
-ARG TTRSS_VER=25.06-18f8f55c
-ARG GIT_COMMIT_SHA=18f8f55ce50d5f380f969d3fc0c723ae902b1bca
+ARG TTRSS_VER=25.07-851ddf4b
+ARG GIT_COMMIT_SHA=851ddf4bbe750e30816b6c494165e9860bd39b92
 
 ENV UID=1000
 ENV GID=1000
@@ -123,6 +123,7 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 && git config --global --add safe.directory /config/plugins.local/feediron \
 && git config --global --add safe.directory /config/plugins.local/fever \
 && git config --global --add safe.directory /config/plugins.local/opencc \
+&& git config --global --add safe.directory /config/plugins.local/freshapi \
 && git config --global --add safe.directory /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme \
 #clear
 && apk del ttrssdep \
