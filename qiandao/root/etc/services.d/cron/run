@@ -1,4 +1,0 @@
-#! /usr/bin/with-contenv bash
-
-#启动qiandao更新任务
-exec crond -f -L /dev/null

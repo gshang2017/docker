@@ -11,7 +11,6 @@
 |koreader进度同步|[koreader-sync-server](https://github.com/gshang2017/docker/tree/master/koreader-sync-server)|
 |mpd音乐管理(蓝牙)|[mpd](https://github.com/gshang2017/docker/tree/master/mpd)|
 |qbittorrent下载|[qBittorrent](https://github.com/gshang2017/docker/tree/master/qBittorrent)|
-|qiandao签到|[qiandao](https://github.com/gshang2017/docker/tree/master/qiandao)|
 |rime搜狗流行词|[rime-sogou](https://github.com/gshang2017/docker/tree/master/rime-sogou)|
 |syncthing发现中继服务|[syncthing-relay-discosrv](https://github.com/gshang2017/docker/tree/master/syncthing-relay-discosrv)|
 |ttrss阅读|[tt-rss-plugins](https://github.com/gshang2017/docker/tree/master/tt-rss-plugins)|
