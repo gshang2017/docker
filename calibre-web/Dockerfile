@@ -1,7 +1,7 @@
 FROM alpine:3.20
 
-ARG S6_VER=3.2.0.2
-ARG CALIBRE_WEB_VER=0.6.24
+ARG S6_VER=3.2.1.0
+ARG CALIBRE_WEB_VER=0.6.25
 ARG CALIBRE_VER=8.0.1
 ARG KEPUBIFY_VER=4.0.4
 ARG UNRAR_VERSION=7.1.6
@@ -78,11 +78,8 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 && mkdir -p /usr/local/calibre-web/app \
 && tar xf /tmp/${CALIBRE_WEB_VER}.tar.gz -C /usr/local/calibre-web/app --strip-components=1 \
 #install calibre-web dep
+&& if [ "$(uname -m)" = "armv7l" ];then apk add --no-cache cargo==1.87.0-r0 --repository https://dl-cdn.alpinelinux.org/alpine/v3.22/main; fi \
 && python3 -m venv /opt/venv \
-&& if [ "$(uname -m)" = "armv7l" ];then pip3 install --no-cache-dir python-Levenshtein==0.25.1; fi \
-&& if [ "$(uname -m)" = "armv7l" ];then export CFLAGS="$CFLAGS -Wno-incompatible-pointer-types"; fi \
-&& if [ "$(uname -m)" = "armv7l" ];then pip3 install --no-cache-dir gevent==24.2.1; fi \
-&& if [ "$(uname -m)" = "armv7l" ];then unset CFLAGS; fi \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/requirements.txt \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/optional-requirements.txt \
 #install kepubify
@@ -94,7 +91,7 @@ RUN apk add --no-cache bash ca-certificates shadow tzdata python3 py3-pip py3-wh
 && useradd -u 1000 -U -d /home/calibre -s /bin/false calibre \
 && usermod -G users calibre \
 #clear
-&& apk del calibrewebdep \
+&& apk del calibrewebdep cargo \
 && rm -rf /var/cache/apk/* /tmp/* /home/calibre/.c*
 
 VOLUME /library /config /autoaddbooks
