@@ -1,5 +1,5 @@
-FROM syncthing/discosrv:2.0.9 AS discosrvbin
-FROM syncthing/relaysrv:2.0.9 AS relaysrvbin
+FROM syncthing/discosrv:2.0.10 AS discosrvbin
+FROM syncthing/relaysrv:2.0.10 AS relaysrvbin
 
 FROM alpine:3.22
 
