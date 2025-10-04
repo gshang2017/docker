@@ -1,0 +1,21 @@
+services:
+  baidunetdisk:
+    # github镜像：ghcr.io/gshang2017/baidunetdisk:latest
+    image: johngong/baidunetdisk:latest
+    container_name: baidunetdisk
+    ports:
+      - 5800:5800
+      - 5900:5900
+    volumes:
+      - ./config:/config
+      - ./Downloads:/config/baidunetdiskdownload
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 1000
+      WEB_LISTENING_PORT: 5800
+      VNC_LISTENING_PORT: 5900
+      NOVNC_LANGUAGE: zh_Hans
+      #TZ: Asia/Shanghai
+      #VNC_PASSWORD: password
+      #ENABLE_DISABLE_GPU: false
+    restart: unless-stopped

@@ -70,6 +70,7 @@
 | `-e USER_ID=1000` |uid设置,默认为1000|
 | `-e GROUP_ID=1000` |gid设置,默认为1000|
 | `-e NOVNC_LANGUAGE="zh_Hans"` |(zh_Hans\|en)设定novnc语言,默认为中文|
+| `-e ENABLE_DISABLE_GPU=false` |(true\|false)设定关闭硬件加速，默认开启|
 
 
 更多参数设置详见:[https://registry.hub.docker.com/r/jlesage/baseimage-gui](https://registry.hub.docker.com/r/jlesage/baseimage-gui "https://registry.hub.docker.com/r/jlesage/baseimage-gui")                                     
@@ -99,3 +100,4 @@
 | `USER_ID=1000` |uid设置,默认为1000|
 | `GROUP_ID=1000` |gid设置,默认为1000|
 | `NOVNC_LANGUAGE="zh_Hans"` |(zh_Hans\|en)设定novnc语言,默认为中文|
+| `ENABLE_DISABLE_GPU=false` |(true\|false)设定关闭硬件加速，默认开启|
