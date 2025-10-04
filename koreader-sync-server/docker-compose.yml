@@ -1,6 +1,6 @@
 services:
   koreader-sync-server:
-    # github镜像：ghcr.io/johngong/koreader-sync-server:latest
+    # github镜像：ghcr.io/gshang2017/koreader-sync-server:latest
     image: johngong/koreader-sync-server:latest
     container_name: koreader-sync-server
     ports:

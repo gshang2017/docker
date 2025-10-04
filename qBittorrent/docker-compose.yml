@@ -1,6 +1,6 @@
 services:
   qbittorrent:
-    # github镜像：ghcr.io/johngong/qbittorrent:latest
+    # github镜像：ghcr.io/gshang2017/qbittorrent:latest
     image: johngong/qbittorrent:latest
     container_name: qbittorrent
     ports:

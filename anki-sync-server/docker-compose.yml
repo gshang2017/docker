@@ -1,6 +1,6 @@
 services:
   anki:
-    # github镜像：ghcr.io/johngong/anki-sync-server:latest
+    # github镜像：ghcr.io/gshang2017/anki-sync-server:latest
     image: johngong/anki-sync-server:latest
     container_name: anki
     ports:

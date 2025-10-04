@@ -1,6 +1,6 @@
 services:
   koreader-highlight-joplin-server:
-    # github镜像：ghcr.io/johngong/koreader-highlight-joplin-server:latest
+    # github镜像：ghcr.io/gshang2017/koreader-highlight-joplin-server:latest
     image: johngong/koreader-highlight-joplin-server:latest
     container_name: koreader-highlight-joplin-server
     ports:

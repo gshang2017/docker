@@ -1,6 +1,6 @@
 services:
   aria2:
-    # github镜像：ghcr.io/johngong/aria2:latest
+    # github镜像：ghcr.io/gshang2017/aria2:latest
     image: johngong/aria2:latest
     container_name: aria2
     ports:

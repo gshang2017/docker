@@ -1,6 +1,6 @@
 services:
   kms:
-    # github镜像：ghcr.io/johngong/kms:latest
+    # github镜像：ghcr.io/gshang2017/kms:latest
     image: johngong/kms:latest
     container_name: kms
     ports:

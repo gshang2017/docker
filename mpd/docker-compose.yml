@@ -1,6 +1,6 @@
 services:
   mpd:
-    # github镜像：ghcr.io/johngong/mpd:latest
+    # github镜像：ghcr.io/gshang2017/mpd:latest
     image: johngong/mpd:latest
     # 容器名
     container_name: mpd

@@ -1,6 +1,6 @@
 services:
   syncthing-relay-discosrv:
-    # github镜像：ghcr.io/johngong/syncthing-relay-discosrv:latest
+    # github镜像：ghcr.io/gshang2017/syncthing-relay-discosrv:latest
     image: johngong/syncthing-relay-discosrv:latest
     container_name: syncthing-relay-discosrv
     ports:

@@ -1,6 +1,6 @@
 services:
   tt-rss:
-    # github镜像：ghcr.io/johngong/tt-rss:latest
+    # github镜像：ghcr.io/gshang2017/tt-rss:latest
     image: johngong/tt-rss:latest
     container_name: tt-rss
     ports:

@@ -1,6 +1,6 @@
 services:
   calibre-web:
-    # github镜像：ghcr.io/johngong/calibre-web:latest
+    # github镜像：ghcr.io/gshang2017/calibre-web:latest
     image: johngong/calibre-web:latest
     container_name: calibre-web
     ports:
