@@ -1,6 +1,6 @@
 FROM alpine:3.22 AS mympd
 
-ARG MYMPD_VER=22.1.0
+ARG MYMPD_VER=22.1.1
 
 WORKDIR /myMPD
 RUN wget -O /tmp/mympd.tar.gz https://github.com/jcorporation/myMPD/archive/refs/tags/v${MYMPD_VER}.tar.gz
