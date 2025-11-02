@@ -18,8 +18,8 @@ RUN apk update \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.1.0
-ARG TTRSS_VER=25.09-b369bf81
-ARG GIT_COMMIT_SHA=b369bf81070701630f010e66d1ea4936e6bca431
+ARG TTRSS_VER=25.10-912162ad
+ARG GIT_COMMIT_SHA=912162ad811869af334232d32fe6c79b3cf095ca
 
 ENV UID=1000
 ENV GID=1000
@@ -91,7 +91,7 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 && sed -i -e 's/;\(php_admin_value\[error_log\]\) = .*/\1 = \/var\/log\/php83\/error.log/' /etc/php83/php-fpm.d/www.conf \
 && sed -i -e 's/;\(php_admin_flag\[log_errors\]\) = .*/\1 = on/' /etc/php83/php-fpm.d/www.conf \
 # reset ttrss
-&& git clone --depth 50 https://gitlab.tt-rss.org/tt-rss/tt-rss.git /usr/local/tt-rss/app \
+&& git clone --depth 50 https://github.com/tt-rss/tt-rss.git /usr/local/tt-rss/app \
 && cd /usr/local/tt-rss/app \
 && git reset --hard ${GIT_COMMIT_SHA} \
 # install  plugins
@@ -109,7 +109,7 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 # install fever
 && git clone --depth 1 https://github.com/DigitalDJ/tinytinyrss-fever-plugin /usr/local/tt-rss/defaults/plugins.local/fever \
 # install af-readability
-&& git clone --depth 1 https://git.tt-rss.org/fox/ttrss-af-readability.git /usr/local/tt-rss/defaults/plugins.local/af_readability \
+&& git clone --depth 1 https://github.com/tt-rss/tt-rss-plugin-af-readability.git /usr/local/tt-rss/defaults/plugins.local/af_readability \
 # install opencc
 && git clone --depth 1 https://github.com/HenryQW/ttrss_opencc.git /usr/local/tt-rss/defaults/plugins.local/opencc \
 # install freshapi

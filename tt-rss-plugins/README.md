@@ -6,7 +6,7 @@
 
 ### 感谢以下项目:
 
-[https://git.tt-rss.org/fox/tt-rss.git](https://git.tt-rss.org/fox/tt-rss.git)  
+[https://github.com/tt-rss/tt-rss](https://github.com/tt-rss/tt-rss)  
 [https://github.com/docker-library/postgres](https://github.com/docker-library/postgres)   
 [https://github.com/HenryQW/mercury-parser-api](https://github.com/HenryQW/mercury-parser-api)  
 [https://github.com/HenryQW/OpenCC.henry.wang](https://github.com/HenryQW/OpenCC.henry.wang)  
@@ -14,7 +14,7 @@
 [https://github.com/HenryQW/mercury_fulltext](https://github.com/HenryQW/mercury_fulltext)  
 [https://github.com/feediron/ttrss_plugin-feediron](https://github.com/feediron/ttrss_plugin-feediron)     
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)      
-[https://git.tt-rss.org/fox/ttrss-af-readability.git](https://git.tt-rss.org/fox/ttrss-af-readability.git)      
+[https://github.com/tt-rss/tt-rss-plugin-af-readability](https://github.com/tt-rss/tt-rss-plugin-af-readability)      
 [https://github.com/eric-pierce/freshapi](https://github.com/eric-pierce/freshapi)      
 [https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme)
 
@@ -22,7 +22,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-25.09-b369bf81|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
+|ttrss|plugins-25.10-912162ad|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 
@@ -227,11 +227,11 @@
 
 |平台|软件|
 |:-|:-|
-|android|[feedme](https://github.com/seazon/FeedMe/releases), [ttrss](https://gitlab.tt-rss.org/tt-rss/tt-rss-android/-/releases)|
+|android|[feedme](https://github.com/seazon/FeedMe/releases), [ttrss](https://github.com/tt-rss/tt-rss-android/releases)|
 |linux|[NewsFlash](https://gitlab.com/news-flash/news_flash_gtk),[fluent-reader](https://github.com/yang991178/fluent-reader/releases)|
 |mac os x|[fluent-reader](https://github.com/yang991178/fluent-reader/releases)|
 |windows|[fluent-reader](https://github.com/yang991178/fluent-reader/releases)|
 
 ### 其它：
 
-  * 详见：[https://tt-rss.org/](https://tt-rss.org/)
+  * 详见：[https://github.com/tt-rss/tt-rss](https://github.com/tt-rss/tt-rss)
