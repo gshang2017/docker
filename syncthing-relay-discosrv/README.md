@@ -12,8 +12,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|strelaysrv|2.0.10|amd64;arm64v8;arm32v7|
-|stdiscosrv|2.0.10|amd64;arm64v8;arm32v7|
+|strelaysrv|2.0.11|amd64;arm64v8;arm32v7|
+|stdiscosrv|2.0.11|amd64;arm64v8;arm32v7|
 
 ### docker命令行设置：
 
