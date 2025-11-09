@@ -22,7 +22,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-25.10-912162ad|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
+|ttrss|plugins-25.11-b635b91f|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 
@@ -127,6 +127,7 @@
 | `-e TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext,af_readability` |tt-rss默认开启插件|
 | `-e TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `-e TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
+| `-e TTRSS_ALLOW_LOCAL_IP=false` |(true\|false)开放非80,443端口局域网ip订阅,默认关闭|
 | `-e TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
 | `-e TTRSS_CADDY_PORT=80` |tt-rss访问及caddy端口，无需更改|
 | `-e ENABLE_MERCURY=true` |(true\|false)mercury-parser-api服务,默认开启|
@@ -177,6 +178,7 @@
 | `TTRSS_PLUGINS=auth_internal,fever,mercury_fulltext,af_readability` |tt-rss默认开启插件|
 | `TZ=Asia/Shanghai` |系统时区设置,默认为Asia/Shanghai|
 | `TTRSS_ALLOW_PORTS=80,443` |ttrss可订阅的端口，如需1200，可替换80,443为1200|
+| `TTRSS_ALLOW_LOCAL_IP=false` |(true\|false)开放非80,443端口局域网ip订阅,默认关闭|
 | `TTRSS_UPDATE_AUTO=true` |自动更新tt-rss(true\|false),默认开启此功能|
 | `TTRSS_CADDY_PORT=80` |tt-rss访问及caddy端口，无需更改|
 | `ENABLE_MERCURY=true` |(true\|false)mercury-parser-api服务,默认开启|
