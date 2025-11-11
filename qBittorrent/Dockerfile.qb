@@ -1,7 +1,7 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 AS compilingqb
 
-ARG QBITTORRENT_VER=5.1.2
+ARG QBITTORRENT_VER=5.1.3
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev qt6-qtbase-private-dev \
 && mkdir -p /tmp/qbbuild \
