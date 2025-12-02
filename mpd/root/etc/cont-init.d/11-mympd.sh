@@ -10,7 +10,7 @@ if [ $USER_ID -ne 0 ]; then
 
   if [ ! -d $HOME/mympd/lib ] ; then
     mkdir -p $HOME/mympd/lib
-    mympd -c -u app  -w $HOME/mympd/lib -a $HOME/mympd/cache
+    mympd -c -w $HOME/mympd/lib -a $HOME/mympd/cache
     echo 3 > $HOME/mympd/lib/config/loglevel
   fi
 
