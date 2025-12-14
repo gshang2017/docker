@@ -15,7 +15,7 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |Aria2|1.37.0|amd64;arm64v8;arm32v7,修改线程数至128，默认32，集成Trackers自动更新。|
-|AriaNg|1.3.11|Aria2的web管理界面|
+|AriaNg|1.3.12|Aria2的web管理界面|
 
 ### docker命令行设置：
 
