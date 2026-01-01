@@ -29,6 +29,7 @@ services:
       TTRSS_PLUGINS: auth_internal,fever,mercury_fulltext,af_readability
       #TZ: Asia/Shanghai
       TTRSS_ALLOW_PORTS: 80,443
+      TTRSS_ALLOW_LOCAL_IP: false
       TTRSS_UPDATE_AUTO: true
       TTRSS_CADDY_PORT: 80
       ENABLE_MERCURY: true
