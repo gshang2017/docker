@@ -22,17 +22,6 @@ if [ ! -L "/usr/local/tt-rss/app/cache" ]; then
   ln -s /config/cache /usr/local/tt-rss/app/
 fi
 
-#检查feed-icons文件夹位置
-if [ ! -d "/config/feed-icons" ]; then
-  cp -rf /usr/local/tt-rss/defaults/feed-icons /config/
-fi
-if [ ! -L "/usr/local/tt-rss/app/feed-icons" ]; then
-  if [ -e "/usr/local/tt-rss/app/feed-icons" ]; then
-    rm -rf /usr/local/tt-rss/app/feed-icons
-  fi
-  ln -s /config/feed-icons /usr/local/tt-rss/app/
-fi
-
 #检查lock文件夹位置
 if [ ! -d "/config/lock" ]; then
   cp -rf /usr/local/tt-rss/defaults/lock /config/

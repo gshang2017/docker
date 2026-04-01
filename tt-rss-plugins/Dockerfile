@@ -18,8 +18,8 @@ RUN apk update \
 FROM ghcr.io/gshang2017/postgres:latest
 
 ARG S6_VER=3.2.2.0
-ARG TTRSS_VER=26.02-4755adcf
-ARG GIT_COMMIT_SHA=4755adcf125509ea80dc84a28bc2de0ba3b17e80
+ARG TTRSS_VER=26.03-5cbcc142
+ARG GIT_COMMIT_SHA=5cbcc14224e52861512242c39aeeb961a82dadac
 
 ENV UID=1000
 ENV GID=1000
@@ -98,7 +98,6 @@ RUN apk add --no-cache bash shadow tzdata git ca-certificates caddy dumb-init po
 # install  plugins
 && mkdir -p /usr/local/tt-rss/defaults \
 && mv /usr/local/tt-rss/app/cache /usr/local/tt-rss/defaults/cache \
-&& mv /usr/local/tt-rss/app/feed-icons /usr/local/tt-rss/defaults/feed-icons \
 && mv /usr/local/tt-rss/app/lock /usr/local/tt-rss/defaults/lock \
 && mv /usr/local/tt-rss/app/plugins.local /usr/local/tt-rss/defaults/plugins.local \
 && mv /usr/local/tt-rss/app/templates.local /usr/local/tt-rss/defaults/templates.local \

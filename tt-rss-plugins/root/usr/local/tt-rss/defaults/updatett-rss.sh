@@ -5,7 +5,6 @@ if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
   cd /usr/local/tt-rss/app
   git checkout -- /usr/local/tt-rss/app/classes/UrlHelper.php
   git checkout -- /usr/local/tt-rss/app/cache
-  git checkout -- /usr/local/tt-rss/app/feed-icons
   git checkout -- /usr/local/tt-rss/app/lock
   git checkout -- /usr/local/tt-rss/app/plugins.local
   git checkout -- /usr/local/tt-rss/app/templates.local
@@ -19,13 +18,11 @@ if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
     fi
   fi
   rm -rf /usr/local/tt-rss/app/cache
-  rm -rf /usr/local/tt-rss/app/feed-icons
   rm -rf /usr/local/tt-rss/app/lock
   rm -rf /usr/local/tt-rss/app/plugins.local
   rm -rf /usr/local/tt-rss/app/templates.local
   rm -rf /usr/local/tt-rss/app/themes.local
   ln -s /config/cache /usr/local/tt-rss/app/
-  ln -s /config/feed-icons /usr/local/tt-rss/app/
   ln -s /config/lock /usr/local/tt-rss/app/
   ln -s /config/plugins.local /usr/local/tt-rss/app/
   ln -s /config/templates.local /usr/local/tt-rss/app/
