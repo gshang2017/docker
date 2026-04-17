@@ -1,6 +1,6 @@
-FROM jlesage/baseimage-gui:debian-12-v4.9.0
+FROM jlesage/baseimage-gui:debian-13-v4.11.3
 
-ARG BAIDUNETDISK_VER=4.17.7
+ARG BAIDUNETDISK_VER=4.17.8
 ARG BAIDUNETDISK_VER_ARM64=4.17.7
 
 ENV APP_NAME="Baidunetdisk"
