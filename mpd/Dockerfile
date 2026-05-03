@@ -1,6 +1,6 @@
 FROM alpine:3.22 AS mympd
 
-ARG MYMPD_VER=25.0.1
+ARG MYMPD_VER=25.0.2
 
 WORKDIR /myMPD
 RUN wget -O /tmp/mympd.tar.gz https://github.com/jcorporation/myMPD/archive/refs/tags/v${MYMPD_VER}.tar.gz
@@ -46,9 +46,8 @@ RUN apk update \
 && apk add --no-cache pulseaudio \
 && apk fix --no-cache pulseaudio \
 && apk add --no-cache bash libpulse-mainloop-glib bluez blueman blueman-lang pulseaudio-bluez \
-          bluez-deprecated dbus-x11 mpd upower mpc adwaita-icon-theme font-wqy-zenhei gst-plugins-bad \
+          bluez-deprecated dbus-x11 mpd upower mpc adwaita-icon-theme font-wqy-zenhei gst-plugins-bad py3-mpd2 \
 #mpdris2
-&& apk add --no-cache py3-mpd2 --repository https://dl-cdn.alpinelinux.org/alpine/edge/community \
 && apk add --no-cache mpdris2 mpdris2-doc mpdris2-lang --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
 #myMPD
 && apk add --no-cache openssl libid3tag flac lua5.4 pcre2 newt ca-certificates utf8proc \
