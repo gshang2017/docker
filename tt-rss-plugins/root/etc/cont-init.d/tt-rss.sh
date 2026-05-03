@@ -107,11 +107,11 @@ fi
 if [ ! -e "/config/php/log/error.log" ]; then
   touch /config/php/log/error.log
 fi
-if [ ! -L "/var/log/php83/error.log" ]; then
-  if [ -e "/var/log/php83/error.log" ]; then
-    rm /var/log/php83/error.log
+if [ ! -L "/var/log/php84/error.log" ]; then
+  if [ -e "/var/log/php84/error.log" ]; then
+    rm /var/log/php84/error.log
   fi
-  ln -s /config/php/log/error.log /var/log/php83/error.log
+  ln -s /config/php/log/error.log /var/log/php84/error.log
 fi
 
 #检查/var/run/postgresql目录
@@ -161,21 +161,21 @@ if [ -n "$POSTGRES_GID" ] && [ -n "$POSTGRES_UID" ]; then
     groupmod -o -g "$POSTGRES_GID" postgres
     usermod -o -u "$POSTGRES_UID" postgres
     usermod -g ttrss ttrss
-    sed -i -e 's/^\(user\|group\) = .*/\1 = ttrss/i' /etc/php83/php-fpm.d/www.conf
+    sed -i -e 's/^\(user\|group\) = .*/\1 = ttrss/i' /etc/php84/php-fpm.d/www.conf
   else
     echo 请设定POSTGRES_UID与POSTGRES_GID为非0数值...
   fi
 fi
 
 #修改php监听端口
-if [ "$PHP_LISTEN_PORT" != "$(grep -E  "^listen = 127.0.0.1" /etc/php83/php-fpm.d/www.conf|awk -F: '{print $2}')" ]; then
-  sed -i -e "s/^listen = 127.0.0.1.*/listen = 127.0.0.1:$PHP_LISTEN_PORT/" /etc/php83/php-fpm.d/www.conf
+if [ "$PHP_LISTEN_PORT" != "$(grep -E  "^listen = 127.0.0.1" /etc/php84/php-fpm.d/www.conf|awk -F: '{print $2}')" ]; then
+  sed -i -e "s/^listen = 127.0.0.1.*/listen = 127.0.0.1:$PHP_LISTEN_PORT/" /etc/php84/php-fpm.d/www.conf
 fi
 
 #更改文件夹权限
 chown -R ttrss:ttrss /config/
 chown -R ttrss:ttrss /usr/local/tt-rss/
-chown -R ttrss:ttrss /var/log/php83/
+chown -R ttrss:ttrss /var/log/php84/
 chown -R postgres:postgres /var/lib/postgresql/data
 chown -R postgres:postgres /var/run/postgresql/
 

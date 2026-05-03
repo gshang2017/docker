@@ -22,20 +22,27 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-26.03-5cbcc142|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-14.1),mercury-parser-api,opencc-api,及一些常用插件|
+|ttrss|plugins-26.04-96ddb408|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-17.9),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 
+* 26.04升级postgres数据库到17.9。
 * 22.01升级postgres数据库到14.1，并添加自动更新tt-rss及postgres数据库导入导出脚本。
-* 从21.02开始ttrss不再支持以前配置文件，需用环境变量重新设置，更新前请备份数据并清空tt-rss配置文件夹。
-* 从20.09开始ttrss不再支持非80及443端口订阅。
-* plugins-19.8升级新版需重新导入导出数据库(旧数据库不兼容)，移除配置文件夹themes.local(feedly旧主题不兼容)。
 
 ### Postgres数据库导入导出
 
 #### 例如：数据库配置为[postgre:/var/lib/postgresql/data]
 
 #### 群晖步骤：
+
+##### 自动：
+
+1. 旧版ttrss容器配置POSTGRES_DB_DUMP=true及POSTGRES_DB_RESTORE=false开机执行自动备份(/config/db.sql)
+2. 清空postgre文件夹，预防意外可重命名(例如:postgre.bak)，再新建一个
+3. 新建新版容器配置POSTGRES_DB_DUMP=false及POSTGRES_DB_RESTORE=true开机执行自动还原,(还原后备份文件会重命名为.restore文件)
+4. 新建新版容器配置POSTGRES_DB_DUMP=false及POSTGRES_DB_RESTORE=false
+
+##### 手动：
 
 1. 旧版ttrss容器-终端机新增-bash-执行导出命令[完成后config里会出现db.sql]
 2. 清空postgre文件夹，预防意外可重命名(例如:postgre.bak)，再新建一个
@@ -216,14 +223,6 @@
 |:-|:-|:-|
 |添加zhparser扩展|psql -U PostgreSQL用户名 -d PostgreSQL数据库名称 -a -f /docker-entrypoint-initdb.d/install_extension.sql| psql -U ttrss -d ttrss -a -f /docker-entrypoint-initdb.d/install_extension.sql|
 |更新旧数据库(可选)|psql -U PostgreSQL用户名 -d PostgreSQL数据库名称 -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"| psql -U ttrss -d ttrss -c "update ttrss_entries set tsvector_combined = to_tsvector( 'chinese_simplified' , content)"|
-
-### 常见问题:
-
-* https反代：
-
-|问题|解决方法|
-|:-|:-|
-|Please set SELF_URL_PATH to the correct value detected for your server: http://domain.com (you're using: https://domain.com)|config.php 配置文件里添加 $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';|
 
 ### 客户端软件：
 

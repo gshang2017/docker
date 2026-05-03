@@ -2,7 +2,7 @@
 
 #启动 mercury api
 if [ $ENABLE_MERCURY == "true" ]; then
-	exec s6-setuidgid ttrss node /usr/local/mercury-parser-api/node_modules/mercury-parser-api/index.js
+	exec s6-setuidgid ttrss node /usr/local/mercury-parser-api/index.js
 esle
 	exit 0
 fi
