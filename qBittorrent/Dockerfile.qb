@@ -1,7 +1,7 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 AS compilingqb
 
-ARG QBITTORRENT_VER=5.1.4
+ARG QBITTORRENT_VER=5.2.0
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev qt6-qtbase-private-dev \
 && mkdir -p /tmp/qbbuild \
@@ -38,7 +38,7 @@ RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai q
 
 
 # docker qB-nox qBee-nox
-FROM alpine:3.22
+FROM alpine:3.23
 
 COPY --from=compilingqb --chmod=755 /qbittorrent /qbittorrent
 COPY --from=compilingqb2 --chmod=755 /qbittorrent /qbittorrent
