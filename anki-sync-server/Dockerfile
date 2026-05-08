@@ -1,6 +1,6 @@
-FROM rust:alpine3.22 AS builder
+FROM rust:alpine3.23 AS builder
 
-ARG ANKI_VER=25.09.2
+ARG ANKI_VER=25.09.3
 
 RUN apk update \
 && apk add --no-cache build-base protobuf \
@@ -10,9 +10,9 @@ RUN apk update \
     --locked  \
     anki-sync-server
 
-FROM alpine:3.22
+FROM alpine:3.23
 
-ARG S6_VER=3.2.1.0
+ARG S6_VER=3.2.2.0
 
 ENV TZ=Asia/Shanghai
 ENV SYNC_USER1=user:pass
