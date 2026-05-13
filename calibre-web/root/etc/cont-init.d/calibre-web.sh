@@ -21,7 +21,7 @@ if [ ! -f $CALIBRE_DBPATH/app.db ]; then
     CALIBRE_WEB_LANGUAGE_SET=zh_Hans_CN
   fi
   sqlite3 $CALIBRE_DBPATH/app.db  "UPDATE settings SET config_kepubifypath='/usr/local/bin/kepubify',\
-          config_converterpath='/opt/calibre/ebook-convert',config_rarfile_location='/usr/bin/unrar',\
+          config_converterpath='/usr/local/bin/ebook-convert',config_binariesdir='/usr/local/bin',config_rarfile_location='/usr/bin/unrar',\
           config_calibre_dir='/library',config_default_locale='$CALIBRE_WEB_LANGUAGE_SET' WHERE ID = 1;"
   sqlite3 $CALIBRE_DBPATH/app.db  "UPDATE user SET locale='$CALIBRE_WEB_LANGUAGE_SET' WHERE ID = 1;"
 fi
@@ -121,6 +121,7 @@ mv $CALIBRE_CONFIG_DIRECTORY/temp.json $CALIBRE_CONFIG_DIRECTORY/global.py.json
 #添加user.
 if [ "$ENABLE_CALIBRE_SERVER" == "true" ] && [ -n "$CALIBRE_SERVER_USER" ] && [ -n "$CALIBRE_SERVER_PASSWORD" ]; then
   /usr/bin/expect <<-EOF
+  set timeout 60
   spawn calibre-server --userdb $CALIBRE_CONFIG_DIRECTORY/server-users.sqlite --manage-users
   expect "What do you want to do"
   send "1\r"
