@@ -7,6 +7,6 @@ if [ ! -d $HOME/mpdris2 ]; then
 	mkdir -p $HOME/mpdris2
 fi
 if [ ! -f $HOME/mpdris2/mpDris2.conf ]; then
-	cp -f /usr/share/doc/mpdris2/mpDris2.conf $HOME/mpdris2/mpDris2.conf
+	cp -f /usr/local/share/doc/mpdris2/mpDris2.conf $HOME/mpdris2/mpDris2.conf
 fi
 chown -R app:app $HOME/mpdris2

@@ -5,7 +5,7 @@ set -u # Treat unset variables as an error.
 
 find /etc/services.d -name "*.dep" -type f -exec chmod 644 {} \;
 chmod 644 /etc/services.d/bluez/respawn
-chmod 644 /etc/services.d/dbus/respawn
+chmod 644 /etc/services.d/dbus-daemon/respawn
 chmod 644 /etc/services.d/mpd/respawn
 chmod 644 /etc/services.d/mpdidle/respawn
 chmod 644 /etc/services.d/mpdris2/respawn

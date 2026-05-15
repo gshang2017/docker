@@ -1,4 +1,4 @@
-FROM alpine:3.22 AS mympd
+FROM alpine:3.23 AS mympd
 
 ARG MYMPD_VER=25.0.2
 
@@ -13,7 +13,7 @@ RUN make -j $(nproc) -C "release"
 FROM ghcr.io/gshang2017/mpd-bin:latest AS mpd
 
 
-FROM jlesage/baseimage-gui:alpine-3.22-v4.8.2
+FROM jlesage/baseimage-gui:alpine-3.23-v4.11.3
 
 ENV APP_NAME=MPD
 ENV TZ=Asia/Shanghai
@@ -46,9 +46,13 @@ RUN apk update \
 && apk add --no-cache pulseaudio \
 && apk fix --no-cache pulseaudio \
 && apk add --no-cache bash libpulse-mainloop-glib bluez blueman blueman-lang pulseaudio-bluez \
-          bluez-deprecated dbus-x11 mpd upower mpc adwaita-icon-theme font-wqy-zenhei gst-plugins-bad py3-mpd2 \
+          bluez-deprecated dbus-x11 mpd upower mpc adwaita-icon-theme font-wqy-zenhei gst-plugins-bad networkmanager py3-mpd2 py3-dbus py3-gobject3 py3-mutagen \
 #mpdris2
-&& apk add --no-cache mpdris2 mpdris2-doc mpdris2-lang --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+&& apk add --no-cache --virtual mpdris2builddep git build-base autoconf automake intltool gettext-dev \
+&& git clone --depth 1 https://github.com/eonpatapon/mpDris2.git /tmp/mpDris2 \
+&& cd /tmp/mpDris2 \
+&& ./autogen.sh --sysconfdir=/etc \
+&& make install \
 #myMPD
 && apk add --no-cache openssl libid3tag flac lua5.4 pcre2 newt ca-certificates utf8proc \
 #pulse
@@ -63,6 +67,7 @@ RUN apk update \
 && cp -f /etc/group /etc/bak.group \
 && cp -f /etc/shadow /etc/bak.shadow \
 #clear
+&& apk del mpdris2builddep \
 && rm -rf /var/cache/apk/* /tmp/*
 
 VOLUME /config /var/lib/bluetooth
