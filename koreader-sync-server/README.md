@@ -12,7 +12,11 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|koreader-sync-server|2.0|amd64;arm64v8;arm32v7|
+|koreader-sync-server|2.1.1|amd64;arm64v8;arm32v7|
+
+#### 注意：
+
+* 2.0升级2.1.1需删除config配置文件夹里内容，不然数据库无法兼容。或者不再配置config文件夹。
 
 ### docker命令行设置：
 
@@ -28,7 +32,7 @@
         docker create \
            --name=koreader-sync-server \
            -p 7200:7200 \
-           -v ./config:/config \
+           -p 17200:17200 \
            -v ./logs/app:/app/koreader-sync-server/logs \
            -v ./logs/redis:/var/log/redis \
            -v ./data/redis:/var/lib/redis \
@@ -58,8 +62,9 @@
 |参数|说明|
 |:-|:-|
 | `--name=koreader-sync-server` |容器名|
-| `-p 7200:7200` |koreader-sync-server监听端口|
-| `-v ./config:/config` |koreader-sync-server配置文件位置|
+| `-p 7200:7200` |koreader-sync-server监听端口(https)|
+| `-p 17200:17200` |koreader-sync-server监听端口(http)|
+| `-v ./config:/config` |koreader-sync-server配置文件位置(可不配置)|
 | `-v ./logs/app:/app/koreader-sync-server/logs` |koreader-sync-server日志文件位置|
 | `-v ./logs/redis:/var/log/redis` |redis日志文件位置|
 | `-v ./data/redis:/var/lib/redis` |redis数据库位置|
@@ -73,7 +78,7 @@
 
 |参数|说明|
 |:-|:-|
-| `./config:/config` |koreader-sync-server配置文件位置|
+| `./config:/config` |koreader-sync-server配置文件位置(可不配置)|
 | `./logs/app:/app/koreader-sync-server/logs` |koreader-sync-server日志文件位置|
 | `./logs/redis:/var/log/redis` |redis日志文件位置|
 | `./data/redis:/var/lib/redis` |redis数据库位置|
@@ -82,8 +87,8 @@
 
 |参数|说明|
 |:-|:-|
-| `本地端口1:7200` |koreader-sync-server监听端口|
-
+| `本地端口1:7200` |koreader-sync-server监听端口(https)|
+| `本地端口2:17200` |koreader-sync-server监听端口(http)|
 3. 环境变量
 
 |参数|说明|
@@ -96,4 +101,8 @@
 
 * koreader
 
-1. 打开书籍-进度同步-自定义同步服务器[http://ip:本地端口1](http://ip:本地端口1)
+1. 打开书籍-进度同步-自定义同步服务器[https://ip:本地端口1](https://ip:本地端口1)或[http://ip:本地端口2](http://ip:本地端口2)
+
+### 其它：
+
+  * 详见：[https://github.com/koreader/koreader-sync-server](https://github.com/koreader/koreader-sync-server)

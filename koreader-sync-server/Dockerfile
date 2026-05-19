@@ -1,11 +1,12 @@
-FROM alpine:3.21
+FROM alpine:3.23
 
-ARG S6_VER=3.2.0.2
-ARG KOREADER_SYNC_SERVER_VER=2.0
+ARG S6_VER=3.2.3.0
+ARG KOREADER_SYNC_SERVER_VER=2.1.1
 
 ENV PATH=/opt/openresty/nginx/sbin:$PATH
+ENV ENABLE_USER_REGISTRATION=true
 # run gin in production mode
-ENV GIN_ENV production
+ENV GIN_ENV=production
 ENV UID=1000
 ENV GID=1000
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
@@ -45,8 +46,8 @@ RUN apk update \
 # patch gin for https support
 # https://github.com/gster/gin.git
 && git clone --depth 1 https://github.com/ostinelli/gin.git \
-# luaposix 36.2.1
-&& sed -i s/33.3.1/36.2.1/g gin/gin-0.2.0-1.rockspec \
+# luaposix
+&& sed -i s/33.3.1/36.3/g gin/gin-0.2.0-1.rockspec \
 && cd gin \
 && luarocks make \
 #run gin in foreground
@@ -59,5 +60,5 @@ RUN apk update \
 && rm -rf gin /var/cache/apk/* /tmp/*
 
 VOLUME /var/log/redis /var/lib/redis /config
-EXPOSE 7200
+EXPOSE 7200 17200
 ENTRYPOINT [ "/init" ]
