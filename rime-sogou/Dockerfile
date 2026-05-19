@@ -1,8 +1,17 @@
-FROM mcr.microsoft.com/dotnet/runtime:8.0-alpine
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine3.23 AS imewlconverter
 
-ARG S6_VER=3.2.0.2
-ARG IMEWLCONVERTER_VER=3.1.0
-ARG RIME_SOGOU_VER=2.4
+ARG IMEWLCONVERTER_VER=3.4.1
+
+RUN wget -P /tmp https://github.com/studyzy/imewlconverter/archive/refs/tags/v${IMEWLCONVERTER_VER}.tar.gz \
+&& tar -C /tmp -xf /tmp/v${IMEWLCONVERTER_VER}.tar.gz \
+&& cd /tmp/imewlconverter-${IMEWLCONVERTER_VER}/src/ImeWlConverterCmd \
+&& dotnet build -c Release \
+&& mv /tmp/imewlconverter-${IMEWLCONVERTER_VER}/src/ImeWlConverterCmd/bin/Release/net* /usr/local/imewlconverter
+
+FROM mcr.microsoft.com/dotnet/runtime:10.0-alpine3.23
+
+ARG S6_VER=3.2.3.0
+ARG RIME_SOGOU_VER=2.5
 
 ENV TZ=Asia/Shanghai
 ENV SOGOU_DICT_NAME=luna_pinyin_simp.sogou_pop
@@ -12,6 +21,7 @@ ENV RIME_OPENCC_CONFIG=s2t.json
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
+COPY --from=imewlconverter --chmod=755 /usr/local/imewlconverter /usr/local/imewlconverter
 
 RUN apk add --no-cache bash ca-certificates tzdata py3-requests curl font-wqy-zenhei opencc \
 # install s6-overlay
@@ -24,10 +34,6 @@ RUN apk add --no-cache bash ca-certificates tzdata py3-requests curl font-wqy-ze
 && tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
 && wget -P /tmp https://github.com/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-symlinks-arch.tar.xz \
 && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
-# install imewlconverter
-&& wget -P /tmp https://github.com/studyzy/imewlconverter/releases/download/v${IMEWLCONVERTER_VER}/imewlconverter_Linux.tar.gz \
-&& mkdir -p /usr/local/imewlconverter \
-&& tar -xvf /tmp/imewlconverter_Linux.tar.gz -C /usr/local/imewlconverter \
 # clear
 && rm -rf /var/cache/apk/* /tmp/*
 

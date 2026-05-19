@@ -19,7 +19,7 @@ if not os.path.exists('/usr/local/sogouscelupdate'):
 os.chdir('/usr/local/sogouscelupdate')
 
 #下载细胞词文件temp.scel
-url = 'https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D%E3%80%90%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E3%80%91&f=detail'
+url = 'https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D&f=detail'
 r = requests.get(url)
 scel_file = open("temp.scel", "wb+")
 scel_file.write(r.content)
@@ -63,7 +63,7 @@ elif len(dict_name) == 0:
    dict_name = 'luna_pinyin_simp.sogou_pop'
 rime_freq = os.getenv('RIME_FREQ',default = 2000001)
 scel_output_file = '{name}.dict.yaml'.format(name=dict_name)
-command='''dotnet /usr/local/imewlconverter/publish/ImeWlConverterCmd.dll -i:scel %s -r:%s -ft:"rm:eng|rm:num|rm:space|rm:pun" -o:rime "%s"''' % (str(scel_md5_file).strip('[]').replace(',',''),rime_freq,scel_output_file)
+command='''dotnet /usr/local/imewlconverter/ImeWlConverterCmd.dll -i scel %s -r %s -f "rm:eng|rm:num|rm:space|rm:pun" -o rime -O "%s" 2>/dev/null''' % (str(scel_md5_file).strip('[]').replace(',',''),rime_freq,scel_output_file)
 os.system(command)
 
 #完善yaml文件输出格式

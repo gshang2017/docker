@@ -18,6 +18,7 @@ jobs:
       - name: 'Set env'
         run: |
           echo "RIME_SOGOU_VER=$(echo `grep -n "RIME_SOGOU_VER=" rime-sogou/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "IMEWLCONVERTER_VER=$(echo `grep -n "IMEWLCONVERTER_VER=" rime-sogou/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -49,13 +50,13 @@ jobs:
         with:
           context: ./rime-sogou
           file: ./rime-sogou/Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             johngong/rime-sogou:latest
-            johngong/rime-sogou:${{ env.RIME_SOGOU_VER }}
+            johngong/rime-sogou:${{ env.RIME_SOGOU_VER }}-${{ env.IMEWLCONVERTER_VER }}
             ghcr.io/gshang2017/rime-sogou:latest
-            ghcr.io/gshang2017/rime-sogou:${{ env.RIME_SOGOU_VER }}
+            ghcr.io/gshang2017/rime-sogou:${{ env.RIME_SOGOU_VER }}-${{ env.IMEWLCONVERTER_VER }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3

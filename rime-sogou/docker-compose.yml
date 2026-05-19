@@ -1,0 +1,16 @@
+services:
+  rime-sogou:
+    # github镜像：ghcr.io/gshang2017/rime-sogou:latest
+    image: johngong/rime-sogou:latest
+    container_name: rime-sogou
+    volumes:
+      - ./output:/output
+    environment:
+      UID: 1000
+      GID: 1000
+      #TZ: Asia/Shanghai
+      SOGOU_DICT_NAME: luna_pinyin_simp.sogou_pop
+      RIME_FREQ: 2000001
+      RIME_OPENCC: "False"
+      RIME_OPENCC_CONFIG: s2t.json
+    restart: unless-stopped

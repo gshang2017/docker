@@ -16,7 +16,8 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|rime-sogou|2.4|amd64;arm64v8;arm32v7|
+|rime-sogou|2.5|amd64;arm64v8|
+|imewlconverter|3.4.1|amd64;arm64v8|
 
 ### docker命令行设置：
 
@@ -32,7 +33,6 @@
         docker create  \
            --name=rime-sogou  \
            -v /dict位置:/output  \
-           -v /rime词库版本存储位置:/config  \
            --restart unless-stopped  \
            johngong/rime-sogou:latest
 
