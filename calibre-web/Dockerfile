@@ -37,6 +37,7 @@ ENV CALIBRE_CONFIG_DIRECTORY=/config/calibre-server
 ENV CALIBRE_LOCALHOST=true
 ENV CALIBRE_RECONNECT=true
 ENV ENABLE_FIX_COVER_COLOR=false
+ENV ENABLE_FIX_CONFIG_CONVERTERPATH=true
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 COPY --chmod=755 root /
@@ -187,6 +188,8 @@ RUN apk upgrade \
 && tar xf /tmp/${CALIBRE_WEB_VER}.tar.gz -C /usr/local/calibre-web/app --strip-components=1 \
 #install calibre-web dep
 && sed -i '/^lxml/d' /usr/local/calibre-web/app/requirements.txt \
+&& sed -i '/^cryptography/d' /usr/local/calibre-web/app/requirements.txt \
+&& sed -i '/^gevent/d' /usr/local/calibre-web/app/optional-requirements.txt \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/requirements.txt --break-system-packages \
 && pip3 install --no-cache-dir selenium==4.36.0 --break-system-packages \
 && pip3 install --no-cache-dir -r /usr/local/calibre-web/app/optional-requirements.txt --break-system-packages \

@@ -21,6 +21,7 @@
 
 #### 版本升级注意：
 
+* 0.6.26-8.16.2新版Calibre程序安装在/usr/local/bin，升级安装需重新配置，管理权限-编辑基本配置-扩展程序配置-Calibre程序的路径(/usr/local/bin)
 * 0.6.22新增(基本配置-功能配置-Embed Metadata to Ebook File on Download)导致calibre-server与calibre-web冲突。如同时使用新增功能与calibre-server需开启环境变量ENABLE_CALIBREDB_URLLIBRARYPATH=true。
 * 新版更改了变量名[USER PASSWORD WEBLANGUAGE(0.6.16-5.10.1及以前)]。</br>新增CALIBRE_ASCII_FILENAME=false设定calibre支持中文目录。
 * 新增自动添加图书(配置autoaddbooks文件夹，图书添加后会自动删除)。使用此功能请备份图书。
@@ -116,6 +117,7 @@
 | `-e CALIBRE_LOCALHOST=true` |(true\|false)设定从本地主机和本地网络加载封面，默认开启|
 | `-e CALIBRE_RECONNECT=true` |(true\|false)设定启用重新连接数据库hostname/reconnect，默认开启|
 | `-e ENABLE_FIX_COVER_COLOR=false` |(true\|false)设定修复封面颜色偏暗，默认关闭|
+| `-e ENABLE_FIX_CONFIG_CONVERTERPATH=true` |(true\|false)设定修复calibre程序路径，默认开启|
 
 ### 群晖docker设置：
 
@@ -166,6 +168,7 @@
 | `CALIBRE_LOCALHOST=true` |(true\|false)设定从本地主机和本地网络加载封面，默认开启|
 | `CALIBRE_RECONNECT=true` |(true\|false)设定启用重新连接数据库hostname/reconnect，默认开启|
 | `ENABLE_FIX_COVER_COLOR=false` |(true\|false)设定修复封面颜色偏暗，默认关闭|
+| `ENABLE_FIX_CONFIG_CONVERTERPATH=true` |(true\|false)设定修复calibre程序路径，默认开启|
 
 #### 其它：
 

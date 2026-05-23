@@ -24,6 +24,13 @@ if [ ! -f $CALIBRE_DBPATH/app.db ]; then
           config_converterpath='/usr/local/bin/ebook-convert',config_binariesdir='/usr/local/bin',config_rarfile_location='/usr/bin/unrar',\
           config_calibre_dir='/library',config_default_locale='$CALIBRE_WEB_LANGUAGE_SET' WHERE ID = 1;"
   sqlite3 $CALIBRE_DBPATH/app.db  "UPDATE user SET locale='$CALIBRE_WEB_LANGUAGE_SET' WHERE ID = 1;"
+else
+  if [ "$ENABLE_FIX_CONFIG_CONVERTERPATH" == "true" ]; then
+    if [ ! "$(sqlite3 $CALIBRE_DBPATH/app.db "SELECT config_converterpath FROM settings WHERE ID = 1;")" == "/usr/local/bin/ebook-convert" ] || [ ! "$(sqlite3 $CALIBRE_DBPATH/app.db "SELECT config_binariesdir FROM settings WHERE ID = 1;")" == "/usr/local/bin" ]; then
+      sqlite3 $CALIBRE_DBPATH/app.db  "UPDATE settings SET config_converterpath='/usr/local/bin/ebook-convert', \
+      config_binariesdir='/usr/local/bin' WHERE ID = 1;"
+    fi
+  fi
 fi
 
 #检查Google drive配置文件.
