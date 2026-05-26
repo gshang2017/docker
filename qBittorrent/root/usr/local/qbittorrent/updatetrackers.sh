@@ -1,7 +1,7 @@
 #! /bin/sh
 
 if [ "$QB_TRACKERS_UPDATE_AUTO" == "true" ]; then
-  curl -so /tmp/trackers_all.txt $QB_TRACKERS_LIST_URL
+  curl --connect-timeout 10 -so /tmp/trackers_all.txt $QB_TRACKERS_LIST_URL
   if [ -e "/tmp/trackers_all.txt" ]; then
     Newtrackers="Session\AdditionalTrackers=$(awk '{if(!NF){next}}1' /tmp/trackers_all.txt|sed ':a;N;s/\n/\\n/g;ta' )"
     Oldtrackers="`grep AdditionalTrackers= /config/qBittorrent/config/qBittorrent.conf`"
