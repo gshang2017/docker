@@ -1,0 +1,89 @@
+FROM alpine:3.23
+
+RUN apk add --no-cache --virtual builddep git \
+  build-base \
+  pkgconf \
+  meson \
+  py3-sphinx \
+  rsync \
+  alsa-lib-dev \
+  avahi-dev \
+  curl-dev \
+  expat-dev \
+  faad2-dev \
+  ffmpeg-dev \
+  flac-dev \
+  fmt-dev \
+  glib-dev \
+  gtest-dev \
+  icu-dev \
+  jack-dev \
+  lame-dev \
+  libao-dev \
+  libcap-utils \
+  libcdio-paranoia-dev \
+  libid3tag-dev \
+  libmad-dev \
+  libmodplug-dev \
+  libnfs-dev \
+  libogg-dev \
+  libsamplerate-dev \
+  libshout-dev \
+  libvorbis-dev \
+  opus-dev \
+  pipewire-dev \
+  pulseaudio-dev \
+  py3-attrs \
+  py3-sphinx_rtd_theme \
+  samba-dev \
+  soxr-dev \
+  wavpack-dev \
+  unzip \
+#libmpdclient
+&& git clone --depth 1 https://github.com/MusicPlayerDaemon/libmpdclient.git /tmp/libmpdclient \
+&& cd /tmp/libmpdclient \
+&& meson setup --prefix=/usr/local .output \
+&& ninja -C .output \
+&& ninja -C .output install \
+&& mkdir /mpd \
+&& DESTDIR=/mpd ninja -C .output install \
+#mpc
+&& git clone --depth 1 https://github.com/MusicPlayerDaemon/mpc.git /tmp/mpc \
+&& cd /tmp/mpc \
+&& meson setup --prefix=/usr/local .output \
+&& ninja -C .output \
+&& ninja -C .output install \
+&& DESTDIR=/mpd ninja -C .output install \
+#mpd
+&& mkdir -p /tmp/mpdbuild \
+&& wget -O /tmp/mpdbuild/mpd.zip https://github.com/john-/MPD/archive/refs/heads/persist_partition_with_integration_testing.zip \
+&& unzip -q /tmp/mpdbuild/mpd.zip -d /tmp/mpdbuild \
+&& cd /tmp/mpdbuild/MPD-* \
+&& meson setup \
+  -Dprefix=/usr/local \
+  -Dshout=enabled \
+  -Dopus=enabled \
+  -Dmodplug=enabled \
+  -Dnfs=enabled \
+  -Dsmbclient=enabled \
+  -Dffmpeg=enabled \
+  -Dlibmpdclient=enabled \
+  -Dcdio_paranoia=enabled \
+  -Dzeroconf=avahi \
+  -Dtest=true \
+  -Ddocumentation=enabled \
+  -Dwavpack=enabled \
+  -Dpipewire=enabled \
+  -Dsnapcast=true \
+  . output \
+&& meson compile -C output \
+&& strip output/mpd \
+&& meson install --no-rebuild -C output \
+&& DESTDIR=/mpd meson install --no-rebuild -C output \
+&& mkdir -p /mpd/usr/local/mpd/ \
+&& sed	-e 's:\#user.*:user\t\t"mpd":' \
+  -e 's:\#log_file.*:log_file\t\t"syslog":' \
+  doc/mpdconf.example > /mpd/usr/local/mpd/mpd.conf \
+&& mv /mpd/usr/local/bin/mpd /mpd/usr/local/bin/mpd-test \
+&& apk del builddep \
+&& rm -rf /var/cache/apk/* /tmp/*

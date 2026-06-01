@@ -11,3 +11,6 @@ chmod 644 /etc/services.d/mpdidle/respawn
 chmod 644 /etc/services.d/mpdris2/respawn
 chmod 644 /etc/services.d/mpris/respawn
 chmod 644 /etc/services.d/mympd/respawn
+chmod 644 /etc/services.d/pipewire/respawn
+chmod 644 /etc/services.d/pipewire-pulse/respawn
+chmod 644 /etc/services.d/wireplumber/respawn

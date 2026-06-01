@@ -42,44 +42,44 @@ filter {
 }
 ###############################################################################
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth"
         mixer_type      "software"
         enabled         "yes"
 }
 
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth(125%)"
         filters         "speed1.25"
         mixer_type      "software"
 }
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth(150%)"
         filters         "speed1.5"
         mixer_type      "software"
 }
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth(175%)"
         filters         "speed1.75"
         mixer_type      "software"
 }
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth(200%)"
         filters         "speed2"
         mixer_type      "software"
 }
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth(250%)"
         filters         "speed2.5"
         mixer_type      "software"
 }
 audio_output {
-        type            "pulse"
+        type            "pipewire"
         name            "Bluetooth(300%)"
         filters         "speed3"
         mixer_type      "software"
@@ -116,3 +116,13 @@ fi
 
 chown -R app:app $HOME/mpd
 chown -R app:app /usr/local/mpd
+
+if [ ! -f $HOME/mpd/database ];then
+  #default volume 30
+  nohup bash -c 'until [ `mpc >/dev/null 2>&1; echo $?` -eq 0 ];do sleep 2;done && mpc volume 30' >/dev/null 2>&1 &
+fi
+
+if [ "$ENABLE_VOLUME_LIMIT" == "true" ]; then
+  #volume limit 30
+  nohup bash -c 'until [ `mpc >/dev/null 2>&1; echo $?` -eq 0 ];do sleep 2;done && sleep 6 && if [ $(echo "`mpc volume`"|sed 's/[^0-9]//g') -ge 50 ];then mpc volume 30 ; fi' >/dev/null 2>&1 &
+fi

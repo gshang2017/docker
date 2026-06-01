@@ -3,10 +3,9 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error.
 
-if [ ! -f $HOME/mpd/database ];then
-  #default volume 30
-  nohup bash -c 'until [ `mpc >/dev/null 2>&1; echo $?` -eq 0 ];do sleep 2;done && mpc volume 30' >/dev/null 2>&1 &
+if [ "$ENABLE_MPD_TEST" == "true" ]; then
+   exec /usr/local/bin/mpd-test $HOME/mpd/mpd.conf --no-daemon
+else
+   exec /usr/local/bin/mpd $HOME/mpd/mpd.conf --no-daemon
 fi
-exec /usr/local/bin/mpd $HOME/mpd/mpd.conf --no-daemon
-
 # vim:ft=sh:ts=4:sw=4:et:sts=4

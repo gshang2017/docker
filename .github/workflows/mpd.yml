@@ -5,13 +5,14 @@ on:
     paths:
     - 'mpd/Dockerfile'
     - 'mpd/Dockerfile.mpd'
+    - 'mpd/Dockerfile.mpd.test'
     - 'mpd/root/**'
   workflow_dispatch:
 
 jobs:
   job1:
     name: buildx tag
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,7 +20,6 @@ jobs:
       - name: 'Set env'
         run: |
           echo "MPD_VER=$(echo `grep -n "ARG MPD_VER=" mpd/Dockerfile.mpd`|awk -F= '{print $2}')" >> $GITHUB_ENV
-          echo "MYMPD_VER=$(echo `grep -n "ARG MYMPD_VER=" mpd/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
           echo "ALPINE_VER=$(echo `grep -n "alpine" mpd/Dockerfile.mpd`|awk -F: '{print $3}')" >> $GITHUB_ENV
 
       - name: Set up QEMU
@@ -63,6 +63,91 @@ jobs:
           tags: |
             ghcr.io/gshang2017/mpd-bin:latest
             ghcr.io/gshang2017/mpd-bin:${{ env.MPD_VER }}-alpine-${{ env.ALPINE_VER }}
+
+  job2:
+    name: buildx tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Set env'
+        run: |
+          echo "ALPINE_VER=$(echo `grep -n "alpine" mpd/Dockerfile.mpd.test`|awk -F: '{print $3}')" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: latest
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check image exist
+        id: mpd-check-step
+        run: |
+          if [ `DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ghcr.io/gshang2017/mpd-test-bin:alpine-${{ env.ALPINE_VER }} > /dev/null  2>&1; echo $?` == "0" ];then echo "skipnext=true" >> $GITHUB_OUTPUT;fi
+
+      - name: Build and push
+        if : ( steps.mpd-check-step.outputs.skipnext  != 'true' )
+        uses: docker/build-push-action@v6
+        with:
+          context: ./mpd
+          file: ./mpd/Dockerfile.mpd.test
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            ghcr.io/gshang2017/mpd-test-bin:latest
+            ghcr.io/gshang2017/mpd-test-bin:alpine-${{ env.ALPINE_VER }}
+
+  job3:
+    needs: [job1, job2]
+    name: buildx tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Set env'
+        run: |
+          echo "MPD_VER=$(echo `grep -n "ARG MPD_VER=" mpd/Dockerfile.mpd`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "MYMPD_VER=$(echo `grep -n "ARG MYMPD_VER=" mpd/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: latest
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
