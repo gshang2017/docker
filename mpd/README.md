@@ -16,7 +16,7 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |mpd|0.24.12|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
-|myMPD|25.1.0|mpd的web管理界面|
+|myMPD|25.1.1|mpd的web管理界面|
 
 #### 注意：
 
