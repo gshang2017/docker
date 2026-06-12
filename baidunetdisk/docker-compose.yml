@@ -3,6 +3,11 @@ services:
     # github镜像：ghcr.io/gshang2017/baidunetdisk:latest
     image: johngong/baidunetdisk:latest
     container_name: baidunetdisk
+    #shm_size: "128mb"
+    #ulimits:
+    #  memlock:
+    #    soft: -1
+    #    hard: -1
     ports:
       - 5800:5800
       - 5900:5900

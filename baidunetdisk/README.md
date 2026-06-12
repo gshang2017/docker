@@ -12,13 +12,14 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|baidunetdisk|4.17.8|amd64|
+|baidunetdisk|8.5.2|amd64|
 |baidunetdisk|4.17.7|arm64|
 
-#### 注意：
+#### 升级注意：
 
+   * 无法出现登录界面，出现render-process-gone crashed可以试下设置共享内存大小--shm-size=128mb
+   * 出现ERROR MEMORY sqlcipher_mlock可以试下--ulimit memlock=-1:-1
    * 重启群晖，网盘(baidunetdisk:3.0.1.2)不能登陆：只需要删除配置文件夹下baidunetdiskdata.db(下载进度会保留)，如果网盘设置闪退需删除帐户文件夹下userConf.db，重启docker。
-
    * 升级 baidunetdisk:3.5.0，下载位置需手动配置(右上角-设置)。
 
 ### docker命令行设置：
@@ -62,6 +63,8 @@
 |参数|说明|
 |:-|:-|
 | `--name=baidunetdisk` |容器名|
+| `--shm-size=128mb` |设置共享内存大小，无法出现登录界面，出现render-process-gone crashed可以试下|
+| `--ulimit memlock=-1:-1` |出现ERROR MEMORY sqlcipher_mlock可以试下|
 | `-p 5800:5800` |Web界面访问端口,[ip:5800](ip:5800)|
 | `-p 5900:5900` |VNC协议访问端口.如果未使用VNC客户端,则为可选,[ip:5900](ip:5900)|
 | `-v /配置文件位置:/config` |baidunetdisk配置文件位置|

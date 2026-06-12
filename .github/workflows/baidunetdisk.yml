@@ -17,7 +17,7 @@ jobs:
 
       - name: 'Set env'
         run: |
-          echo "BAIDUNETDISK_VER=$(echo `grep -n "BAIDUNETDISK_VER=" baidunetdisk/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
+          echo "BAIDUNETDISK_VER=$(echo `grep -n "BAIDUNETDISK_VER=" baidunetdisk/Dockerfile`|awk -F= '{print $2}'|awk -F'.' '{print $1"."$2"."$3}')" >> $GITHUB_ENV
           echo "BAIDUNETDISK_VER_ARM64=$(echo `grep -n "BAIDUNETDISK_VER_ARM64=" baidunetdisk/Dockerfile`|awk -F= '{print $2}')" >> $GITHUB_ENV
           echo "BASEIMAGE_GUI_VER=$(echo `grep -n "baseimage-gui" baidunetdisk/Dockerfile`|awk -Fv '{print $2}')" >> $GITHUB_ENV
 
