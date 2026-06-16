@@ -1,6 +1,6 @@
 FROM rust:alpine3.23 AS builder
 
-ARG ANKI_VER=25.09.4
+ARG ANKI_VER=26.05
 
 RUN apk update \
 && apk add --no-cache build-base protobuf \
@@ -12,7 +12,7 @@ RUN apk update \
 
 FROM alpine:3.23
 
-ARG S6_VER=3.2.2.0
+ARG S6_VER=3.2.3.0
 
 ENV TZ=Asia/Shanghai
 ENV SYNC_USER1=user:pass
