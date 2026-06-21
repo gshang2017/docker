@@ -1,7 +1,7 @@
 #! /bin/sh
 
 if [ "$ARIA2_TRACKERS_UPDATE_AUTO" == "true" ]; then
-  curl -so /tmp/trackers_all.txt $ARIA2_TRACKERS_LIST_URL
+  curl --connect-timeout 10 -so /tmp/trackers_all.txt $ARIA2_TRACKERS_LIST_URL
   if [ -e "/tmp/trackers_all.txt" ]; then
     Newtrackers="bt-tracker=`awk NF /tmp/trackers_all.txt|sed ":a;N;s/\n/,/g;ta"`"
     Oldtrackers="`grep bt-tracker= /config/aria2.conf`"

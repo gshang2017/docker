@@ -73,9 +73,9 @@ jobs:
           push: true
           tags: |
             johngong/aria2:latest
-            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}
+            johngong/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}-alpine-${{ env.ALPINE_VER }}
             ghcr.io/gshang2017/aria2:latest
-            ghcr.io/gshang2017/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}
+            ghcr.io/gshang2017/aria2:${{ env.ARIA2_VER }}-${{ env.AriaNg_VER }}-alpine-${{ env.ALPINE_VER }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
