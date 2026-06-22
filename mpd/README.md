@@ -16,10 +16,10 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |mpd|0.24.12|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
-|myMPD|25.1.1|mpd的web管理界面|
+|myMPD|25.2.1|mpd的web管理界面|
 
 #### 注意：
-
+* 出现大量bluetoothd Unexpected NULL日志(蓝牙出现硬件错误，可开启ENABLE_DMESG,需要privileged权限。
 * 出现大量bluetoothd Host is down日志(blueman开启蓝牙时会每分钟重连已配对设备)，可以禁用blueman自动连接插件，视图-插件-关掉autoconnect并重启容器。
 * 需关闭系统上蓝牙服务(ubuntu: sudo systemctl stop bluetooth && sudo systemctl disable bluetooth),重启系统。恢复系统上蓝牙服务(ubuntu: sudo systemctl enable bluetooth)。
 * 默认配置倍速播放功能，可用Android远程控制服务端连蓝牙播放，可自动切换输出设备（需开启ENABLE_MPC_IDLE）。
@@ -112,6 +112,7 @@
 | `-e ENABLE_MAX_DEFAULT_SINK_VOLUME=true` |(true\|false)开启pipewire最大音量,默认开启|
 | `-e ENABLE_VOLUME_LIMIT=false` |(true\|false)限制开机音量，当超过50时会自动降到30,默认关闭|
 | `-e ENABLE_MPD_TEST=false` |(true\|false)mpd测试版支持分区持久化,默认关闭|
+| `-e ENABLE_DMESG=false` |(true\|false)监测日志出现蓝牙硬件错误会重启程序,需要privileged权限,默认关闭|
 
 更多参数设置详见:[https://github.com/jlesage/docker-baseimage-gui](https://github.com/jlesage/docker-baseimage-gui)
 
@@ -158,6 +159,7 @@
 | `ENABLE_MAX_DEFAULT_SINK_VOLUME=true` |(true\|false)开启pipewire最大音量,默认开启|
 | `ENABLE_VOLUME_LIMIT=false` |(true\|false)限制开机音量，当超过50时会自动降到30,默认关闭|
 | `ENABLE_MPD_TEST=false` |(true\|false)mpd测试版支持分区持久化,默认关闭|
+| `ENABLE_DMESG=false` |(true\|false)监测日志出现蓝牙硬件错误会重启程序,需要privileged权限,默认关闭|
 
 ### 常见问题:
 

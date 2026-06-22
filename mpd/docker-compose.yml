@@ -6,6 +6,8 @@ services:
     container_name: mpd
     # bluetooth需要host网络
     network_mode: host
+    # 如果开启ENABLE_DMESG需要此权限
+    #privileged: true
     # bluetooth需要NET_ADMIN权限
     cap_add:
       - NET_ADMIN
@@ -58,16 +60,18 @@ services:
       #VNC_PASSWORD: password
       # blueman日志等级,默认为error
       #BLUEMAN_LOGLEVEL: error
-      #ENABLE_BLUETOOTH_CUSTOM_CONFIG: false
       # (true\|false)启用bluetooth自定义配置(/配置文件位置/bluetoothconf),默认关闭|
-      #ENABLE_PIPEWIRE_CUSTOM_CONFIG: false
+      #ENABLE_BLUETOOTH_CUSTOM_CONFIG: false
       # (true\|false)启用pipewire自定义配置(/配置文件位置/.config/pipewire),默认关闭|
-      #ENABLE_WIREPLUMBER_CUSTOM_CONFIG: false
+      #ENABLE_PIPEWIRE_CUSTOM_CONFIG: false
       # (true\|false)启用wireplumber自定义配置(/配置文件位置/xdg/config/wireplumber),默认关闭|
-      #ENABLE_MAX_DEFAULT_SINK_VOLUME: true
+      #ENABLE_WIREPLUMBER_CUSTOM_CONFIG: false
       # (true\|false)开启pipewire最大音量,默认开启|
-      #ENABLE_VOLUME_LIMIT: false
+      #ENABLE_MAX_DEFAULT_SINK_VOLUME: true
       # (true\|false)限制开机音量，当超过50时会自动降到30,默认关闭|
-      #ENABLE_MPD_TEST: false
+      #ENABLE_VOLUME_LIMIT: false
       # (true\|false)mpd测试版支持分区持久化,默认关闭|
+      #ENABLE_MPD_TEST: false
+      # (true\|false)监测日志出现蓝牙硬件错误会重启程序，需要privileged权限,默认关闭|
+      #ENABLE_DMESG: false
     restart: unless-stopped

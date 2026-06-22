@@ -1,6 +1,6 @@
 FROM alpine:3.23 AS mympd
 
-ARG MYMPD_VER=25.1.1
+ARG MYMPD_VER=25.2.1
 
 WORKDIR /myMPD
 RUN wget -O /tmp/mympd.tar.gz https://github.com/jcorporation/myMPD/archive/refs/tags/v${MYMPD_VER}.tar.gz
@@ -20,6 +20,7 @@ ENV TZ=Asia/Shanghai
 ENV HOME=/config
 ENV LC_ALL=C
 ENV WEB_AUDIO=0
+ENV KEEP_APP_RUNNING=1
 ENV USER_ID=1000
 ENV GROUP_ID=1000
 ENV MPD_PORT=6600
@@ -40,6 +41,7 @@ ENV ENABLE_WIREPLUMBER_CUSTOM_CONFIG=false
 ENV ENABLE_MAX_DEFAULT_SINK_VOLUME=true
 ENV ENABLE_VOLUME_LIMIT=false
 ENV ENABLE_MPD_TEST=false
+ENV ENABLE_DMESG=false
 
 COPY --chmod=755 root /
 COPY --chmod=755 startapp.sh /startapp.sh
@@ -91,6 +93,7 @@ RUN apk update \
  libshout \
  libsmbclient \
  wavpack-libs \
+ dmesg \
 #mpdris2
 && apk add --no-cache --virtual mpdris2builddep git \
  build-base \
