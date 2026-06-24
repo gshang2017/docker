@@ -16,7 +16,7 @@
 |名称|版本|说明|
 |:-|:-|:-|
 |mpd|0.24.12|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
-|myMPD|25.2.1|mpd的web管理界面|
+|myMPD|25.2.2|mpd的web管理界面|
 
 #### 注意：
 * 出现大量bluetoothd Unexpected NULL日志(蓝牙出现硬件错误，可开启ENABLE_DMESG,需要privileged权限。
