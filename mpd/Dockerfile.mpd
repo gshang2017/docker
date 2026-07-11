@@ -1,8 +1,13 @@
 FROM alpine:3.23
 
-ARG MPD_VER=0.24.12
+ARG MPD_VER=0.24.13
 
-RUN apk add --no-cache --virtual mpddep abuild-meson build-base \
+RUN apk add --no-cache --virtual builddep git \
+  build-base \
+  pkgconf \
+  meson \
+  py3-sphinx \
+  rsync \
   alsa-lib-dev \
   avahi-dev \
   curl-dev \
@@ -22,27 +27,41 @@ RUN apk add --no-cache --virtual mpddep abuild-meson build-base \
   libid3tag-dev \
   libmad-dev \
   libmodplug-dev \
-  libmpdclient-dev \
   libnfs-dev \
   libogg-dev \
   libsamplerate-dev \
   libshout-dev \
   libvorbis-dev \
-  meson \
   opus-dev \
   pipewire-dev \
   pulseaudio-dev \
   py3-attrs \
-  py3-sphinx \
   py3-sphinx_rtd_theme \
   samba-dev \
   soxr-dev \
   wavpack-dev \
+#libmpdclient
+&& git clone --depth 1 https://github.com/MusicPlayerDaemon/libmpdclient.git /tmp/libmpdclient \
+&& cd /tmp/libmpdclient \
+&& meson setup --prefix=/usr/local .output \
+&& ninja -C .output \
+&& ninja -C .output install \
+&& mkdir /mpd \
+&& DESTDIR=/mpd ninja -C .output install \
+#mpc
+&& git clone --depth 1 https://github.com/MusicPlayerDaemon/mpc.git /tmp/mpc \
+&& cd /tmp/mpc \
+&& meson setup --prefix=/usr/local .output \
+&& ninja -C .output \
+&& ninja -C .output install \
+&& DESTDIR=/mpd ninja -C .output install \
+#mpd
 && mkdir -p /tmp/mpdbuild \
 && wget -P /tmp/mpdbuild https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${MPD_VER}.tar.gz \
 && tar -zxf /tmp/mpdbuild/v${MPD_VER}.tar.gz -C /tmp/mpdbuild \
 && cd /tmp/mpdbuild/MPD-${MPD_VER} \
-&& abuild-meson \
+&& meson setup \
+  -Dprefix=/usr/local \
   -Dshout=enabled \
   -Dopus=enabled \
   -Dmodplug=enabled \
@@ -59,10 +78,12 @@ RUN apk add --no-cache --virtual mpddep abuild-meson build-base \
   -Dsnapcast=true \
   . output \
 && meson compile -C output \
+&& strip output/mpd \
 && meson install --no-rebuild -C output \
-&& mkdir -p /usr/local/mpd/ \
+&& DESTDIR=/mpd meson install --no-rebuild -C output \
+&& mkdir -p /mpd/usr/local/mpd/ \
 && sed	-e 's:\#user.*:user\t\t"mpd":' \
   -e 's:\#log_file.*:log_file\t\t"syslog":' \
-  doc/mpdconf.example > /usr/local/mpd/mpd.conf \
-&& apk del mpddep \
+  doc/mpdconf.example > /mpd/usr/local/mpd/mpd.conf \
+&& apk del builddep \
 && rm -rf /var/cache/apk/* /tmp/*

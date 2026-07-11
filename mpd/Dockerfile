@@ -48,9 +48,8 @@ COPY --chmod=755 startapp.sh /startapp.sh
 COPY --from=mympd --chmod=755 /myMPD/release/bin/mympd /usr/local/bin/
 COPY --from=mympd --chmod=755 /myMPD/release/bin/mympd-script /usr/local/bin/
 COPY --from=mympd --chmod=755 /myMPD/cli_tools/mympd-config/mympd-config /usr/local/bin/
-COPY --from=mpd --chmod=755 /usr/bin/mpd /usr/local/bin/mpd
-COPY --from=mpd --chmod=755 /usr/local/mpd/mpd.conf /usr/local/mpd/mpd.conf
-COPY --from=mpd-test --chmod=755 /mpd /
+COPY --from=mpd --chmod=755 /mpd /
+COPY --from=mpd-test --chmod=755 /mpd/usr/local/bin/mpd-test /usr/local/bin/mpd-test
 
 RUN apk update \
 && apk add --no-cache bash \
