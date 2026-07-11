@@ -12,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|baidunetdisk|8.5.2|amd64|
+|baidunetdisk|8.6.0|amd64|
 |baidunetdisk|4.17.7|arm64|
 
 #### 升级注意：
