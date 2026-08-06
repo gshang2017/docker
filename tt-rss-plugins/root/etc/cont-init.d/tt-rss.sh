@@ -133,8 +133,12 @@ git checkout -- /usr/local/tt-rss/app/classes/UrlHelper.php
 if [ "$TTRSS_UPDATE_AUTO" != "true" ] && [ -n "$TTRSS_ALLOW_PORTS" ] && [ "$TTRSS_ALLOW_PORTS" != "80,443" ]; then
     sed -i "s/\[80, 443, ''\]/\[80, 443, $TTRSS_ALLOW_PORTS, ''\]/" /usr/local/tt-rss/app/classes/UrlHelper.php
     if [ "$TTRSS_ALLOW_LOCAL_IP" == "true" ]; then
-        num=$((`grep -wn "is_standard_port" /usr/local/tt-rss/app/classes/UrlHelper.php|grep "preg_match"|grep "host"|awk -F: '{print $1}'`+1))
-        sed -i "${num}s/true/false/" /usr/local/tt-rss/app/classes/UrlHelper.php
+        ttrss_allow_ports=$(echo "$TTRSS_ALLOW_PORTS" | tr ',' ' ')
+        for i in $ttrss_allow_ports; do
+          if [ $i != 80 ] || [ $i != 443 ]; then
+             sed -i "s/\$port === null/\$port === null || \$port === $i/" /usr/local/tt-rss/app/classes/UrlHelper.php
+          fi
+        done
     fi
 fi
 
