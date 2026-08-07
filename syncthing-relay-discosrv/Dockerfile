@@ -1,9 +1,9 @@
-FROM syncthing/discosrv:2.1.2 AS discosrvbin
-FROM syncthing/relaysrv:2.1.2 AS relaysrvbin
+FROM syncthing/discosrv:2.1.3 AS discosrvbin
+FROM syncthing/relaysrv:2.1.3 AS relaysrvbin
 
-FROM alpine:3.23
+FROM alpine:3.24
 
-ARG S6_VER=3.2.3.0
+ARG S6_VER=3.2.3.2
 
 ENV UID=1000
 ENV GID=1000
