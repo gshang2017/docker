@@ -12,7 +12,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|Anki-sync-server|26.08|amd64;arm64v8|
+|Anki-sync-server|26.08.1|amd64;arm64v8|
 
 ### 注意:
 
