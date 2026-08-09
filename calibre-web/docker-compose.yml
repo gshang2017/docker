@@ -39,4 +39,5 @@ services:
       CALIBRE_LOCALHOST: true
       CALIBRE_RECONNECT: true
       #ENABLE_FIX_COVER_COLOR: false
+      #ENABLE_FIX_CONFIG_CONVERTERPATH: true
     restart: unless-stopped
