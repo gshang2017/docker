@@ -15,7 +15,7 @@
 
 |名称|版本|说明|
 |:-|:-|:-|
-|mpd|0.24.14|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
+|mpd|0.24.15|amd64;arm64v8;arm32v7,集成蓝牙(bluetooth)。|
 |myMPD|25.3.0|mpd的web管理界面|
 
 #### 注意：
