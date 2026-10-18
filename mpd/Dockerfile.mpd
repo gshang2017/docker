@@ -1,6 +1,6 @@
 FROM alpine:3.23
 
-ARG MPD_VER=0.24.15
+ARG MPD_VER=0.24.16
 
 RUN apk add --no-cache --virtual builddep git \
   build-base \
@@ -60,6 +60,8 @@ RUN apk add --no-cache --virtual builddep git \
 && wget -P /tmp/mpdbuild https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${MPD_VER}.tar.gz \
 && tar -zxf /tmp/mpdbuild/v${MPD_VER}.tar.gz -C /tmp/mpdbuild \
 && cd /tmp/mpdbuild/MPD-${MPD_VER} \
+&& rm src/lib/smbclient/meson.build \
+&& wget -P src/lib/smbclient/ https://raw.githubusercontent.com/MusicPlayerDaemon/MPD/refs/heads/v0.24.x/src/lib/smbclient/meson.build \
 && meson setup \
   -Dprefix=/usr/local \
   -Dshout=enabled \
