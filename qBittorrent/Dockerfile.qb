@@ -1,7 +1,7 @@
 #compiling qB
 FROM ghcr.io/gshang2017/libtorrent:1 AS compilingqb
 
-ARG QBITTORRENT_VER=5.2.4
+ARG QBITTORRENT_VER=5.3.0
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev qt6-qtbase-private-dev \
 && mkdir -p /tmp/qbbuild \
@@ -25,7 +25,7 @@ COPY --from=compilingqb /tmp/qbbuild/qbittorrent.zip /tmp/qbbuild/qbittorrent.zi
 
 RUN apk add --no-cache ca-certificates cmake build-base boost-dev wget samurai qt6-qttools-dev qt6-qtbase-private-dev \
 && mkdir /qbittorrent \
-&& cp --parents /usr/lib/libtorrent-rasterbar.so.2.0 /qbittorrent \
+&& cp --parents /usr/lib/libtorrent-rasterbar.so.2.1 /qbittorrent \
 #qBittorrent
 && unzip -q /tmp/qbbuild/qbittorrent.zip -d /tmp/qbbuild \
 && cd /tmp/qbbuild/qBittorrent-release* \
