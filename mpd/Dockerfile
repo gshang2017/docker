@@ -1,4 +1,4 @@
-FROM alpine:3.23 AS mympd
+FROM alpine:3.24 AS mympd
 
 ARG MYMPD_VER=26.1.1
 
@@ -13,7 +13,7 @@ FROM ghcr.io/gshang2017/mpd-bin:latest AS mpd
 
 FROM ghcr.io/gshang2017/mpd-test-bin:latest AS mpd-test
 
-FROM jlesage/baseimage-gui:alpine-3.23-v4.11.3
+FROM jlesage/baseimage-gui:alpine-3.24-v4.14.0
 
 ENV APP_NAME=MPD
 ENV TZ=Asia/Shanghai
@@ -51,8 +51,7 @@ COPY --from=mympd --chmod=755 /myMPD/cli_tools/mympd-config/mympd-config /usr/lo
 COPY --from=mpd --chmod=755 /mpd /
 COPY --from=mpd-test --chmod=755 /mpd/usr/local/bin/mpd-test /usr/local/bin/mpd-test
 
-RUN apk update \
-&& apk add --no-cache bash \
+RUN add-pkg bash \
  bluez \
  bluez-deprecated \
  blueman \
@@ -67,6 +66,7 @@ RUN apk update \
  dbus-x11 \
  upower \
  adwaita-icon-theme \
+ hicolor-icon-theme \
  font-wqy-zenhei \
  networkmanager \
  py3-mpd2 \
@@ -94,7 +94,7 @@ RUN apk update \
  wavpack-libs \
  dmesg \
 #mpdris2
-&& apk add --no-cache --virtual mpdris2builddep git \
+&& add-pkg --virtual mpdris2builddep git \
  build-base \
  autoconf \
  automake \
@@ -105,7 +105,7 @@ RUN apk update \
 && ./autogen.sh --sysconfdir=/etc \
 && make install \
 #myMPD
-&& apk add --no-cache openssl \
+&& add-pkg openssl \
  flac \
  lua5.4 \
  pcre2 \
@@ -117,12 +117,9 @@ RUN apk update \
 #novnc_language
 && mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
 #copy file
-&& cp -f /etc/passwd /etc/bak.passwd \
-&& cp -f /etc/group /etc/bak.group \
-&& cp -f /etc/shadow /etc/bak.shadow \
 && cp /etc/bluetooth/main.conf /etc/bluetooth/main.conf.bak \
 #clear
-&& apk del mpdris2builddep \
+&& del-pkg mpdris2builddep \
 && rm -rf /var/cache/apk/* /tmp/*
 
 VOLUME /config /var/lib/bluetooth

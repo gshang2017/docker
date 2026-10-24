@@ -18,6 +18,9 @@ if [ $USER_ID -ne 0 ]; then
   echo $MYMPD_HTTP_PORT > $HOME/mympd/lib/config/http_port
   echo $MYMPD_SSL > $HOME/mympd/lib/config/ssl
   echo $MYMPD_SSL_PORT > $HOME/mympd/lib/config/ssl_port
+  echo $MPD_PORT > $HOME/mympd/lib/state/mpd_port
+  echo $HOME/music > $HOME/mympd/lib/state/music_directory
+  echo $HOME/mpd/playlists > $HOME/mympd/lib/state/playlist_directory
 
   chown -R app:app $HOME/mympd
 fi
