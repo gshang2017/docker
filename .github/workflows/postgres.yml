@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ALPINE_VER: 3.23
+  ALPINE_VER: 3.24
 
 jobs:
   job1:
@@ -22,8 +22,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install  git
           git clone https://github.com/docker-library/postgres.git
-          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 17.9/g' postgres/17/alpine3.23/Dockerfile
-          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 3b9a62538a8da151e807a3ddb1198e8605f2032544d78f403ae883d27ecf1ee4/g' postgres/17/alpine3.23/Dockerfile
+          sed -i 's/^ENV.*PG_VERSION.*/ENV PG_VERSION 17.9/g' postgres/17/alpine3.24/Dockerfile
+          sed -i 's/^ENV.*PG_SHA256.*/ENV PG_SHA256 3b9a62538a8da151e807a3ddb1198e8605f2032544d78f403ae883d27ecf1ee4/g' postgres/17/alpine3.24/Dockerfile
 
       - name: Set up QEMU
         id: qemu
@@ -47,8 +47,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
-          context: ./postgres/17/alpine3.23
-          file: ./postgres/17/alpine3.23/Dockerfile
+          context: ./postgres/17/alpine3.24
+          file: ./postgres/17/alpine3.24/Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
