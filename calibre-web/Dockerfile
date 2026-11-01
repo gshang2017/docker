@@ -105,6 +105,7 @@ RUN apk upgrade \
   podofo \
   espeak-ng \
   py3-chardet \
+  uchardet-libs \
 #calibre calibre-web build dep
 && apk add --no-cache --virtual builddep \
   cmake \
