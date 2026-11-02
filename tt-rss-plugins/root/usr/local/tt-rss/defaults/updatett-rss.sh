@@ -51,25 +51,12 @@ if [ "$TTRSS_UPDATE_AUTO" == "true" ]; then
   git checkout -- /usr/local/tt-rss/app/plugins.local/freshapi/api/greader.php
   git pull --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
   sed -i "s/dirname.*$/\"\/usr\/local\/tt-rss\/app\";/" /usr/local/tt-rss/app/plugins.local/freshapi/api/greader.php
-  # update plugin feedly-theme
-  cd /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme
-  Oldversion="`git rev-parse HEAD`"
-  git pull --shallow-since=$(echo "`git show --pretty=format:"%ct" | head -1`-86400" | date -d @`bc` "+%Y-%m-%d")
-  Newversion="`git rev-parse HEAD`"
-  if [ $Oldversion != $Newversion ]; then
-    cp -rf /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly* /usr/local/tt-rss/app/themes.local/
-  fi
-  if [ "$(md5sum /config/themes.local/feedly.css|cut -d ' ' -f1)" != "$(md5sum /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly.css|cut -d ' ' -f1)" ]; then
-    if [ "$(stat -c %Y /config/themes.local/feedly.css)" -lt "$(stat -c %Y /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly.css)" ]; then
-      cp -rf /usr/local/tt-rss/defaults/themes.local/tt-rss-feedly-theme/feedly* /usr/local/tt-rss/app/themes.local/
-    fi
-  fi
   chown -R ttrss:ttrss /config/
   chown -R ttrss:ttrss /usr/local/tt-rss/
   if [ "$1" != "skip" ]; then
     while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
       sleep 3
     done
-    su ttrss -s /bin/sh -m -c "php84 /usr/local/tt-rss/app/update.php --update-schema=force-yes"
+    su ttrss -s /bin/sh -m -c "php85 /usr/local/tt-rss/app/update.php --update-schema=force-yes"
   fi
 fi

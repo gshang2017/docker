@@ -16,13 +16,12 @@
 [https://github.com/DigitalDJ/tinytinyrss-fever-plugin](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)      
 [https://github.com/tt-rss/tt-rss-plugin-af-readability](https://github.com/tt-rss/tt-rss-plugin-af-readability)      
 [https://github.com/eric-pierce/freshapi](https://github.com/eric-pierce/freshapi)      
-[https://github.com/levito/tt-rss-feedly-theme](https://github.com/levito/tt-rss-feedly-theme)
 
 ### 版本：
 
 |名称|版本|说明|
 |:-|:-|:-|
-|ttrss|plugins-26.09-aeff35e0|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-17.9),mercury-parser-api,opencc-api,及一些常用插件|
+|ttrss|plugins-26.10-c02520ff|amd64;arm64v8;arm32v7,集成postgres数据库(PostgreSQL-17.9),mercury-parser-api,opencc-api,及一些常用插件|
 
 #### 版本升级注意：
 
