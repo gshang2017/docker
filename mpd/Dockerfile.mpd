@@ -1,6 +1,6 @@
 FROM alpine:3.24
 
-ARG MPD_VER=0.24.18
+ARG MPD_VER=0.24.19
 
 RUN apk add --no-cache --virtual builddep git \
   build-base \
